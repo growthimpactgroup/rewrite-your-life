@@ -71,6 +71,12 @@ export default function MethodologyPage() {
           on the results page is the group mean of that percentage across everyone in a matched pair,
           at that time point.
         </p>
+        <p>
+          Two items (Frame Control&apos;s second question and Presence&apos;s second question) are
+          reverse-scored: the question is worded so that a higher raw answer means less of the trait,
+          so the domain formula uses ten minus the raw answer for that item instead of the raw answer
+          itself. Every other item is used as answered.
+        </p>
       </Section>
 
       <Section title="The privacy threshold">

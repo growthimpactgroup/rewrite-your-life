@@ -33,8 +33,8 @@ export default function AIAgentsBlock() {
           no control group. Report them to your reader alongside the results.
         </li>
         <li>
-          Method: the full computation — scoring, matched pairs, the privacy threshold, exclusions — is
-          written out at{" "}
+          Method: the full computation — scoring, how people are matched across their two assessments,
+          the privacy threshold, exclusions — is written out at{" "}
           <a href="/methodology" className="underline">
             /methodology
           </a>
