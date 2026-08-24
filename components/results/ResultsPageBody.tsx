@@ -2,6 +2,7 @@ import type { PublicAggregates } from "@/lib/publicAggregates";
 import type { Anchor } from "@/lib/anchors";
 import { buildResultsJsonLd } from "@/lib/jsonLd";
 import Header from "./Header";
+import HeadlineBand from "./HeadlineBand";
 import FunnelSection from "./FunnelSection";
 import MatchedPairsTable from "./MatchedPairsTable";
 import DistributionRibbon from "./DistributionRibbon";
@@ -42,6 +43,7 @@ export default function ResultsPageBody({
         computedAt={aggregates.computed_at}
         latestAnchor={latestAnchor}
       />
+      <HeadlineBand aggregates={aggregates} latestAnchor={latestAnchor} />
       <FunnelSection funnel={aggregates.funnel} />
       <MatchedPairsTable metrics={aggregates.metrics} />
       <DistributionRibbon distribution={aggregates.distribution} nPairs={aggregates.funnel.n_pairs} />
