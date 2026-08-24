@@ -1343,3 +1343,116 @@ revoke execute on function refresh_public_aggregates(text) from public;
 grant execute on function refresh_public_aggregates(text) to service_role;
 revoke execute on function publish_threshold() from public;
 grant execute on function publish_threshold() to service_role, anon, authenticated;
+
+-- ---------------------------------------------------------------------------
+-- Change Order 01, Phase 7 — deletion requests against an insert-only table.
+--
+-- The raw table (assessment_responses) is insert-only and its monthly
+-- hashes are anchored to a public blockchain — an UPDATE or DELETE against
+-- a raw row would break every anchor computed since. A deletion request
+-- can't be a literal DELETE. Instead: a new insert-only `redactions` table
+-- records the request, and the shared `scored` view (everything else reads
+-- through it) nulls the email for any row whose hash matches, so the
+-- answers survive anonymously but can never again be linked to that person
+-- or matched into a new pair. The raw row itself is never touched.
+create table if not exists redactions (
+  id                uuid primary key default gen_random_uuid(),
+  submitted_at      timestamptz not null default now(),
+  target_email_hash text not null,
+  requested_at      timestamptz not null,
+  reason            text
+);
+
+create index if not exists redactions_target_email_hash_idx on redactions (target_email_hash);
+
+alter table redactions enable row level security;
+-- Intentionally no policies — only the service role (or a human via the
+-- SQL editor, same as setting record_starts_at) ever writes here.
+
+revoke update, delete on redactions from service_role;
+
+create or replace function prevent_redactions_mutation()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  raise exception
+    'redactions is insert-only — % is not permitted (row id: %)',
+    tg_op, coalesce(old.id, new.id);
+end;
+$$;
+
+drop trigger if exists redactions_immutable on redactions;
+create trigger redactions_immutable
+  before update or delete on redactions
+  for each row execute function prevent_redactions_mutation();
+
+-- Rebuild `scored` — identical to the Phase A version except:
+--   (a) a left join against redactions, matched by hashing email_normalized
+--       the same way target_email_hash was computed, so no second plaintext
+--       copy of the email is ever stored anywhere;
+--   (b) email_normalized is null whenever that hash matches a redaction.
+-- matched_pairs joins two `scored` rows together ON email_normalized — a
+-- null never equals a null in that join, so a redacted row silently stops
+-- being able to form a pair with anything (itself included) without any
+-- extra distinct-on precautions needed.
+create or replace view scored
+  with (security_invoker = true)
+as
+select
+  ar.id,
+  ar.created_at,
+  ar.course,
+  ar.phase,
+  case
+    when r.id is null then lower(trim(ar.email))
+    else null
+  end as email_normalized,
+  ar.unmatched_retake,
+
+  round((ar.item_1 + ar.item_2) / 20.0 * 100)        as clear_thinking_pct,
+  round((ar.item_3 + ar.item_4) / 20.0 * 100)        as emotional_pct,
+  round((ar.item_5 + ar.item_6) / 20.0 * 100)        as adversity_pct,
+  round((ar.item_7 + (10 - ar.item_8)) / 20.0 * 100) as frame_pct,
+  round((ar.item_9 + ar.item_10) / 20.0 * 100)       as learning_pct,
+  round((ar.item_11 + ar.item_12) / 20.0 * 100)      as situational_pct,
+  round((ar.item_13 + (10 - ar.item_14)) / 20.0 * 100) as presence_pct,
+  round((ar.item_15 + ar.item_16) / 20.0 * 100)      as purpose_pct,
+  round((ar.item_17 + ar.item_18) / 20.0 * 100)      as execution_pct,
+
+  ar.item_19 as life_satisfaction_raw,
+  ar.item_20 as mornings_with_priority_raw,
+  ar.item_21 as confidence_next_12mo_raw,
+
+  round((ar.item_22 + ar.item_23 + ar.item_24 + ar.item_25 + ar.item_26 + ar.item_27) / 60.0 * 100) as ai_index_pct,
+  round(ar.item_22 / 10.0 * 100) as qai_pct,
+
+  coalesce(sl.straight_lined, false) as straight_lined
+from assessment_responses ar
+left join redactions r
+  on r.target_email_hash = encode(digest(lower(trim(ar.email)), 'sha256'), 'hex')
+cross join lateral (
+  select bool_or(run.len >= 10 and run.has_reverse) as straight_lined
+  from (
+    select count(*) as len, bool_or(idx in (8, 14)) as has_reverse
+    from (
+      select idx,
+        sum(is_new_run) over (order by idx) as grp
+      from (
+        select idx, val,
+          case when val = lag(val) over (order by idx) then 0 else 1 end as is_new_run
+        from unnest(array[
+          ar.item_1, ar.item_2, ar.item_3, ar.item_4, ar.item_5, ar.item_6,
+          ar.item_7, ar.item_8, ar.item_9, ar.item_10, ar.item_11, ar.item_12,
+          ar.item_13, ar.item_14, ar.item_15, ar.item_16, ar.item_17, ar.item_18,
+          ar.item_19, ar.item_20, ar.item_21, ar.item_22, ar.item_23, ar.item_24,
+          ar.item_25, ar.item_26, ar.item_27
+        ]) with ordinality as t(val, idx)
+      ) with_flag
+    ) tagged
+    group by grp
+  ) run
+) sl;
+
+revoke all on scored from anon, authenticated;

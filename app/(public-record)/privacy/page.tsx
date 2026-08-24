@@ -32,6 +32,25 @@ export default function PrivacyPage() {
             {paragraph}
           </p>
         ))}
+
+        {/* Change Order 01, Phase 7 — how a deletion request actually
+            works against an insert-only table, in one paragraph a
+            non-technical person can follow. Our own writing, not a Part
+            Four copy block. */}
+        <div className="border-t border-border pt-6">
+          <p className="text-xs font-semibold tracking-widest text-muted uppercase">
+            How a deletion request works
+          </p>
+          <p className="mt-2 max-w-2xl text-lg leading-relaxed text-ink/90">
+            The raw record of your answers is never altered or deleted — doing that would break the
+            monthly blockchain fingerprint covering every record from that month, for everyone. What we
+            do instead: your email address is permanently disconnected from your answers everywhere
+            this page reads from. Your answers keep counting in the group figures, anonymously, exactly
+            as before — they just can no longer be traced back to you, and they can no longer be matched
+            into a new before/after pair going forward. Any group figures that already included your
+            pair update the next time this page refreshes.
+          </p>
+        </div>
       </div>
 
       <footer className="px-6 py-10 font-mono text-xs text-muted sm:px-10">
