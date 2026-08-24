@@ -1,6 +1,7 @@
 import type { PublicAggregates } from "./publicAggregates";
 import { getLatestAnchor } from "./anchors";
 import { INSTRUMENT_SHA256 } from "./instrument";
+import { PUBLISH_THRESHOLD } from "./publishThreshold";
 
 // schema.org Dataset JSON-LD (Exhibit G: "this page embeds schema.org
 // Dataset JSON-LD — view source"). Built from the exact same PublicAggregates
@@ -23,13 +24,17 @@ export function buildResultsJsonLd(aggregates: PublicAggregates, resultsUrl: str
       { "@type": "DataDownload", encodingFormat: "application/json", contentUrl: "/aggregates.json" },
       { "@type": "DataDownload", encodingFormat: "text/csv", contentUrl: "/aggregates.csv" },
     ],
+    // metrics[].day0_avg/week10_avg/delta_pts/delta_pct are already scrubbed
+    // to null when unpublished at the source (getPublicAggregates) — no
+    // separate published check needed here, it's structurally impossible
+    // for this to leak a below-threshold figure.
     variableMeasured: aggregates.metrics.map((m) => ({
       "@type": "PropertyValue",
       name: m.label,
-      value: m.published ? m.week10_avg : null,
+      value: m.week10_avg,
       description: m.published
         ? `Day 0: ${m.day0_avg}, Week 10: ${m.week10_avg}, change: ${m.delta_pts} pts (${m.delta_pct}%), n=${m.n}`
-        : `Collecting — publishes at 20 matched pairs (currently n=${m.n})`,
+        : `Collecting — publishes at ${PUBLISH_THRESHOLD} matched pairs (currently n=${m.n})`,
     })),
     ...(latestAnchor
       ? {

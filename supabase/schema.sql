@@ -734,3 +734,304 @@ $$;
 
 revoke execute on function refresh_public_aggregates(text) from public;
 grant execute on function refresh_public_aggregates(text) to service_role;
+
+-- ---------------------------------------------------------------------------
+-- Change Order 01, Phase 1 — threshold consistency.
+--
+-- Fixes a real, already-live leak this phase's own audit step is designed to
+-- catch: /aggregates.json was returning day0_avg/week10_avg/delta_pts/
+-- delta_pct for every metric even when published=false — the page's UI
+-- checked the flag, but the raw feed never did. With n=7 that was real
+-- domain-level averages for 7 actual people, publicly fetchable. Fixed by
+-- scrubbing at the single shared read path (lib/publicAggregates.ts), not
+-- just the page — see that file's comment.
+--
+-- Also implements the Change Order's reversal of the original "decliners
+-- always published regardless of N" rule: distribution now withholds below
+-- threshold too, same as every per-metric figure. That's a deliberate
+-- supersession of Section 2 of the original build brief, not an oversight.
+--
+-- publish_threshold() is the one exported gate everything imports —
+-- everywhere that used to compare against a bare 20 now calls this instead.
+create or replace function publish_threshold()
+returns int
+language sql
+immutable
+as $$
+  select 20;
+$$;
+
+alter table public_aggregates add column if not exists distribution_published boolean not null default false;
+-- Per-person average domain delta, one entry per finished pair, values only
+-- — no identifiers, no submission-order correlation (sorted by value, not
+-- by when the pair completed). Always computed; exposure gated the same way
+-- as everything else — see lib/publicAggregates.ts.
+alter table public_aggregates add column if not exists person_deltas jsonb;
+
+create or replace function refresh_public_aggregates(target_course text)
+returns void
+language plpgsql
+set search_path = public
+as $$
+declare
+  v_record_starts_at timestamptz;
+  v_total_submissions int;
+  v_measured_since timestamptz;
+  v_n_started int;
+  v_n_pairs int;
+  v_completion_rate numeric;
+  v_distribution_published boolean;
+  v_pct_improved numeric;
+  v_pct_flat numeric;
+  v_pct_declined numeric;
+  v_n_declined int;
+  v_n_excluded_straightline int;
+  v_metrics jsonb;
+  v_person_deltas jsonb;
+begin
+  select record_starts_at into v_record_starts_at
+  from public_aggregates where course = target_course;
+
+  select count(*), min(created_at) into v_total_submissions, v_measured_since
+  from assessment_responses
+  where course = target_course
+    and (v_record_starts_at is null or created_at >= v_record_starts_at);
+
+  select count(*) into v_n_started
+  from assessment_responses
+  where course = target_course and phase = 'first'
+    and (v_record_starts_at is null or created_at >= v_record_starts_at);
+
+  select count(*) into v_n_pairs
+  from matched_pairs
+  where course = target_course
+    and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+    and (v_record_starts_at is null or week10_at >= v_record_starts_at);
+
+  v_completion_rate := case when v_n_started = 0 then 0
+    else round((v_n_pairs::numeric / v_n_started) * 100) end;
+
+  v_distribution_published := v_n_pairs >= publish_threshold();
+
+  select count(*) into v_n_excluded_straightline
+  from scored
+  where course = target_course and straight_lined
+    and (v_record_starts_at is null or created_at >= v_record_starts_at);
+
+  with pair_deltas as (
+    select (
+      (week10_clear_thinking_pct - day0_clear_thinking_pct) +
+      (week10_emotional_pct - day0_emotional_pct) +
+      (week10_adversity_pct - day0_adversity_pct) +
+      (week10_frame_pct - day0_frame_pct) +
+      (week10_learning_pct - day0_learning_pct) +
+      (week10_situational_pct - day0_situational_pct) +
+      (week10_presence_pct - day0_presence_pct) +
+      (week10_purpose_pct - day0_purpose_pct) +
+      (week10_execution_pct - day0_execution_pct)
+    ) / 9.0 as avg_domain_delta
+    from matched_pairs
+    where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+  )
+  select
+    case when v_n_pairs = 0 then 0 else round(100.0 * count(*) filter (where avg_domain_delta >= 5) / v_n_pairs) end,
+    case when v_n_pairs = 0 then 0 else round(100.0 * count(*) filter (where avg_domain_delta > -5 and avg_domain_delta < 5) / v_n_pairs) end,
+    case when v_n_pairs = 0 then 0 else round(100.0 * count(*) filter (where avg_domain_delta <= -5) / v_n_pairs) end,
+    count(*) filter (where avg_domain_delta <= -5)
+  into v_pct_improved, v_pct_flat, v_pct_declined, v_n_declined
+  from pair_deltas;
+
+  -- Values-only per-person deltas, sorted by value (not completion order) so
+  -- nothing about *when* someone finished leaks alongside their outcome.
+  with pair_deltas as (
+    select (
+      (week10_clear_thinking_pct - day0_clear_thinking_pct) +
+      (week10_emotional_pct - day0_emotional_pct) +
+      (week10_adversity_pct - day0_adversity_pct) +
+      (week10_frame_pct - day0_frame_pct) +
+      (week10_learning_pct - day0_learning_pct) +
+      (week10_situational_pct - day0_situational_pct) +
+      (week10_presence_pct - day0_presence_pct) +
+      (week10_purpose_pct - day0_purpose_pct) +
+      (week10_execution_pct - day0_execution_pct)
+    ) / 9.0 as avg_domain_delta
+    from matched_pairs
+    where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+  )
+  select jsonb_agg(round(avg_domain_delta) order by avg_domain_delta) into v_person_deltas
+  from pair_deltas;
+
+  select jsonb_agg((to_jsonb(m) - 'ord') order by m.ord) into v_metrics
+  from (
+    select 1 as ord, 'clear_thinking' as key, 'Clear Thinking' as label, 'domain' as type,
+      round(avg(day0_clear_thinking_pct)) as day0_avg, round(avg(week10_clear_thinking_pct)) as week10_avg,
+      round(avg(week10_clear_thinking_pct) - avg(day0_clear_thinking_pct)) as delta_pts,
+      case when avg(day0_clear_thinking_pct) = 0 then null
+        else round((avg(week10_clear_thinking_pct) - avg(day0_clear_thinking_pct)) / avg(day0_clear_thinking_pct) * 100) end as delta_pct,
+      count(*) as n, count(*) >= publish_threshold() as published
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 2, 'emotional', 'Emotional Steadiness', 'domain',
+      round(avg(day0_emotional_pct)), round(avg(week10_emotional_pct)),
+      round(avg(week10_emotional_pct) - avg(day0_emotional_pct)),
+      case when avg(day0_emotional_pct) = 0 then null
+        else round((avg(week10_emotional_pct) - avg(day0_emotional_pct)) / avg(day0_emotional_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 3, 'adversity', 'Adversity Recovery', 'domain',
+      round(avg(day0_adversity_pct)), round(avg(week10_adversity_pct)),
+      round(avg(week10_adversity_pct) - avg(day0_adversity_pct)),
+      case when avg(day0_adversity_pct) = 0 then null
+        else round((avg(week10_adversity_pct) - avg(day0_adversity_pct)) / avg(day0_adversity_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 4, 'frame', 'Frame Control', 'domain',
+      round(avg(day0_frame_pct)), round(avg(week10_frame_pct)),
+      round(avg(week10_frame_pct) - avg(day0_frame_pct)),
+      case when avg(day0_frame_pct) = 0 then null
+        else round((avg(week10_frame_pct) - avg(day0_frame_pct)) / avg(day0_frame_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 5, 'learning', 'Learning Agility', 'domain',
+      round(avg(day0_learning_pct)), round(avg(week10_learning_pct)),
+      round(avg(week10_learning_pct) - avg(day0_learning_pct)),
+      case when avg(day0_learning_pct) = 0 then null
+        else round((avg(week10_learning_pct) - avg(day0_learning_pct)) / avg(day0_learning_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 6, 'situational', 'Situational Awareness', 'domain',
+      round(avg(day0_situational_pct)), round(avg(week10_situational_pct)),
+      round(avg(week10_situational_pct) - avg(day0_situational_pct)),
+      case when avg(day0_situational_pct) = 0 then null
+        else round((avg(week10_situational_pct) - avg(day0_situational_pct)) / avg(day0_situational_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 7, 'presence', 'Presence', 'domain',
+      round(avg(day0_presence_pct)), round(avg(week10_presence_pct)),
+      round(avg(week10_presence_pct) - avg(day0_presence_pct)),
+      case when avg(day0_presence_pct) = 0 then null
+        else round((avg(week10_presence_pct) - avg(day0_presence_pct)) / avg(day0_presence_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 8, 'purpose', 'Purpose', 'domain',
+      round(avg(day0_purpose_pct)), round(avg(week10_purpose_pct)),
+      round(avg(week10_purpose_pct) - avg(day0_purpose_pct)),
+      case when avg(day0_purpose_pct) = 0 then null
+        else round((avg(week10_purpose_pct) - avg(day0_purpose_pct)) / avg(day0_purpose_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 9, 'execution', 'Execution', 'domain',
+      round(avg(day0_execution_pct)), round(avg(week10_execution_pct)),
+      round(avg(week10_execution_pct) - avg(day0_execution_pct)),
+      case when avg(day0_execution_pct) = 0 then null
+        else round((avg(week10_execution_pct) - avg(day0_execution_pct)) / avg(day0_execution_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 10, 'ai_index', 'AI Orchestration Index', 'domain',
+      round(avg(day0_ai_index_pct)), round(avg(week10_ai_index_pct)),
+      round(avg(week10_ai_index_pct) - avg(day0_ai_index_pct)),
+      case when avg(day0_ai_index_pct) = 0 then null
+        else round((avg(week10_ai_index_pct) - avg(day0_ai_index_pct)) / avg(day0_ai_index_pct) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 11, 'life_satisfaction', 'Overall Life Satisfaction', 'anchor',
+      round(avg(day0_life_satisfaction_raw), 1), round(avg(week10_life_satisfaction_raw), 1),
+      round(avg(week10_life_satisfaction_raw) - avg(day0_life_satisfaction_raw), 1),
+      case when avg(day0_life_satisfaction_raw) = 0 then null
+        else round((avg(week10_life_satisfaction_raw) - avg(day0_life_satisfaction_raw)) / avg(day0_life_satisfaction_raw) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 12, 'mornings_with_priority', 'Mornings With a Known Priority', 'anchor',
+      round(avg(day0_mornings_with_priority_raw), 1), round(avg(week10_mornings_with_priority_raw), 1),
+      round(avg(week10_mornings_with_priority_raw) - avg(day0_mornings_with_priority_raw), 1),
+      case when avg(day0_mornings_with_priority_raw) = 0 then null
+        else round((avg(week10_mornings_with_priority_raw) - avg(day0_mornings_with_priority_raw)) / avg(day0_mornings_with_priority_raw) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+    union all
+    select 13, 'confidence_next_12mo', 'Confidence in the Next 12 Months', 'anchor',
+      round(avg(day0_confidence_next_12mo_raw), 1), round(avg(week10_confidence_next_12mo_raw), 1),
+      round(avg(week10_confidence_next_12mo_raw) - avg(day0_confidence_next_12mo_raw), 1),
+      case when avg(day0_confidence_next_12mo_raw) = 0 then null
+        else round((avg(week10_confidence_next_12mo_raw) - avg(day0_confidence_next_12mo_raw)) / avg(day0_confidence_next_12mo_raw) * 100) end,
+      count(*), count(*) >= publish_threshold()
+    from matched_pairs where course = target_course
+      and (v_record_starts_at is null or day0_at >= v_record_starts_at)
+      and (v_record_starts_at is null or week10_at >= v_record_starts_at)
+  ) m;
+
+  insert into public_aggregates (
+    course, computed_at, measured_since, last_anchor_date, record_starts_at,
+    total_submissions, n_started, n_pairs, completion_rate,
+    distribution_published, pct_improved, pct_flat, pct_declined, n_declined,
+    n_excluded_straightline, metrics, person_deltas
+  ) values (
+    target_course, now(), v_measured_since,
+    (select last_anchor_date from public_aggregates where course = target_course),
+    v_record_starts_at,
+    v_total_submissions, v_n_started, v_n_pairs, v_completion_rate,
+    v_distribution_published, v_pct_improved, v_pct_flat, v_pct_declined, v_n_declined,
+    v_n_excluded_straightline, coalesce(v_metrics, '[]'::jsonb), coalesce(v_person_deltas, '[]'::jsonb)
+  )
+  on conflict (course) do update set
+    computed_at = excluded.computed_at,
+    measured_since = excluded.measured_since,
+    total_submissions = excluded.total_submissions,
+    n_started = excluded.n_started,
+    n_pairs = excluded.n_pairs,
+    completion_rate = excluded.completion_rate,
+    distribution_published = excluded.distribution_published,
+    pct_improved = excluded.pct_improved,
+    pct_flat = excluded.pct_flat,
+    pct_declined = excluded.pct_declined,
+    n_declined = excluded.n_declined,
+    n_excluded_straightline = excluded.n_excluded_straightline,
+    metrics = excluded.metrics,
+    person_deltas = excluded.person_deltas;
+    -- last_anchor_date and record_starts_at deliberately omitted here — a
+    -- refresh must never clobber either once a human has set them.
+end;
+$$;
+
+revoke execute on function refresh_public_aggregates(text) from public;
+grant execute on function refresh_public_aggregates(text) to service_role;
+revoke execute on function publish_threshold() from public;
+grant execute on function publish_threshold() to service_role, anon, authenticated;

@@ -1,23 +1,19 @@
 import type { Metadata } from "next";
 import { getPublicAggregates, isLaunched } from "@/lib/publicAggregates";
 import { getAnchors, getLatestAnchor } from "@/lib/anchors";
-import { buildResultsJsonLd } from "@/lib/jsonLd";
 import SampleBanner from "@/components/results/SampleBanner";
 import Header from "@/components/results/Header";
-import FunnelSection from "@/components/results/FunnelSection";
-import MatchedPairsTable from "@/components/results/MatchedPairsTable";
-import DistributionRibbon from "@/components/results/DistributionRibbon";
-import LimitationsSection from "@/components/results/LimitationsSection";
-import VerifySection from "@/components/results/VerifySection";
-import AIAgentsBlock from "@/components/results/AIAgentsBlock";
 import ResultsFooter from "@/components/results/ResultsFooter";
+import ResultsPageBody from "@/components/results/ResultsPageBody";
 
 // Statically generated, revalidated on-demand by the nightly job
 // (app/api/cron/nightly/route.ts calls revalidatePath('/results')) — zero
-// database queries on page load once built, per Section 5.
+// database queries on page load once built, per Section 5. Deliberately
+// does NOT read searchParams (that would force this whole route dynamic,
+// reintroducing a per-request DB query for every real visitor) — preview
+// mode lives on a separate internal route instead, reached via a proxy
+// rewrite. See proxy.ts and app/_preview/results-published/page.tsx.
 export const revalidate = false;
-
-const SITE_URL = "https://rewrite-your-life.vercel.app";
 
 // Section 10: "do not publish until 20+ matched pairs exist; until then the
 // page runs privately on an unlisted URL." A known-but-unlinked URL isn't
@@ -55,23 +51,9 @@ export default async function ResultsPage() {
     );
   }
 
-  const jsonLd = buildResultsJsonLd(aggregates, `${SITE_URL}/results`);
-
   return (
     <main className="mx-auto min-h-screen max-w-3xl bg-surface">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Header
-        measuredSince={aggregates.measured_since}
-        computedAt={aggregates.computed_at}
-        latestAnchor={latestAnchor}
-      />
-      <FunnelSection funnel={aggregates.funnel} />
-      <MatchedPairsTable metrics={aggregates.metrics} />
-      <DistributionRibbon distribution={aggregates.distribution} nPairs={aggregates.funnel.n_pairs} />
-      <LimitationsSection nExcludedStraightline={aggregates.hygiene.n_excluded_straightline} />
-      <VerifySection anchors={anchors} />
-      <AIAgentsBlock />
-      <ResultsFooter />
+      <ResultsPageBody aggregates={aggregates} anchors={anchors} latestAnchor={latestAnchor} includeJsonLd />
     </main>
   );
 }

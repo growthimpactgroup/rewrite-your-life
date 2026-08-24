@@ -1,13 +1,14 @@
 import type { Metric } from "@/lib/publicAggregates";
 import DeltaBar from "./DeltaBar";
 import { formatDelta, formatPercent, formatAnchorValue } from "./format";
+import { PUBLISH_THRESHOLD } from "@/lib/publishThreshold";
 
 function CollectingRow({ metric, italic }: { metric: Metric; italic: boolean }) {
   return (
     <tr className="border-b border-border last:border-0">
       <td className={`py-4 pr-4 text-ink ${italic ? "italic" : ""}`}>{metric.label}</td>
       <td colSpan={3} className="py-4 pr-4 text-sm text-muted">
-        Collecting — publishes at 20 matched pairs
+        Collecting — publishes at {PUBLISH_THRESHOLD} matched pairs
       </td>
       <td className="py-4 text-right font-mono text-sm text-muted">{metric.n}</td>
     </tr>
@@ -103,8 +104,8 @@ export default function MatchedPairsTable({ metrics }: { metrics: Metric[] }) {
       </div>
 
       <p className="mt-5 font-mono text-xs text-muted">
-        Metrics with fewer than 20 matched pairs are withheld until they reach the threshold — small
-        groups can identify individuals.
+        Metrics with fewer than {PUBLISH_THRESHOLD} matched pairs are withheld until they reach the
+        threshold — small groups can identify individuals.
       </p>
     </section>
   );
