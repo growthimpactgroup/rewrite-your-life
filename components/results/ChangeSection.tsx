@@ -2,6 +2,7 @@ import type { Metric } from "@/lib/publicAggregates";
 import ChangeChart from "./ChangeChart";
 import LifeAnchorCards from "./LifeAnchorCards";
 import WithheldPanel from "./WithheldPanel";
+import { BLOCK_2_RESULTS_DISCLOSURE } from "@/lib/copyBlocks";
 
 // Change Order 01, Phase 4 — section 02. One shared withheld state (Target
 // E) for the whole section below threshold, not a separate panel per
@@ -30,6 +31,10 @@ export default function ChangeSection({ metrics, nPairs }: { metrics: Metric[]; 
           <WithheldPanel headline="No measure publishes until 20 people finish both maps." nSoFar={nPairs} />
         )}
       </div>
+
+      {/* Change Order 01, Phase 6 — Copy Block 2, verbatim, one line beneath
+          section 02 (its other appearance is the footer). */}
+      <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted">{BLOCK_2_RESULTS_DISCLOSURE}</p>
     </section>
   );
 }
