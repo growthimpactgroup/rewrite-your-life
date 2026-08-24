@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* Dark mode is manual-only, via the ThemeToggle button — never automatic
+   from prefers-color-scheme. The form defaulting to a fixed, predictable
+   background (readable in under four seconds, no exceptions) is still the
+   rule; a toggle just lets someone deliberately opt into a different fixed
+   background instead of leaving it to the OS to decide mid-session. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Bare (non-@theme) custom properties for every themed token, each
+   redefined under [data-theme="dark"]. @theme inline bakes any LITERAL
+   value straight into each generated utility class at build time (e.g.
+   .text-ink { color: #1e293b }, not color: var(--color-ink)) — a later
+   runtime override of --color-ink would have nothing to attach to. Routing
+   every token through its own bare variable first, then referencing that
+   variable with var() inside @theme inline below, keeps the indirection
+   alive so the dark override actually reaches the generated utilities. */
+:root {
+  --background: #faf8f5;
+  --foreground: #1e293b;
+  --surface: #faf8f5;
+  --card: #ffffff;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --border-color: #e2e8f0;
+}
+
+/* Dark palette — same brand accents (primary/secondary/accent stay vivid
+   enough to read on a dark ground), neutrals inverted. Every component
+   already reads its colors from these tokens (text-ink, text-muted,
+   bg-card, border-border, ...), so this one block is what most of the app
+   needs — only the handful of components using a hardcoded Tailwind color
+   (red disclosures, green/amber accents) need their own dark: variants. */
+[data-theme="dark"] {
+  --background: #0f1420;
+  --foreground: #f1f5f9;
+  --surface: #0f1420;
+  --card: #1a2233;
+  --ink: #f1f5f9;
+  --muted: #94a3b8;
+  --border-color: #2c3648;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Brand palette */
+  --color-primary: #2563eb; /* Deep Blue */
+  --color-secondary: #60a5fa; /* Sky Blue */
+  --color-accent: #22d3ee; /* Cyan */
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-ink: var(--ink); /* Dark Slate in light mode — primary text */
+  --color-muted: var(--muted); /* Gray in light mode — secondary text */
+  --color-border: var(--border-color); /* Light Gray in light mode — borders */
+
+  /* San Francisco on Apple devices via -apple-system; sane system fallbacks
+     elsewhere. There is no public web-embeddable SF Pro file. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Subtle, iOS-style entrance for each screen — a small fade + rise, not a
+   flashy transition. Applied once on mount, never repeats. */
+@keyframes screen-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.screen-enter {
+  animation: screen-enter 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@layer components {
+  /* Liquid-glass surface: translucent white card, blurred, hairline border
+     in the brand's light-gray border color. */
+  .glass {
+    background: rgb(255 255 255 / 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--color-border);
+  }
+
+  .glass-strong {
+    background: rgb(255 255 255 / 0.85);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid var(--color-border);
+  }
+
+  [data-theme="dark"] .glass {
+    background: rgb(30 41 59 / 0.55);
+  }
+
+  [data-theme="dark"] .glass-strong {
+    background: rgb(30 41 59 / 0.72);
+  }
+
+  /* Springy tap feedback used on every tappable control. */
+  .tap {
+    transition:
+      transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+      filter 0.15s ease-out;
+  }
+  .tap:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Hover feedback for pointer devices only — gated on (hover: hover) so
+   touchscreens never get a stuck hover state after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .tap:hover {
+    filter: brightness(0.97);
+    transform: translateY(-1px);
+  }
+}
