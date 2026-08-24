@@ -4,7 +4,7 @@ import { buildResultsJsonLd } from "@/lib/jsonLd";
 import Header from "./Header";
 import HeadlineBand from "./HeadlineBand";
 import FunnelSection from "./FunnelSection";
-import MatchedPairsTable from "./MatchedPairsTable";
+import ChangeSection from "./ChangeSection";
 import DistributionRibbon from "./DistributionRibbon";
 import LimitationsSection from "./LimitationsSection";
 import VerifySection from "./VerifySection";
@@ -45,7 +45,7 @@ export default function ResultsPageBody({
       />
       <HeadlineBand aggregates={aggregates} latestAnchor={latestAnchor} />
       <FunnelSection funnel={aggregates.funnel} />
-      <MatchedPairsTable metrics={aggregates.metrics} />
+      <ChangeSection metrics={aggregates.metrics} nPairs={aggregates.funnel.n_pairs} />
       <DistributionRibbon distribution={aggregates.distribution} nPairs={aggregates.funnel.n_pairs} />
       <LimitationsSection nExcludedStraightline={aggregates.hygiene.n_excluded_straightline} />
       <VerifySection anchors={anchors} />

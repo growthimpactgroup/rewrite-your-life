@@ -74,7 +74,10 @@ export const PREVIEW_PUBLISHED_AGGREGATES: PublicAggregates = {
     metric("learning", "Learning Agility", "domain", 58, 72),
     metric("situational", "Situational Awareness", "domain", 55, 67),
     metric("life_satisfaction", "Overall Life Satisfaction", "anchor", 5.4, 7.1, 1),
-    metric("mornings_with_priority", "Mornings With a Known Priority", "anchor", 5.2, 9.8, 1),
+    // Stored as the raw 0-10 dial average (LifeAnchorCards applies the
+    // *1.4 "out of 14 mornings" conversion at display time, same as real
+    // data) — 3.7 -> 7.0 renders as 5.2 -> 9.8, matching Target D.
+    metric("mornings_with_priority", "Mornings With a Known Priority", "anchor", 3.7, 7.0, 1),
     metric("confidence_next_12mo", "Confidence in the Next 12 Months", "anchor", 5.8, 7.6, 1),
   ],
   person_deltas: PERSON_DELTAS,

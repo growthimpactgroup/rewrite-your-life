@@ -1,0 +1,64 @@
+import type { Metric } from "@/lib/publicAggregates";
+import { QUESTIONS } from "@/lib/questions";
+import { formatAnchorValue } from "./format";
+
+// Change Order 01, Phase 4 — three cards, one per life-anchor question, in
+// everyday units rather than the 0-10 response scale. Two of the three
+// anchors ARE their own natural unit (a 0-10 satisfaction/confidence
+// rating reads fine as "out of 10"). The mornings question is different:
+// it's answered on the same shared 0-10 dial as every other question for
+// UI consistency, but the question text itself ("10 = 14 of 14") defines a
+// proportional mapping onto real mornings out of 14 — the everyday unit a
+// person actually feels. Scaling by 1.4 converts the dial reading into that
+// unit; delta_pct is unaffected (a ratio is scale-invariant), so only
+// day0/week10/delta_pts need the conversion, done once here at display time
+// rather than duplicating it into the SQL aggregate.
+const ANCHOR_META: Record<string, { questionId: number; unit: string; scale: number; deltaSuffix: string }> = {
+  life_satisfaction: { questionId: 19, unit: "out of 10", scale: 1, deltaSuffix: "" },
+  mornings_with_priority: { questionId: 20, unit: "out of 14", scale: 1.4, deltaSuffix: "mornings" },
+  confidence_next_12mo: { questionId: 21, unit: "out of 10", scale: 1, deltaSuffix: "" },
+};
+
+function formatAnchorDelta(delta: number, deltaPct: number | null, suffix: string): string {
+  const sign = delta >= 0 ? "+" : "";
+  const base = `${sign}${delta}${suffix ? ` ${suffix}` : ""}`;
+  return deltaPct === null ? base : `${base} (${deltaPct >= 0 ? "+" : ""}${deltaPct}%)`;
+}
+
+function AnchorCard({ metric }: { metric: Metric }) {
+  const meta = ANCHOR_META[metric.key];
+  const question = QUESTIONS.find((q) => q.id === meta.questionId);
+  const day0 = (metric.day0_avg as number) * meta.scale;
+  const week10 = (metric.week10_avg as number) * meta.scale;
+  const delta = Math.round((week10 - day0) * 10) / 10;
+
+  return (
+    <div className="rounded-lg border-t-4 border-accent bg-card px-6 py-6">
+      <p className="leading-relaxed text-ink/90 italic">&ldquo;{question?.text}&rdquo;</p>
+      <p className="mt-4 font-mono text-3xl font-bold text-ink">
+        {formatAnchorValue(day0)}
+        <span className="mx-1 text-muted">→</span>
+        <span className="text-accent">{formatAnchorValue(week10)}</span>
+      </p>
+      <p className={`mt-2 font-mono text-sm font-bold ${delta < 0 ? "text-red-600" : "text-emerald-700"}`}>
+        {formatAnchorDelta(delta, metric.delta_pct, meta.deltaSuffix)}
+      </p>
+      <p className="mt-1 font-mono text-xs text-muted">
+        {meta.unit} · group average · N = {metric.n}
+      </p>
+    </div>
+  );
+}
+
+export default function LifeAnchorCards({ metrics }: { metrics: Metric[] }) {
+  const anchors = metrics.filter((m) => m.type === "anchor" && m.published && m.day0_avg !== null && m.week10_avg !== null);
+  if (anchors.length === 0) return null;
+
+  return (
+    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {anchors.map((m) => (
+        <AnchorCard key={m.key} metric={m} />
+      ))}
+    </div>
+  );
+}

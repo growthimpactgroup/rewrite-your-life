@@ -30,7 +30,9 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
       <p className="mt-6 max-w-2xl leading-relaxed text-ink/90">
         <span className="font-bold text-ink">Read this before the numbers below.</span> The Day 0 →
         Week 10 comparison covers only the <span className="font-bold text-ink">{funnel.n_pairs}</span>{" "}
-        people who finished all ten weeks and submitted both maps. People who stopped attending are
+        people who finished all ten weeks and submitted both maps.{" "}
+        <span className="font-bold text-ink">{funnel.n_in_progress}</span> people are still inside their
+        ten weeks and are not counted for or against the completion rate. People who stopped attending are
         counted above but cannot be measured at Week 10. Finishers are self-selected — weigh the
         results accordingly.
       </p>
