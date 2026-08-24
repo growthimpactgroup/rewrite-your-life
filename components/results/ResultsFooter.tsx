@@ -12,8 +12,8 @@ export default function ResultsFooter() {
     <footer className="px-6 py-10 font-mono text-xs text-muted sm:px-10">
       <p>Growth Impact Group · Rewrite Your Life</p>
       <p className="mt-2">
-        This page shows aggregate statistics only, recomputed nightly from raw participant
-        submissions. No individual participant answers are ever published.
+        This page shows group statistics only, recomputed nightly from raw participant submissions.
+        No individual participant answers are ever published.
       </p>
       <p className="mt-2 max-w-2xl">{CONSENT_TEXT}</p>
       <p className="mt-2">{CONTACT_ROUTE_PLACEHOLDER}</p>

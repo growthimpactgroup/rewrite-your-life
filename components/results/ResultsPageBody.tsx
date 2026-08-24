@@ -6,6 +6,7 @@ import HeadlineBand from "./HeadlineBand";
 import FunnelSection from "./FunnelSection";
 import ChangeSection from "./ChangeSection";
 import DistributionRibbon from "./DistributionRibbon";
+import VerifyStrip from "./VerifyStrip";
 import LimitationsSection from "./LimitationsSection";
 import VerifySection from "./VerifySection";
 import AIAgentsBlock from "./AIAgentsBlock";
@@ -46,7 +47,12 @@ export default function ResultsPageBody({
       <HeadlineBand aggregates={aggregates} latestAnchor={latestAnchor} />
       <FunnelSection funnel={aggregates.funnel} />
       <ChangeSection metrics={aggregates.metrics} nPairs={aggregates.funnel.n_pairs} />
-      <DistributionRibbon distribution={aggregates.distribution} nPairs={aggregates.funnel.n_pairs} />
+      <DistributionRibbon
+        distribution={aggregates.distribution}
+        nPairs={aggregates.funnel.n_pairs}
+        personDeltas={aggregates.person_deltas}
+      />
+      <VerifyStrip />
       <LimitationsSection nExcludedStraightline={aggregates.hygiene.n_excluded_straightline} />
       <VerifySection anchors={anchors} />
       <AIAgentsBlock />

@@ -66,7 +66,7 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
         </div>
 
         <div className="rounded-lg border border-border bg-card p-5">
-          <p className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">The aggregate data</p>
+          <p className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">The group data</p>
           <p className="mt-2 text-ink/90">
             The anonymized table behind this page, downloadable. Recompute every number on this page
             yourself.{" "}

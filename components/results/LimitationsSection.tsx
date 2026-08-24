@@ -20,14 +20,14 @@ export default function LimitationsSection({ nExcludedStraightline }: { nExclude
       body: (
         <>
           Rows where someone tapped the same value across ten or more consecutive items, including a
-          reverse-worded one, stay in the raw record but are excluded from these aggregates. Excluded
-          to date: <span className="font-bold text-ink">{nExcludedStraightline}</span>.
+          reverse-worded one, stay in the raw record but are excluded from these group numbers.
+          Excluded to date: <span className="font-bold text-ink">{nExcludedStraightline}</span>.
         </>
       ),
     },
     {
       lead: "Not a guarantee.",
-      body: "These are the aggregate outcomes of past participants. They are not a promise, prediction, or guarantee of your results. Individual results vary and depend on participation.",
+      body: "These are the group outcomes of past participants. They are not a promise, prediction, or guarantee of your results. Individual results vary and depend on participation.",
     },
   ];
 

@@ -94,7 +94,8 @@ export default function HeadlineBand({
           Why nothing is published yet
         </p>
         <p className="mt-2 leading-relaxed text-ink/90">
-          {funnel.n_pairs} of {PUBLISH_THRESHOLD} matched pairs so far. Below that threshold a group is small enough
+          {funnel.n_pairs} of {PUBLISH_THRESHOLD} people measured twice, ten weeks apart, so far. Below
+          that threshold a group is small enough
           that published averages could identify an individual, so every measure is withheld. Nothing is being
           selected, filtered, or waited on — the numbers appear the night the {PUBLISH_THRESHOLD}th pair lands,
           whatever they say.
