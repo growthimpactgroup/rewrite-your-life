@@ -47,8 +47,10 @@ export const PREVIEW_PUBLISHED_AGGREGATES: PublicAggregates = {
   funnel: {
     total_submissions: 214,
     n_started: 143,
+    n_in_progress: 40,
+    n_eligible: 103,
     n_pairs: 89,
-    completion_rate: 62,
+    completion_rate: 86,
   },
   distribution: {
     published: true,
@@ -83,7 +85,7 @@ export const PREVIEW_PUBLISHED_AGGREGATES: PublicAggregates = {
  * wired to a public URL; used for local verification only. */
 export const PREVIEW_WITHHELD_AGGREGATES: PublicAggregates = {
   ...PREVIEW_PUBLISHED_AGGREGATES,
-  funnel: { total_submissions: 40, n_started: 25, n_pairs: 19, completion_rate: 76 },
+  funnel: { total_submissions: 40, n_started: 25, n_in_progress: 3, n_eligible: 22, n_pairs: 19, completion_rate: 86 },
   distribution: { published: false, pct_improved: null, pct_flat: null, pct_declined: null, n_declined: null },
   metrics: PREVIEW_PUBLISHED_AGGREGATES.metrics.map((m) => ({
     ...m,

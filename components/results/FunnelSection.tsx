@@ -1,11 +1,14 @@
 import type { PublicAggregates } from "@/lib/publicAggregates";
 
 export default function FunnelSection({ funnel }: { funnel: PublicAggregates["funnel"] }) {
+  const rateLabel = funnel.completion_rate === null ? "—" : `${funnel.completion_rate}%`;
+
   const stats = [
     { value: funnel.total_submissions.toString(), label: "Total submissions recorded" },
     { value: funnel.n_started.toString(), label: "Started — Day 0 baseline taken" },
-    { value: funnel.n_pairs.toString(), label: "Finished Week 10 — matched pairs" },
-    { value: `${funnel.completion_rate}%`, label: "Completion rate" },
+    { value: funnel.n_in_progress.toString(), label: "Still inside the ten weeks" },
+    { value: funnel.n_eligible.toString(), label: "Reached Week 10 — had the chance to finish" },
+    { value: funnel.n_pairs.toString(), label: `Completed both — ${rateLabel} of eligible` },
   ];
 
   return (
@@ -15,7 +18,7 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
       </p>
       <p className="mt-2 text-lg text-ink/90">Starting with the number most programs leave out.</p>
 
-      <div className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-5">
         {stats.map((s) => (
           <div key={s.label} className="bg-card px-5 py-6">
             <div className="text-3xl font-bold text-ink sm:text-4xl">{s.value}</div>

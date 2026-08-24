@@ -25,8 +25,16 @@ export interface PublicAggregates {
   funnel: {
     total_submissions: number;
     n_started: number;
+    /** Change Order 01, Phase 2: Day-0 submissions 10+ weeks old — the
+     * population that's actually had the chance to finish. n_in_progress +
+     * n_eligible always equals n_started. */
+    n_eligible: number;
+    /** Has a Day-0 baseline, but ten weeks hasn't elapsed yet. */
+    n_in_progress: number;
     n_pairs: number;
-    completion_rate: number;
+    /** n_pairs / n_eligible, never n_started. Null when n_eligible is 0 (a
+     * brand-new cohort) — render an em dash, never 0% or NaN. */
+    completion_rate: number | null;
   };
   distribution: {
     /** Change Order 01, Phase 1: distribution now withholds below
@@ -69,7 +77,7 @@ export const getPublicAggregates = cache(async (course: string): Promise<PublicA
   const { data, error } = await supabase
     .from("public_aggregates")
     .select(
-      "course, computed_at, measured_since, last_anchor_date, record_starts_at, total_submissions, n_started, n_pairs, completion_rate, distribution_published, pct_improved, pct_flat, pct_declined, n_declined, n_excluded_straightline, metrics, person_deltas",
+      "course, computed_at, measured_since, last_anchor_date, record_starts_at, total_submissions, n_started, n_eligible, n_in_progress, n_pairs, completion_rate, distribution_published, pct_improved, pct_flat, pct_declined, n_declined, n_excluded_straightline, metrics, person_deltas",
     )
     .eq("course", course)
     .maybeSingle();
@@ -102,6 +110,8 @@ export const getPublicAggregates = cache(async (course: string): Promise<PublicA
     funnel: {
       total_submissions: data.total_submissions,
       n_started: data.n_started,
+      n_eligible: data.n_eligible,
+      n_in_progress: data.n_in_progress,
       n_pairs: data.n_pairs,
       completion_rate: data.completion_rate,
     },
