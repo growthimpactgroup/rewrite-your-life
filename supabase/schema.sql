@@ -1456,3 +1456,23 @@ cross join lateral (
 ) sl;
 
 revoke all on scored from anon, authenticated;
+
+-- ---------------------------------------------------------------------------
+-- 2026-08-26 — disable the publish threshold at Frances's explicit request,
+-- to show the real current numbers to a client immediately instead of
+-- waiting for 20 real finishers. Every `count >= publish_threshold()` check
+-- in refresh_public_aggregates() becomes unconditionally true (a count is
+-- never negative), so nothing is withheld regardless of how few people have
+-- finished. The privacy protection this number existed for — a very small
+-- group's average can expose an individual — no longer applies while this
+-- is 0. Reversible: change the 0 back to 20 and re-run this block to
+-- restore the original protection everywhere at once, then trigger a
+-- nightly refresh (or call refresh_public_aggregates('ryl') directly) so
+-- the stored row picks it up.
+create or replace function publish_threshold()
+returns int
+language sql
+immutable
+as $$
+  select 0;
+$$;
