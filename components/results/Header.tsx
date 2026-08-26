@@ -26,26 +26,28 @@ export default function Header({
         didn&apos;t improve — and gives you everything you need to check the record yourself.
       </p>
 
-      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-5 font-mono text-sm">
-        <span className="inline-flex items-center gap-2 font-semibold text-emerald-700">
-          <span className="relative flex h-2 w-2">
+      <div className="mt-8 flex flex-wrap gap-3 border-t border-border pt-6 font-mono">
+        <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3">
+          <span className="relative flex h-3 w-3 shrink-0">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-600" />
           </span>
-          Updates automatically
-        </span>
-        <span className="text-muted">
-          Measured since <span className="font-semibold text-ink">{measuredSince ? formatDate(measuredSince) : "—"}</span>
-        </span>
-        <span className="text-muted">
-          Last refresh <span className="font-semibold text-ink">{formatDateTime(computedAt)}</span>
-        </span>
-        <span className="text-muted">
-          Last blockchain anchor{" "}
-          <span className="font-semibold text-ink">
+          <span className="text-base font-bold text-emerald-700">Updates automatically</span>
+        </div>
+        <div className="rounded-xl border border-border bg-card px-4 py-3">
+          <span className="text-sm font-bold text-muted">Measured since </span>
+          <span className="text-base font-bold text-ink">{measuredSince ? formatDate(measuredSince) : "—"}</span>
+        </div>
+        <div className="rounded-xl border border-border bg-card px-4 py-3">
+          <span className="text-sm font-bold text-muted">Last refresh </span>
+          <span className="text-base font-bold text-ink">{formatDateTime(computedAt)}</span>
+        </div>
+        <div className="rounded-xl border border-border bg-card px-4 py-3">
+          <span className="text-sm font-bold text-muted">Last blockchain anchor </span>
+          <span className="text-base font-bold text-ink">
             {latestAnchor ? formatDate(latestAnchor.date) : "not yet anchored"}
           </span>
-        </span>
+        </div>
       </div>
     </header>
   );
