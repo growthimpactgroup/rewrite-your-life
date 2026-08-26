@@ -1,4 +1,5 @@
 import type { PublicAggregates } from "@/lib/publicAggregates";
+import SectionHeading from "./SectionHeading";
 
 export default function FunnelSection({ funnel }: { funnel: PublicAggregates["funnel"] }) {
   const rateLabel = funnel.completion_rate === null ? "—" : `${funnel.completion_rate}%`;
@@ -13,9 +14,7 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
 
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
-      <p className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">
-        01 · The whole funnel
-      </p>
+      <SectionHeading eyebrow="01 · The whole funnel" title="The Whole Funnel" />
       <p className="mt-2 text-lg text-ink/90">Starting with the number most programs leave out.</p>
 
       <div className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-5">

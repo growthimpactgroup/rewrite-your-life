@@ -38,9 +38,7 @@ export default function PrivacyPage() {
             non-technical person can follow. Our own writing, not a Part
             Four copy block. */}
         <div className="border-t border-border pt-6">
-          <p className="text-xs font-semibold tracking-widest text-muted uppercase">
-            How a deletion request works
-          </p>
+          <h2 className="text-2xl font-bold text-ink">How a Deletion Request Works</h2>
           <p className="mt-2 max-w-2xl text-lg leading-relaxed text-ink/90">
             The raw record of your answers is never altered or deleted — doing that would break the
             monthly blockchain fingerprint covering every record from that month, for everyone. What we

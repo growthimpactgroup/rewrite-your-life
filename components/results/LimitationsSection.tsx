@@ -1,4 +1,5 @@
 import { BLOCK_3_NOT_PROFESSIONAL_ADVICE } from "@/lib/copyBlocks";
+import SectionHeading from "./SectionHeading";
 
 // Items 1, 3, 4, 5, 6 verbatim from Exhibit E (the original build's five
 // items) — never a partial list, never shrunk into a footnote (Section 7:
@@ -43,9 +44,10 @@ export default function LimitationsSection({ nExcludedStraightline }: { nExclude
 
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
-      <p className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">
-        04 · What these numbers are, and are not
-      </p>
+      <SectionHeading
+        eyebrow="04 · What these numbers are, and are not"
+        title="What These Numbers Are, And Are Not"
+      />
 
       <ul className="mt-6 divide-y divide-border">
         {items.map((item, i) => (

@@ -1,11 +1,20 @@
 import type { Metric } from "@/lib/publicAggregates";
-import { formatDelta, formatPercent } from "./format";
+import { formatPercentChange } from "./format";
+import { DOMAIN_DESCRIPTIONS, interpretationFor } from "@/lib/domainDescriptions";
 
 // Change Order 01, Phase 4 — replaces the thirteen-row table with one row
 // per domain measure: a hollow marker at the Day 0 group average, a solid
 // marker at Week 10, joined by a bar, on a shared 0-100% track so every row
 // is visually comparable. Declines render in the same red on the same axis
 // — never hidden, never a separate scale.
+//
+// 2026-08-26, at Frances's request: a first-time visitor had no way to
+// know what "AI Orchestration Index" (or any domain) actually measures, or
+// what a given result meant. Each row now carries a plain-language "what
+// this measures" line and a result sentence in percentage-only phrasing
+// ("35% to 82% — a 135% increase") plus a one-line takeaway — see
+// lib/domainDescriptions.ts, grounded in that domain's actual two
+// questions, not invented.
 
 function DotRow({ metric }: { metric: Metric }) {
   const day0 = metric.day0_avg as number;
@@ -13,11 +22,15 @@ function DotRow({ metric }: { metric: Metric }) {
   const declined = week10 < day0;
   const left = Math.min(day0, week10);
   const width = Math.max(0, Math.abs(week10 - day0));
+  const description = DOMAIN_DESCRIPTIONS[metric.key];
+  const interpretation = interpretationFor(metric.key, metric.delta_pts as number);
 
   return (
-    <div className="grid grid-cols-1 gap-y-2 py-4 sm:grid-cols-[10rem_1fr_9rem] sm:items-center sm:gap-x-4">
-      <div className="font-semibold text-ink">{metric.label}</div>
-      <div className="relative h-4 w-full">
+    <div className="py-6">
+      <h3 className="text-xl font-bold text-ink">{metric.label}</h3>
+      {description && <p className="mt-1 text-sm text-muted">{description.what}</p>}
+
+      <div className="relative mt-4 mb-4 h-4 w-full">
         <div className="absolute top-1/2 right-0 left-0 h-px -translate-y-1/2 bg-border" />
         <div
           className={`absolute top-1/2 h-0.5 -translate-y-1/2 ${declined ? "bg-red-400" : "bg-accent/50"}`}
@@ -32,14 +45,11 @@ function DotRow({ metric }: { metric: Metric }) {
           style={{ left: `${week10}%` }}
         />
       </div>
-      <div className="text-left">
-        <div className={`font-mono text-sm font-bold ${declined ? "text-red-600" : "text-emerald-700"}`}>
-          {formatDelta(metric.delta_pts as number, metric.delta_pct)}
-        </div>
-        <div className="font-mono text-xs text-muted">
-          {formatPercent(day0)} → {formatPercent(week10)}
-        </div>
-      </div>
+
+      <p className={`font-semibold ${declined ? "text-red-600" : "text-emerald-700"}`}>
+        {formatPercentChange(day0, week10, metric.delta_pct)}
+      </p>
+      {interpretation && <p className="mt-1 text-ink/80">{interpretation}</p>}
     </div>
   );
 }

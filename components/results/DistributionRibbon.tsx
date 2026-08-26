@@ -1,6 +1,7 @@
 import type { PublicAggregates } from "@/lib/publicAggregates";
 import WithheldPanel from "./WithheldPanel";
 import DotPlot from "./DotPlot";
+import SectionHeading from "./SectionHeading";
 
 // Change Order 01, Phase 1: distribution now withholds below
 // PUBLISH_THRESHOLD, same as every per-metric figure — a deliberate
@@ -22,9 +23,7 @@ export default function DistributionRibbon({
 }) {
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
-      <p className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">
-        03 · Not everyone improves
-      </p>
+      <SectionHeading eyebrow="03 · Not everyone improves" title="Not Everyone Improves" />
       <p className="mt-2 text-lg text-ink/90">A record with no negative results isn&apos;t a record.</p>
       <div className="mt-6">
         {distribution.published ? (
