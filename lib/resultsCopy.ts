@@ -253,7 +253,7 @@ export const PDF_EDUCATION_LABEL = "EDUCATION ONLY";
 // Purely procedural — how to read the report, not a claim about what any
 // score means, so it doesn't need the Section 5 citation sheet.
 export const PDF_INTRO_FRAMING =
-  "This report walks through each of your nine trainable areas one at a time — your score, what that area looks like when it's a strength, and where to focus next. Scores are shown out of 100 (out of 10 for the three life-anchor questions).";
+  "This report walks through each of your nine trainable areas one at a time — your score, what that area looks like when it's a strength, and where to focus next. Scores are shown as a percentage (out of 10 for the three life-anchor questions).";
 // Section 5 (2026-08-11 spec) requires a real citation sheet before any
 // "what a high/low score means" narrative is written — that research
 // hasn't been done yet. Placeholder-free by design: rather than print an

@@ -426,7 +426,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11.5);
-    const scoreText = `${d.percent} out of 100`;
+    const scoreText = `${d.percent}%`;
     const scoreWidth = doc.getTextWidth(scoreText);
     doc.text(scoreText, pageWidth - marginX - scoreWidth, y);
 
@@ -442,7 +442,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
 
     if (baseline && mid) {
       trailLine(
-        `First ${baseline.summary.domains[i].percent}  ·  Second ${mid.summary.domains[i].percent}  ·  Now ${d.percent}`,
+        `First ${baseline.summary.domains[i].percent}%  ·  Second ${mid.summary.domains[i].percent}%  ·  Now ${d.percent}%`,
       );
     }
 
@@ -519,7 +519,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(12);
     doc.setTextColor(...COLOR.ink);
-    const percentText = `${percent} out of 100`;
+    const percentText = `${percent}%`;
     const percentWidth = doc.getTextWidth(percentText);
     doc.text(percentText, pageWidth - marginX - percentWidth, rowBaseline);
     if (delta !== undefined) {
@@ -534,7 +534,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
     y = rowBaseline + 6.5;
     if (sublabel) trailLine(sublabel);
     if (trail) {
-      trailLine(`First ${trail.first}  ·  Second ${trail.second}  ·  Now ${percent}`);
+      trailLine(`First ${trail.first}%  ·  Second ${trail.second}%  ·  Now ${percent}%`);
     }
     if (interpretation) paragraph(interpretation);
     const dividerY = y - 1;
@@ -586,7 +586,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
       doc.text(`${point.label} · ${formatDate(point.date)}`, marginX, y);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(...COLOR.ink);
-      const text = `AI ${point.aiIndexPercent} out of 100`;
+      const text = `AI ${point.aiIndexPercent}%`;
       doc.text(text, pageWidth - marginX - doc.getTextWidth(text), y);
       y += 6.5;
     });

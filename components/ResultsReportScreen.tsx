@@ -175,9 +175,7 @@ function DomainBarRow({
           )}
         </span>
         <div className="flex flex-shrink-0 items-center gap-2">
-          <span className="text-[15px] font-medium tabular-nums text-muted">
-            {percent} out of 100
-          </span>
+          <span className="text-[15px] font-medium tabular-nums text-muted">{percent}%</span>
           {delta !== undefined && <DeltaBadge points={delta} unit="%" />}
         </div>
       </div>
@@ -189,11 +187,11 @@ function DomainBarRow({
       </div>
       {comparison && delta !== undefined && (
         <ComparisonGrid
-          prevValue={`${comparison.prevPercent} out of 100`}
+          prevValue={`${comparison.prevPercent}%`}
           prevDate={comparison.prevDate}
-          midValue={comparison.midPercent !== undefined ? `${comparison.midPercent} out of 100` : undefined}
+          midValue={comparison.midPercent !== undefined ? `${comparison.midPercent}%` : undefined}
           midDate={comparison.midDate}
-          currentValue={`${percent} out of 100`}
+          currentValue={`${percent}%`}
           currentDate={comparison.currentDate}
           pointsChange={delta}
           unit="%"
