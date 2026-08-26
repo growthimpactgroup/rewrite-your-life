@@ -719,6 +719,7 @@ export default function ResultsReportScreen({
                   ? { summary: midSummary, date: midSubmission.createdAt }
                   : undefined,
               journey: journeyPoints.length > 0 ? journeyPoints : undefined,
+              unmatchedRetake: current.unmatchedRetake,
             })
           }
           className="tap mt-4 w-full rounded-full bg-primary px-6 py-4 text-[17px] font-medium text-white shadow-[0_1px_2px_rgb(0_0_0/0.1),0_8px_20px_rgb(0_0_0/0.15)]"
