@@ -26,27 +26,30 @@ export default function Header({
         didn&apos;t improve — and gives you everything you need to check the record yourself.
       </p>
 
-      <div className="mt-8 flex flex-wrap gap-3 border-t border-border pt-6 font-mono">
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3">
-          <span className="relative flex h-3 w-3 shrink-0">
+      <div className="mt-8 border-t border-border pt-6 font-mono">
+        <div className="flex items-center gap-2.5">
+          <span className="relative flex h-3.5 w-3.5 shrink-0">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-600" />
+            <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-emerald-600" />
           </span>
-          <span className="text-base font-bold text-emerald-700">Updates automatically</span>
+          <span className="text-xl font-bold text-emerald-700 sm:text-2xl">Updates automatically</span>
         </div>
-        <div className="rounded-xl border border-border bg-card px-4 py-3">
-          <span className="text-sm font-bold text-muted">Measured since </span>
-          <span className="text-base font-bold text-ink">{measuredSince ? formatDate(measuredSince) : "—"}</span>
-        </div>
-        <div className="rounded-xl border border-border bg-card px-4 py-3">
-          <span className="text-sm font-bold text-muted">Last refresh </span>
-          <span className="text-base font-bold text-ink">{formatDateTime(computedAt)}</span>
-        </div>
-        <div className="rounded-xl border border-border bg-card px-4 py-3">
-          <span className="text-sm font-bold text-muted">Last blockchain anchor </span>
-          <span className="text-base font-bold text-ink">
-            {latestAnchor ? formatDate(latestAnchor.date) : "not yet anchored"}
-          </span>
+
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <div className="rounded-xl border border-border bg-card px-5 py-4 sm:flex-1">
+            <div className="text-sm font-bold text-muted">Measured since</div>
+            <div className="mt-1 text-lg font-bold text-ink">{measuredSince ? formatDate(measuredSince) : "—"}</div>
+          </div>
+          <div className="rounded-xl border border-border bg-card px-5 py-4 sm:flex-1">
+            <div className="text-sm font-bold text-muted">Last refresh</div>
+            <div className="mt-1 text-lg font-bold text-ink">{formatDateTime(computedAt)}</div>
+          </div>
+          <div className="rounded-xl border border-border bg-card px-5 py-4 sm:flex-1">
+            <div className="text-sm font-bold text-muted">Last blockchain anchor</div>
+            <div className="mt-1 text-lg font-bold text-ink">
+              {latestAnchor ? formatDate(latestAnchor.date) : "not yet anchored"}
+            </div>
+          </div>
         </div>
       </div>
     </header>
