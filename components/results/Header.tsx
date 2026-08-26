@@ -12,13 +12,11 @@ export default function Header({
 }) {
   return (
     <header className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
-      <p className="font-mono text-xs font-medium tracking-widest text-muted uppercase">
+      <p className="font-mono text-sm font-semibold tracking-widest text-muted uppercase">
         Growth Impact Group · Public Outcome Record
       </p>
-      <h1 className="mt-3 text-4xl font-bold text-ink sm:text-5xl">
-        Rewrite Your Life
-        <br />
-        Measured Results
+      <h1 className="mt-3 text-5xl leading-tight font-bold text-ink sm:text-6xl lg:text-7xl">
+        Rewrite Your Life — Measured Results
       </h1>
       <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
         Every participant answers the same 27 questions at Day 0 and again at Week 10. The
