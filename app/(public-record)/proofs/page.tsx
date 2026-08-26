@@ -25,7 +25,7 @@ export default function ProofsPage() {
           Growth Impact Group · Public Outcome Record
         </p>
         <h1 className="mt-3 text-4xl font-bold text-ink">Anchor Proofs</h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/90">
+        <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
           Every monthly anchor, in full. Each one stamps a SHA-256 fingerprint of that month&apos;s
           raw dataset to the public OpenTimestamps calendars — independent of Growth Impact Group,
           and impossible to alter retroactively without the break being visible.

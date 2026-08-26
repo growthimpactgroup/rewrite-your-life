@@ -20,7 +20,7 @@ export default function Header({
         <br />
         Measured Results
       </h1>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/90">
+      <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
         Every participant answers the same 27 questions at Day 0 and again at Week 10. The
         questions never change. This page shows what moved — including the people who
         didn&apos;t improve — and gives you everything you need to check the record yourself.

@@ -103,7 +103,7 @@ export default function DotPlot({
         </span>
       </div>
 
-      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink/90">
+      <p className="mt-4 max-w-4xl text-lg leading-relaxed text-ink/90">
         One dot per person: their average score across all nine domains, Week 10 minus Day 0, in
         points. The typical finisher moved{" "}
         <span className="font-bold text-ink">

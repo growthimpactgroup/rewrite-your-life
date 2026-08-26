@@ -26,7 +26,7 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
         ))}
       </div>
 
-      <p className="mt-6 max-w-2xl leading-relaxed text-ink/90">
+      <p className="mt-6 max-w-4xl leading-relaxed text-ink/90">
         <span className="font-bold text-ink">Read this before the numbers below.</span> The Day 0 →
         Week 10 comparison covers only the <span className="font-bold text-ink">{funnel.n_pairs}</span>{" "}
         people who finished all ten weeks and submitted both maps.{" "}

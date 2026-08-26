@@ -28,7 +28,7 @@ export default function PrivacyPage() {
 
       <div className="space-y-6 px-6 py-10 sm:px-10">
         {BLOCK_5_PRIVACY_NOTICE.map((paragraph, i) => (
-          <p key={i} className="max-w-2xl text-lg leading-relaxed text-ink/90">
+          <p key={i} className="max-w-4xl text-lg leading-relaxed text-ink/90">
             {paragraph}
           </p>
         ))}
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
             Four copy block. */}
         <div className="border-t border-border pt-6">
           <h2 className="text-2xl font-bold text-ink">How a Deletion Request Works</h2>
-          <p className="mt-2 max-w-2xl text-lg leading-relaxed text-ink/90">
+          <p className="mt-2 max-w-4xl text-lg leading-relaxed text-ink/90">
             The raw record of your answers is never altered or deleted — doing that would break the
             monthly blockchain fingerprint covering every record from that month, for everyone. What we
             do instead: your email address is permanently disconnected from your answers everywhere

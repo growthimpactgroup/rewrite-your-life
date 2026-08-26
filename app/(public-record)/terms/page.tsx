@@ -21,7 +21,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section className="border-b border-border px-6 py-8 sm:px-10">
       <h2 className="text-xl font-bold text-ink">{title}</h2>
-      <div className="mt-3 max-w-2xl space-y-3 leading-relaxed text-ink/90">{children}</div>
+      <div className="mt-3 max-w-4xl space-y-3 leading-relaxed text-ink/90">{children}</div>
     </section>
   );
 }

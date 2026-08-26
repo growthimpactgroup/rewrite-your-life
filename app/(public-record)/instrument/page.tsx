@@ -22,7 +22,7 @@ export default function InstrumentPage() {
           Growth Impact Group · Public Outcome Record
         </p>
         <h1 className="mt-3 text-4xl font-bold text-ink">The Frozen Instrument</h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/90">
+        <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
           All 27 questions, exactly as every participant sees them, in fixed order. Locked since the
           first real submission — no word changes after that point. This copy is byte-identical to
           the production instrument.

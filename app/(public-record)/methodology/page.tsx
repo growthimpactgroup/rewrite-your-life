@@ -21,7 +21,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10">
       <h2 className="text-xl font-bold text-ink">{title}</h2>
-      <div className="mt-3 max-w-2xl space-y-3 leading-relaxed text-ink/90">{children}</div>
+      <div className="mt-3 max-w-4xl space-y-3 leading-relaxed text-ink/90">{children}</div>
     </section>
   );
 }
@@ -34,7 +34,7 @@ export default function MethodologyPage() {
           Growth Impact Group · Public Outcome Record
         </p>
         <h1 className="mt-3 text-4xl font-bold text-ink">Methodology</h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/90">
+        <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
           The statistics vocabulary behind the results page, written out in full so the main page can
           stay in plain language. Every definition here is the exact rule the nightly build runs — not
           a simplification of it.

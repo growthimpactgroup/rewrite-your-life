@@ -37,7 +37,7 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
       <SectionHeading eyebrow="05 · Verify this record" title="Verify This Record" />
-      <p className="mt-2 max-w-2xl text-lg leading-relaxed text-ink/90">
+      <p className="mt-2 max-w-4xl text-lg leading-relaxed text-ink/90">
         Built to be checked by someone who doesn&apos;t trust us. Each month, a fingerprint of the
         entire dataset {anchors.length > 0 ? "is stamped" : "will be stamped"} to a public
         blockchain. Editing or backdating a single answer afterward breaks the chain — visibly,

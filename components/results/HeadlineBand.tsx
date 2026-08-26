@@ -57,7 +57,7 @@ export default function HeadlineBand({
           {distribution.pct_improved}% of finishers <span className="text-accent">improved</span>
         </p>
         {typical && (
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/90">
+          <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
             Across {funnel.n_pairs} people who completed all ten weeks, the typical measure moved{" "}
             <span className="font-bold text-ink">{formatDelta(typical.delta_pts as number, typical.delta_pct)}</span>,
             and {nRose} of {domainMetrics.length} measures rose. {declineClause}
@@ -84,12 +84,12 @@ export default function HeadlineBand({
       <p className="text-4xl leading-tight font-bold text-ink sm:text-5xl">
         {funnel.total_submissions} maps <span className="text-accent">on the record</span>
       </p>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-ink/90">
+      <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
         {measured_since ? `This record opened on ${formatDate(measured_since)} and grows` : "This record grows"} every
         night on its own. Results publish when {PUBLISH_THRESHOLD} people have completed both the Day 0 and the Week
         10 assessment — not before.
       </p>
-      <div className="mt-6 max-w-2xl rounded-lg border border-border bg-card px-6 py-5">
+      <div className="mt-6 max-w-3xl rounded-lg border border-border bg-card px-6 py-5">
         <p className="font-mono text-sm font-semibold tracking-widest text-accent uppercase">
           Why nothing is published yet
         </p>
