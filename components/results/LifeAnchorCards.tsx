@@ -33,29 +33,38 @@ function AnchorCard({ metric }: { metric: Metric }) {
   const delta = Math.round((week10 - day0) * 10) / 10;
 
   return (
-    <div className="rounded-lg border-t-4 border-accent bg-card px-6 py-6">
-      <p className="text-lg leading-relaxed text-ink/90 italic">&ldquo;{question?.text}&rdquo;</p>
-      <p className="mt-4 font-mono text-4xl font-bold text-ink">
-        {formatAnchorValue(day0)}
-        <span className="mx-1 text-muted">→</span>
-        <span className="text-accent">{formatAnchorValue(week10)}</span>
-      </p>
-      <p className={`mt-2 font-mono text-base font-bold ${delta < 0 ? "text-red-600" : "text-emerald-700"}`}>
-        {formatAnchorDelta(delta, metric.delta_pct, meta.deltaSuffix)}
-      </p>
-      <p className="mt-1 font-mono text-sm text-muted">
-        {meta.unit} · group average · N = {metric.n}
-      </p>
+    <div className="rounded-lg border-t-4 border-accent bg-card px-6 py-6 sm:flex sm:items-center sm:justify-between sm:gap-8">
+      <p className="max-w-xl text-lg leading-relaxed text-ink/90 italic">&ldquo;{question?.text}&rdquo;</p>
+      <div className="mt-4 sm:mt-0 sm:shrink-0 sm:text-right">
+        <p className="font-mono text-4xl font-bold text-ink">
+          {formatAnchorValue(day0)}
+          <span className="mx-1 text-muted">→</span>
+          <span className="text-accent">{formatAnchorValue(week10)}</span>
+        </p>
+        <p className={`mt-2 font-mono text-base font-bold ${delta < 0 ? "text-red-600" : "text-emerald-700"}`}>
+          {formatAnchorDelta(delta, metric.delta_pct, meta.deltaSuffix)}
+        </p>
+        <p className="mt-1 font-mono text-sm text-muted">
+          {meta.unit} · group average · N = {metric.n}
+        </p>
+      </div>
     </div>
   );
 }
 
+// 2026-08-26, at Frances's request: the three cards used to sit side by
+// side in one row. Because each question wraps to a different number of
+// lines, the big before/after numbers landed at different heights across
+// the row — an awkward, unintentional-looking stagger. Stacked vertically
+// instead (one full-width card per anchor) so there's no cross-card row
+// to misalign in the first place; each card arranges its own question and
+// numbers side by side internally to still use the available width.
 export default function LifeAnchorCards({ metrics }: { metrics: Metric[] }) {
   const anchors = metrics.filter((m) => m.type === "anchor" && m.published && m.day0_avg !== null && m.week10_avg !== null);
   if (anchors.length === 0) return null;
 
   return (
-    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div className="mt-4 space-y-4">
       {anchors.map((m) => (
         <AnchorCard key={m.key} metric={m} />
       ))}
