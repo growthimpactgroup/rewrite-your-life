@@ -30,7 +30,7 @@ function DotRow({ metric }: { metric: Metric }) {
       <h3 className="text-2xl font-bold text-ink">{metric.label}</h3>
       {description && <p className="mt-1 text-base text-muted">{description.what}</p>}
 
-      <div className="relative mt-4 mb-4 h-4 w-full">
+      <div className="relative mt-4 h-4 w-full">
         <div className="absolute top-1/2 right-0 left-0 h-px -translate-y-1/2 bg-border" />
         <div
           className={`absolute top-1/2 h-0.5 -translate-y-1/2 ${declined ? "bg-red-400" : "bg-accent/50"}`}
@@ -44,6 +44,15 @@ function DotRow({ metric }: { metric: Metric }) {
           className={`absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full ${declined ? "bg-red-500" : "bg-accent"}`}
           style={{ left: `${week10}%` }}
         />
+      </div>
+      {/* 2026-08-26, at Frances's request: labels directly on the line so
+          it reads immediately as a 0-100% progress/scale line, not just a
+          decorative bar — rather than relying on the reader to find the
+          footer note lower down. */}
+      <div className="mt-1 mb-4 flex justify-between font-mono text-xs text-muted">
+        <span>0%</span>
+        <span>50%</span>
+        <span>100%</span>
       </div>
 
       <p className={`text-lg font-bold ${declined ? "text-red-600" : "text-emerald-700"}`}>
