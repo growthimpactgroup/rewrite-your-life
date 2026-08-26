@@ -5,7 +5,7 @@
 // for anyone who wants the complete picture; this is the fast version.
 export default function VerifyStrip() {
   return (
-    <div className="border-b border-border bg-[#0f1420] px-6 py-8 font-mono text-sm text-slate-200 sm:px-10">
+    <div className="border-b border-border bg-[#0f1420] px-6 py-8 font-mono text-base text-slate-200 sm:px-10">
       <p className="leading-relaxed">
         <span className="font-bold text-white">Don&apos;t trust this page — check it.</span> Every
         number above can be recomputed from the{" "}

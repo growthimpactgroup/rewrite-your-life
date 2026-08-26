@@ -82,13 +82,13 @@ export default function DotPlot({
           </div>
         ))}
       </div>
-      <div className="relative mt-2 h-4 text-center font-mono text-xs font-semibold text-muted">
+      <div className="relative mt-2 h-4 text-center font-mono text-sm font-semibold text-muted">
         <span className="absolute -translate-x-1/2" style={{ left: `${zeroLineLeft}%` }}>
           no change
         </span>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-4 font-mono text-sm">
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-4 font-mono text-base">
         <span className="inline-flex items-center gap-2">
           <span className="h-3 w-3 rounded-full bg-emerald-600" />
           Improved (+5 pts or more) — {pct_improved}%
@@ -103,7 +103,7 @@ export default function DotPlot({
         </span>
       </div>
 
-      <p className="mt-4 max-w-2xl leading-relaxed text-ink/90">
+      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink/90">
         One dot per person: their average score across all nine domains, Week 10 minus Day 0, in
         points. The typical finisher moved{" "}
         <span className="font-bold text-ink">

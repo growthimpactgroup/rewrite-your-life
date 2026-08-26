@@ -19,14 +19,14 @@ function AnchorChain({ anchors }: { anchors: Anchor[] }) {
       {anchors.map((a) => (
         <div key={a.date} className="relative rounded-lg border border-border bg-card p-5">
           <span className="absolute top-6 -left-8 h-3.5 w-3.5 rounded-full border-2 border-ink bg-card" aria-hidden />
-          <p className="font-mono text-xs font-bold tracking-widest text-ink uppercase">
+          <p className="font-mono text-sm font-bold tracking-widest text-ink uppercase">
             Anchored {formatDate(a.date)} · {a.row_count} rows
           </p>
-          <p className="mt-2 font-mono text-xs break-all text-muted">SHA-256 {a.sha256}</p>
-          <a href={`/proofs/${a.file}`} className="mt-2 inline-block font-mono text-xs text-primary underline">
+          <p className="mt-2 font-mono text-sm break-all text-muted">SHA-256 {a.sha256}</p>
+          <a href={`/proofs/${a.file}`} className="mt-2 inline-block font-mono text-sm text-primary underline">
             Download proof file (.ots)
           </a>{" "}
-          <span className="font-mono text-xs text-muted">— verify against the public OpenTimestamps calendars</span>
+          <span className="font-mono text-sm text-muted">— verify against the public OpenTimestamps calendars</span>
         </div>
       ))}
     </div>
@@ -49,10 +49,10 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
         <AnchorChain anchors={anchors} />
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-1">
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-border bg-card p-5">
           <p className="text-lg font-bold text-ink">The Frozen Instrument</p>
-          <p className="mt-2 text-ink/90">
+          <p className="mt-2 text-base text-ink/90">
             The exact 27 questions, locked since the first submission. Changing a word would break
             the before/after, so no word changes.{" "}
             <a href="/instrument" className="text-primary underline">
@@ -64,7 +64,7 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
 
         <div className="rounded-lg border border-border bg-card p-5">
           <p className="text-lg font-bold text-ink">The Group Data</p>
-          <p className="mt-2 text-ink/90">
+          <p className="mt-2 text-base text-ink/90">
             The anonymized table behind this page, downloadable. Recompute every number on this page
             yourself.{" "}
             <a href="/aggregates.csv" className="text-primary underline">
@@ -79,7 +79,7 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
 
         <div className="rounded-lg border border-border bg-card p-5">
           <p className="text-lg font-bold text-ink">What Is Never Published</p>
-          <p className="mt-2 text-ink/90">
+          <p className="mt-2 text-base text-ink/90">
             Individual answers. Ever. Email addresses are stored solely to match a person&apos;s Day 0
             map to their Week 10 map — the system has no ability to send mail of any kind.
           </p>

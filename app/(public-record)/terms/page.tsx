@@ -28,7 +28,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function TermsPage() {
   return (
-    <main className="mx-auto min-h-screen max-w-3xl bg-surface">
+    <main className="mx-auto min-h-screen max-w-6xl bg-surface">
       <header className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
         <p className="font-mono text-xs font-medium tracking-widest text-muted uppercase">
           Growth Impact Group · Public Outcome Record

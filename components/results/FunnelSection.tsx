@@ -21,7 +21,7 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
         {stats.map((s) => (
           <div key={s.label} className="bg-card px-5 py-6">
             <div className="text-3xl font-bold text-ink sm:text-4xl">{s.value}</div>
-            <div className="mt-1 font-mono text-xs text-muted">{s.label}</div>
+            <div className="mt-1 font-mono text-sm text-muted">{s.label}</div>
           </div>
         ))}
       </div>

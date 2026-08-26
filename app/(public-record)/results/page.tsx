@@ -37,7 +37,7 @@ export default async function ResultsPage() {
 
   if (!aggregates) {
     return (
-      <main className="mx-auto min-h-screen max-w-3xl bg-surface">
+      <main className="mx-auto min-h-screen max-w-6xl bg-surface">
         <SampleBanner />
         <Header measuredSince={null} computedAt={new Date().toISOString()} latestAnchor={null} />
         <section className="px-6 py-10 sm:px-10">
@@ -52,7 +52,7 @@ export default async function ResultsPage() {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl bg-surface">
+    <main className="mx-auto min-h-screen max-w-6xl bg-surface">
       <ResultsPageBody aggregates={aggregates} anchors={anchors} latestAnchor={latestAnchor} includeJsonLd />
     </main>
   );

@@ -14,18 +14,18 @@ export default function WithheldPanel({
 
   return (
     <div className="rounded-lg border border-dashed border-border bg-card px-6 py-10 text-center">
-      <p className="font-mono text-xs font-semibold tracking-widest text-primary uppercase">
+      <p className="font-mono text-sm font-semibold tracking-widest text-primary uppercase">
         Withheld · Privacy threshold
       </p>
-      <p className="mt-3 text-xl text-ink">{headline}</p>
-      <p className="mx-auto mt-3 max-w-md text-sm text-ink/80">
+      <p className="mt-3 text-2xl font-bold text-ink">{headline}</p>
+      <p className="mx-auto mt-3 max-w-md text-base text-ink/80">
         Below that, group averages can expose an individual. Every measure is computed nightly and
         stored — it is simply not shown until the threshold is met.
       </p>
       <div className="mx-auto mt-6 h-3 max-w-md overflow-hidden rounded-sm border border-ink/20 bg-surface">
         <div className="h-full bg-primary" style={{ width: `${pct}%` }} />
       </div>
-      <div className="mx-auto mt-2 flex max-w-md justify-between font-mono text-xs text-muted">
+      <div className="mx-auto mt-2 flex max-w-md justify-between font-mono text-sm font-semibold text-muted">
         <span>{nSoFar} finished so far</span>
         <span>publishes at {PUBLISH_THRESHOLD}</span>
       </div>

@@ -8,8 +8,8 @@
 export default function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <>
-      <p className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">{eyebrow}</p>
-      <h2 className="mt-2 text-2xl font-bold text-ink sm:text-3xl">{title}</h2>
+      <p className="font-mono text-sm font-semibold tracking-widest text-muted uppercase">{eyebrow}</p>
+      <h2 className="mt-2 text-3xl font-bold text-ink sm:text-4xl">{title}</h2>
     </>
   );
 }

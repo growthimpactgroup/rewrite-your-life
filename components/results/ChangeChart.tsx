@@ -27,8 +27,8 @@ function DotRow({ metric }: { metric: Metric }) {
 
   return (
     <div className="py-6">
-      <h3 className="text-xl font-bold text-ink">{metric.label}</h3>
-      {description && <p className="mt-1 text-sm text-muted">{description.what}</p>}
+      <h3 className="text-2xl font-bold text-ink">{metric.label}</h3>
+      {description && <p className="mt-1 text-base text-muted">{description.what}</p>}
 
       <div className="relative mt-4 mb-4 h-4 w-full">
         <div className="absolute top-1/2 right-0 left-0 h-px -translate-y-1/2 bg-border" />
@@ -46,10 +46,10 @@ function DotRow({ metric }: { metric: Metric }) {
         />
       </div>
 
-      <p className={`font-semibold ${declined ? "text-red-600" : "text-emerald-700"}`}>
+      <p className={`text-lg font-bold ${declined ? "text-red-600" : "text-emerald-700"}`}>
         {formatPercentChange(day0, week10, metric.delta_pct)}
       </p>
-      {interpretation && <p className="mt-1 text-ink/80">{interpretation}</p>}
+      {interpretation && <p className="mt-1 text-base text-ink/80">{interpretation}</p>}
     </div>
   );
 }
@@ -65,7 +65,7 @@ function RowWithheld({ metric }: { metric: Metric }) {
   return (
     <div className="flex items-center justify-between py-4">
       <div className="font-semibold text-ink">{metric.label}</div>
-      <div className="font-mono text-xs text-muted">Withheld — average unavailable</div>
+      <div className="font-mono text-sm text-muted">Withheld — average unavailable</div>
     </div>
   );
 }
@@ -77,7 +77,7 @@ export default function ChangeChart({ metrics, nPairs }: { metrics: Metric[]; nP
 
   return (
     <div className="rounded-lg border border-border bg-card px-5 py-6 sm:px-8">
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-border pb-4 font-mono text-sm">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-border pb-4 font-mono text-base">
         <span className="inline-flex items-center gap-2">
           <span className="h-3 w-3 rounded-full border-2 border-accent bg-card" />
           <span className="font-semibold text-ink">Day 0 — where the group started</span>
@@ -97,7 +97,7 @@ export default function ChangeChart({ metrics, nPairs }: { metrics: Metric[]; nP
           ),
         )}
       </div>
-      <p className="mt-4 border-t border-border pt-4 font-mono text-xs text-muted">
+      <p className="mt-4 border-t border-border pt-4 font-mono text-sm text-muted">
         Scale: 0–100% of the maximum score. Group averages of the same {nPairs} people at both points.
         Declines, when they occur, render in red on this same axis.
       </p>

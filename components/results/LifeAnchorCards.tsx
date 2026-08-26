@@ -34,16 +34,16 @@ function AnchorCard({ metric }: { metric: Metric }) {
 
   return (
     <div className="rounded-lg border-t-4 border-accent bg-card px-6 py-6">
-      <p className="leading-relaxed text-ink/90 italic">&ldquo;{question?.text}&rdquo;</p>
-      <p className="mt-4 font-mono text-3xl font-bold text-ink">
+      <p className="text-lg leading-relaxed text-ink/90 italic">&ldquo;{question?.text}&rdquo;</p>
+      <p className="mt-4 font-mono text-4xl font-bold text-ink">
         {formatAnchorValue(day0)}
         <span className="mx-1 text-muted">→</span>
         <span className="text-accent">{formatAnchorValue(week10)}</span>
       </p>
-      <p className={`mt-2 font-mono text-sm font-bold ${delta < 0 ? "text-red-600" : "text-emerald-700"}`}>
+      <p className={`mt-2 font-mono text-base font-bold ${delta < 0 ? "text-red-600" : "text-emerald-700"}`}>
         {formatAnchorDelta(delta, metric.delta_pct, meta.deltaSuffix)}
       </p>
-      <p className="mt-1 font-mono text-xs text-muted">
+      <p className="mt-1 font-mono text-sm text-muted">
         {meta.unit} · group average · N = {metric.n}
       </p>
     </div>

@@ -21,7 +21,7 @@ export default function PreviewResultsPublishedPage() {
   const latestAnchor = getLatestAnchor();
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl bg-surface">
+    <main className="mx-auto min-h-screen max-w-6xl bg-surface">
       <PreviewBanner />
       <ResultsPageBody
         aggregates={aggregates}

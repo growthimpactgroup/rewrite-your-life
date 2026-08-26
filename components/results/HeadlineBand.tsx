@@ -63,7 +63,7 @@ export default function HeadlineBand({
             and {nRose} of {domainMetrics.length} measures rose. {declineClause}
           </p>
         )}
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-5 font-mono text-sm text-muted">
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-5 font-mono text-base text-muted">
           <span>
             <span className="font-semibold text-ink">{funnel.n_pairs} people</span> measured twice, ten weeks apart
           </span>
@@ -90,7 +90,7 @@ export default function HeadlineBand({
         10 assessment — not before.
       </p>
       <div className="mt-6 max-w-2xl rounded-lg border border-border bg-card px-6 py-5">
-        <p className="font-mono text-xs font-semibold tracking-widest text-accent uppercase">
+        <p className="font-mono text-sm font-semibold tracking-widest text-accent uppercase">
           Why nothing is published yet
         </p>
         <p className="mt-2 leading-relaxed text-ink/90">
