@@ -10,6 +10,9 @@ import type { PublicAggregates } from "@/lib/publicAggregates";
 // (same visual language as Item 6's fix to the domain rows): a plain
 // percentage and count for each of the three groups, computed from the
 // same real per-person deltas as before — nothing here is synthesized.
+// Later the same day: swapped the red/green traffic-light borders for the
+// theme-consistent pairing used across the page — primary blue for
+// Improved, a muted red-800 (not red-600) for Declined.
 function median(sortedAscending: number[]): number {
   if (sortedAscending.length === 0) return 0;
   const mid = Math.floor(sortedAscending.length / 2);
@@ -46,7 +49,7 @@ export default function DotPlot({
       pct: pct_improved,
       n: nImproved,
       detail: "gained 5 points or more",
-      border: "border-emerald-800",
+      border: "border-primary",
     },
     {
       label: "About the same",
@@ -60,7 +63,7 @@ export default function DotPlot({
       pct: pct_declined,
       n: n_declined,
       detail: "dropped 5 points or more",
-      border: "border-red-600",
+      border: "border-red-800",
     },
   ];
 

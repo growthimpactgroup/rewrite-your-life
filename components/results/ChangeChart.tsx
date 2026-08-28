@@ -18,6 +18,12 @@ import { DOMAIN_DESCRIPTIONS, interpretationFor } from "@/lib/domainDescriptions
 // bar, and the result is spelled out as one plain sentence naming the
 // domain ("People went from 35% to 82% in AI Orchestration — that's a
 // 135% increase.") rather than left for the reader to infer from a chart.
+//
+// Later the same day: dropped the traffic-light red/green pairing for a
+// theme-consistent one — the brand's own primary blue for an increase,
+// a muted, darker red (not the vivid red-600 warning color) for a
+// decrease. Same pairing used in LifeAnchorCards.tsx and DotPlot.tsx so
+// the whole page reads as one system.
 
 function DotRow({ metric }: { metric: Metric }) {
   const day0 = metric.day0_avg as number;
@@ -38,11 +44,11 @@ function DotRow({ metric }: { metric: Metric }) {
         </div>
         <div className="rounded-lg border border-border bg-surface px-5 py-4">
           <div className="font-mono text-xs font-semibold tracking-widest text-muted uppercase">Week 10</div>
-          <div className={`mt-1 text-4xl font-bold ${declined ? "text-red-600" : "text-accent"}`}>{week10}%</div>
+          <div className={`mt-1 text-4xl font-bold ${declined ? "text-red-800" : "text-primary"}`}>{week10}%</div>
         </div>
       </div>
 
-      <p className={`mt-4 text-lg font-bold ${declined ? "text-red-600" : "text-emerald-800"}`}>
+      <p className={`mt-4 text-lg font-bold ${declined ? "text-red-800" : "text-primary"}`}>
         {formatDomainChangeSentence(metric.label, day0, week10, metric.delta_pct)}
       </p>
       {interpretation && <p className="mt-1 text-base text-ink/80">{interpretation}</p>}
