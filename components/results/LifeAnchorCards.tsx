@@ -33,15 +33,19 @@ function AnchorCard({ metric }: { metric: Metric }) {
         <p className="font-mono text-4xl font-bold text-ink">
           {formatAnchorValue(day0)}
           <span className="mx-1 text-muted">→</span>
-          <span className={declined ? "text-red-800" : "text-primary"}>{formatAnchorValue(week10)}</span>
+          <span className={declined ? "text-red-800 dark:text-red-300" : "text-emerald-800 dark:text-emerald-300"}>
+            {formatAnchorValue(week10)}
+          </span>
         </p>
         {/* 2026-08-28, Jeff/Frances review call — Item 8: spell the change
             out in a full sentence, same pattern as the domain rows,
             instead of a compact "+4.2 (+114%)" badge. Later the same day:
-            switched off the red/green traffic-light pairing — the brand's
-            primary blue for an increase, a muted red-800 (not red-600) for
-            a decrease — same pairing as ChangeChart.tsx and DotPlot.tsx. */}
-        <p className={`mt-2 text-lg font-bold ${declined ? "text-red-800" : "text-primary"}`}>
+            green/red for increase/decrease, tuned per theme — emerald-800/
+            red-800 in light mode, emerald-300/red-300 (pastel) in dark
+            mode, since the 800-weight colors don't hold up against the
+            dark backgrounds — same pairing as ChangeChart.tsx and
+            DotPlot.tsx. */}
+        <p className={`mt-2 text-lg font-bold ${declined ? "text-red-800 dark:text-red-300" : "text-emerald-800 dark:text-emerald-300"}`}>
           {formatAnchorChangeSentence(metric.delta_pct)}
         </p>
         <p className="mt-1 font-mono text-sm text-muted">
