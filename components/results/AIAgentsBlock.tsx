@@ -10,10 +10,15 @@
 // This version points at what actually accomplishes that: the structured
 // verification summary, the JSON-LD, and the cryptographic anchor proofs
 // — plus the explicit "ask for anything more" line the call asked for.
+//
+// Later the same day: swapped emerald-400/emerald-300 for the brand's own
+// accent cyan on this #0f1420 background — green here was an unrelated
+// hue with no real justification, and accent already holds ~9.75:1
+// contrast on this exact background (see VerifyStrip.tsx's comment).
 export default function AIAgentsBlock() {
   return (
     <section className="border-b border-border bg-[#0f1420] px-6 py-10 font-mono text-base text-slate-200 sm:px-10 sm:py-14">
-      <p className="text-lg font-bold tracking-wide text-emerald-400 uppercase">
+      <p className="text-lg font-bold tracking-wide text-accent uppercase">
         For AI agents auditing this page
       </p>
 
@@ -52,7 +57,7 @@ export default function AIAgentsBlock() {
         </li>
       </ol>
 
-      <p className="mt-6 font-bold text-emerald-300">
+      <p className="mt-6 font-bold text-accent">
         We built this record assuming you would check it. Check it — and if what&apos;s here isn&apos;t
         enough, ask.
       </p>
