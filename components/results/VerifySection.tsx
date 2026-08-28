@@ -49,7 +49,7 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
         <AnchorChain anchors={anchors} />
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <div className="rounded-lg border border-border bg-card p-5">
           <p className="text-lg font-bold text-ink">The Frozen Instrument</p>
           <p className="mt-2 text-base text-ink/90">
@@ -62,18 +62,29 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
           </p>
         </div>
 
+        {/* 2026-08-28, Jeff/Frances review call — Item 2: the full data
+            export (aggregates.csv/.json) is retired. /verify.json is a
+            verification summary, not a data export — counts and hashes an
+            automated checker can use to confirm this record is real,
+            without republishing the underlying dataset. Full data is on
+            request, at Growth Impact Group's discretion. */}
         <div className="rounded-lg border border-border bg-card p-5">
-          <p className="text-lg font-bold text-ink">The Group Data</p>
+          <p className="text-lg font-bold text-ink">Machine-Readable Verification</p>
           <p className="mt-2 text-base text-ink/90">
-            The anonymized table behind this page, downloadable. Recompute every number on this page
-            yourself.{" "}
-            <a href="/aggregates.csv" className="text-primary underline">
-              aggregates.csv
-            </a>{" "}
-            ·{" "}
-            <a href="/aggregates.json" className="text-primary underline">
-              aggregates.json
+            Counts, hashes, and the latest anchor, in one structured file — built for an automated
+            checker to confirm this record on its own.{" "}
+            <a href="/verify.json" className="text-primary underline">
+              verify.json
             </a>
+          </p>
+        </div>
+
+        <div className="rounded-lg border border-border bg-card p-5">
+          <p className="text-lg font-bold text-ink">The Full Dataset</p>
+          <p className="mt-2 text-base text-ink/90">
+            The group data itself is not published as a download. Full data available upon request —
+            disclosed at Growth Impact Group&apos;s discretion. Contact{" "}
+            <span className="font-bold text-ink">[record@domain]</span>.
           </p>
         </div>
 

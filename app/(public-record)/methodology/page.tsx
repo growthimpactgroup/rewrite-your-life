@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
 import { getPublicAggregates, isLaunched } from "@/lib/publicAggregates";
-import { PUBLISH_THRESHOLD } from "@/lib/publishThreshold";
 
 // Change Order 01, Phase 5 — where the statistics vocabulary that used to
 // live on the results page itself now lives. Same noindex-until-launch
 // gate as /results and /instrument.
+//
+// 2026-08-28, Jeff/Frances review call — Item 2: trimmed from a full
+// computation spec (exact reverse-scoring formula, the numeric privacy
+// threshold, the exact straight-line detection rule) down to a
+// plain-language summary. Jeff's instruction was minimum information
+// necessary — a reader should understand HOW figures are computed
+// conceptually, not have the exact rules to reproduce or game them. The
+// detailed spec still exists internally; it's available on request, same
+// as the full dataset (see /results' verification section).
 export const revalidate = false;
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -12,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Methodology — Rewrite Your Life | Growth Impact Group",
     description:
-      "How the Rewrite Your Life Public Outcome Record is computed: who counts as eligible, how matched pairs are formed, and what the privacy threshold protects.",
+      "A plain-language summary of how the Rewrite Your Life Public Outcome Record is computed: who counts as eligible, how matched pairs are formed, and how domain scores work.",
     robots: isLaunched(aggregates) ? { index: true, follow: true } : { index: false, follow: false },
   };
 }
@@ -35,9 +43,9 @@ export default function MethodologyPage() {
         </p>
         <h1 className="mt-3 text-4xl font-bold text-ink">Methodology</h1>
         <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
-          The statistics vocabulary behind the results page, written out in full so the main page can
-          stay in plain language. Every definition here is the exact rule the nightly build runs — not
-          a simplification of it.
+          A plain-language summary of the statistics vocabulary behind the results page — what a
+          matched pair is, how domain scores work, what gets excluded. This is a summary, not the
+          full computation spec; that level of detail is available on request.
         </p>
       </header>
 
@@ -69,34 +77,19 @@ export default function MethodologyPage() {
           Each of the nine behavioral domains is scored from its two questions per submission, as a
           percentage of the maximum possible score (0–100%). A domain&apos;s Day 0 or Week 10 average
           on the results page is the group mean of that percentage across everyone in a matched pair,
-          at that time point.
-        </p>
-        <p>
-          Two items (Frame Control&apos;s second question and Presence&apos;s second question) are
-          reverse-scored: the question is worded so that a higher raw answer means less of the trait,
-          so the domain formula uses ten minus the raw answer for that item instead of the raw answer
-          itself. Every other item is used as answered.
-        </p>
-      </Section>
-
-      <Section title="The privacy threshold">
-        <p>
-          No measure — no domain score, no life-anchor value, no distribution, no per-person dot —
-          publishes anywhere (page, downloadable data, or structured data) until {PUBLISH_THRESHOLD}{" "}
-          matched pairs exist. Below that, a group average is small enough that it could expose an
-          individual&apos;s own answers. Every measure is still computed and stored nightly regardless
-          — it simply isn&apos;t shown until the threshold is met, and nothing about which measures
-          happen to cross first is selected or filtered.
+          at that time point. A couple of items are worded in the opposite direction on purpose, and
+          scored accordingly, so a higher raw answer always means more of the trait in the final
+          percentage.
         </p>
       </Section>
 
       <Section title="Improved, about the same, declined">
         <p>
           For each finished pair, we take that person&apos;s own average change across the nine domain
-          scores, Week 10 minus Day 0, in points. A person is counted as improved at +5 points or more,
-          declined at −5 points or more, and about the same in between. The dot plot on the results page
-          shows one dot per person at their own value — never an average that could hide who moved which
-          way.
+          scores, Week 10 minus Day 0. A person is counted as improved, declined, or about the same
+          based on the size of that change — see the distribution section of the results page for the
+          exact breakdown. Every finisher is shown, not just an average that could hide who moved
+          which way.
         </p>
       </Section>
 
@@ -111,12 +104,12 @@ export default function MethodologyPage() {
         </p>
       </Section>
 
-      <Section title="Straight-line exclusion">
+      <Section title="Low-effort answers">
         <p>
-          A submission where someone gave the same answer across ten or more consecutive items,
-          including at least one reverse-worded item, is excluded from every aggregate figure on this
-          site. The raw submission itself is never altered or deleted — it stays in the permanent
-          record, just outside the group calculations.
+          A submission that shows a clear pattern of low-effort, same-answer clicking is excluded from
+          every aggregate figure on this site. The raw submission itself is never altered or
+          deleted — it stays in the permanent record, just outside the group calculations. The exact
+          detection rule isn&apos;t published, so it can&apos;t be gamed.
         </p>
       </Section>
 
@@ -125,6 +118,20 @@ export default function MethodologyPage() {
           Individual answers, ever. Email addresses exist solely to match a person&apos;s Day 0
           submission to their Week 10 submission and are never shown, exported, or used to contact
           anyone.
+        </p>
+      </Section>
+
+      <Section title="Full detail, on request">
+        <p>
+          This page covers the concepts, not the exact formulas, thresholds, and edge-case rules the
+          nightly build runs — that level of detail, along with the underlying dataset itself, is
+          available on request, at Growth Impact Group&apos;s discretion. Contact{" "}
+          <span className="font-bold text-ink">[record@domain]</span>. For automated verification
+          without contacting us, see{" "}
+          <a href="/verify.json" className="text-primary underline">
+            /verify.json
+          </a>
+          .
         </p>
       </Section>
 

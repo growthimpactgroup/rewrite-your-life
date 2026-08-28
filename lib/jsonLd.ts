@@ -1,50 +1,53 @@
 import type { PublicAggregates } from "./publicAggregates";
 import { getLatestAnchor } from "./anchors";
 import { INSTRUMENT_SHA256 } from "./instrument";
-import { PUBLISH_THRESHOLD } from "./publishThreshold";
 
 // schema.org Dataset JSON-LD (Exhibit G: "this page embeds schema.org
 // Dataset JSON-LD — view source"). Built from the exact same PublicAggregates
 // object the visible page renders, so the two can never disagree.
+//
+// 2026-08-28, Jeff/Frances review call — Item 2: this used to list every
+// domain's day0/week10/delta figures as a `variableMeasured` array — a
+// clean, structured, bulk-liftable copy of the exact same full metrics
+// table /aggregates.json used to serve. Removing the JSON download but
+// leaving an equivalent structured blob here would just be the same leak
+// under a different name. This now sticks to what the call's "AI can
+// independently confirm it's bona fide" requirement actually needs:
+// authenticity metadata (the anchor hash, the instrument hash, a pointer
+// to /verify.json) — not the outcome figures themselves. A reader still
+// gets those from the page's own prose, same as any human visitor.
 export function buildResultsJsonLd(aggregates: PublicAggregates, resultsUrl: string) {
   const latestAnchor = getLatestAnchor();
+  const origin = new URL(resultsUrl).origin;
+
+  const additionalProperty = [
+    { "@type": "PropertyValue", name: "Verification endpoint", value: `${origin}/verify.json` },
+    ...(latestAnchor
+      ? [
+          {
+            "@type": "PropertyValue",
+            name: "Latest cryptographic anchor",
+            value: `${latestAnchor.date} — SHA-256 ${latestAnchor.sha256}`,
+          },
+        ]
+      : []),
+  ];
 
   return {
     "@context": "https://schema.org",
     "@type": "Dataset",
     name: "Rewrite Your Life — Public Outcome Record",
     description:
-      "Aggregate Day 0 to Week 10 outcome data for the Rewrite Your Life program, updated nightly from raw participant submissions.",
+      "Nine trainable behavioral domains and three life-anchor measures, tracked Day 0 to Week 10 for participants who complete the Rewrite Your Life program. Published figures are group summary statistics, updated nightly.",
     url: resultsUrl,
     dateModified: aggregates.computed_at,
     temporalCoverage: aggregates.measured_since
       ? `${aggregates.measured_since}/${aggregates.computed_at}`
       : undefined,
-    distribution: [
-      { "@type": "DataDownload", encodingFormat: "application/json", contentUrl: "/aggregates.json" },
-      { "@type": "DataDownload", encodingFormat: "text/csv", contentUrl: "/aggregates.csv" },
-    ],
-    // metrics[].day0_avg/week10_avg/delta_pts/delta_pct are already scrubbed
-    // to null when unpublished at the source (getPublicAggregates) — no
-    // separate published check needed here, it's structurally impossible
-    // for this to leak a below-threshold figure.
-    variableMeasured: aggregates.metrics.map((m) => ({
-      "@type": "PropertyValue",
-      name: m.label,
-      value: m.week10_avg,
-      description: m.published
-        ? `Day 0: ${m.day0_avg}, Week 10: ${m.week10_avg}, change: ${m.delta_pts} pts (${m.delta_pct}%), n=${m.n}`
-        : `Collecting — publishes at ${PUBLISH_THRESHOLD} matched pairs (currently n=${m.n})`,
-    })),
-    ...(latestAnchor
-      ? {
-          additionalProperty: {
-            "@type": "PropertyValue",
-            name: "Latest cryptographic anchor",
-            value: `${latestAnchor.date} — SHA-256 ${latestAnchor.sha256}`,
-          },
-        }
-      : {}),
+    isAccessibleForFree: false,
+    conditionsOfAccess:
+      "Full underlying data and the detailed scoring methodology are disclosed at Growth Impact Group's discretion. Contact [record@domain].",
+    additionalProperty,
     isBasedOn: {
       "@type": "CreativeWork",
       name: "Frozen assessment instrument (27 items)",

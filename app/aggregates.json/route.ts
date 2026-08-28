@@ -1,26 +1,22 @@
 import { NextResponse } from "next/server";
-import { getPublicAggregates } from "@/lib/publicAggregates";
 
-// Cached indefinitely (no per-request DB query) until the nightly job calls
-// revalidatePath('/aggregates.json') — see app/api/cron/nightly/route.ts.
-// Identical figures to the /results page and /aggregates.csv, always: all
-// three read from the same public_aggregates row via the same helper.
+// 2026-08-28, Jeff/Frances review call — Item 2: retired. This used to
+// return the full metrics table and the raw person_deltas array (one
+// value per finished pair) — everything needed to reconstruct the
+// underlying dataset. Jeff's instruction was to stop offering that as a
+// free download; /verify.json is the new minimal, structured endpoint,
+// scoped to counts and cryptographic proof rather than outcome data.
+// Kept as a 410 (not a bare 404) so anything that had this URL bookmarked
+// or linked gets an explanation instead of a silent failure.
 export const revalidate = false;
 
 export async function GET() {
-  try {
-    const aggregates = await getPublicAggregates("ryl");
-
-    if (!aggregates) {
-      return NextResponse.json(
-        { status: "collecting", message: "The nightly build has not run yet." },
-        { status: 200 },
-      );
-    }
-
-    return NextResponse.json(aggregates);
-  } catch (err) {
-    console.error("aggregates.json route error", err);
-    return NextResponse.json({ error: "Could not load aggregates." }, { status: 500 });
-  }
+  return NextResponse.json(
+    {
+      status: "retired",
+      message:
+        "This endpoint no longer publishes the full dataset. See /verify.json for structured verification data, or /results for the published figures. Full underlying data is available on request, at Growth Impact Group's discretion — contact [record@domain].",
+    },
+    { status: 410 },
+  );
 }

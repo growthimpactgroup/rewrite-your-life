@@ -10,10 +10,14 @@ import { getSupabaseServerClient } from "@/lib/supabaseServer";
 //   curl -H "Authorization: Bearer $CRON_SECRET" https://<deployment>/api/cron/nightly
 //
 // Failure behavior is load-bearing: revalidatePath is only called on
-// success, so a failure here leaves yesterday's /aggregates.json,
-// /aggregates.csv, and /results build serving untouched — never a broken or
-// partial state. Loud failures (console.error, visible in Vercel logs),
-// quiet success.
+// success, so a failure here leaves yesterday's /verify.json and /results
+// build serving untouched — never a broken or partial state. Loud
+// failures (console.error, visible in Vercel logs), quiet success.
+//
+// 2026-08-28, Jeff/Frances review call — Item 2: /aggregates.json and
+// /aggregates.csv are retired (now static 410s, nothing to revalidate);
+// /verify.json replaces them as the thing that needs a fresh build each
+// night.
 export const dynamic = "force-dynamic";
 
 const COURSE = "ryl";
@@ -52,8 +56,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Refresh succeeded but verification read failed." }, { status: 500 });
     }
 
-    revalidatePath("/aggregates.json");
-    revalidatePath("/aggregates.csv");
+    revalidatePath("/verify.json");
     revalidatePath("/results"); // no-op today — /results doesn't exist until Phase C
 
     return NextResponse.json({ ok: true, course: COURSE, ...row });

@@ -1,51 +1,16 @@
-import { getPublicAggregates, type Metric } from "@/lib/publicAggregates";
-
-// Same cache/revalidate model as /aggregates.json — see that file's comment.
+// 2026-08-28, Jeff/Frances review call — Item 2: retired, same reasoning
+// as app/aggregates.json/route.ts — see that file's comment. Kept as a
+// 410 rather than deleted so an existing link or bookmark gets an
+// explanation instead of a silent failure.
 export const revalidate = false;
 
-const HEADER = [
-  "metric_key",
-  "label",
-  "type",
-  "day0_avg",
-  "week10_avg",
-  "delta_pts",
-  "delta_pct",
-  "n",
-  "published",
-];
-
-function csvField(value: unknown): string {
-  const s = value === null || value === undefined ? "" : String(value);
-  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-}
-
-function toRow(m: Metric): string {
-  return [m.key, m.label, m.type, m.day0_avg, m.week10_avg, m.delta_pts, m.delta_pct, m.n, m.published]
-    .map(csvField)
-    .join(",");
-}
-
 export async function GET() {
-  let aggregates;
-  try {
-    aggregates = await getPublicAggregates("ryl");
-  } catch (err) {
-    console.error("aggregates.csv route error", err);
-    return new Response("error,could not load aggregates\n", {
-      status: 500,
-      headers: { "Content-Type": "text/csv; charset=utf-8" },
-    });
-  }
+  const message =
+    "status,message\n" +
+    `retired,"This endpoint no longer publishes the full dataset. See /verify.json for structured verification data, or /results for the published figures. Full underlying data is available on request, at Growth Impact Group's discretion -- contact [record@domain]."\n`;
 
-  const rows = aggregates ? aggregates.metrics.map(toRow) : [];
-
-  const csv = [HEADER.join(","), ...rows].join("\n") + "\n";
-
-  return new Response(csv, {
-    headers: {
-      "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'inline; filename="ryl-aggregates.csv"',
-    },
+  return new Response(message, {
+    status: 410,
+    headers: { "Content-Type": "text/csv; charset=utf-8" },
   });
 }
