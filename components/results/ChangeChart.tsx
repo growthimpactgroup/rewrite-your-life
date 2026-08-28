@@ -42,7 +42,7 @@ function DotRow({ metric }: { metric: Metric }) {
         </div>
       </div>
 
-      <p className={`mt-4 text-lg font-bold ${declined ? "text-red-600" : "text-emerald-700"}`}>
+      <p className={`mt-4 text-lg font-bold ${declined ? "text-red-600" : "text-emerald-800"}`}>
         {formatDomainChangeSentence(metric.label, day0, week10, metric.delta_pct)}
       </p>
       {interpretation && <p className="mt-1 text-base text-ink/80">{interpretation}</p>}

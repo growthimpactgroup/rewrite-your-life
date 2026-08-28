@@ -46,7 +46,7 @@ export default function DotPlot({
       pct: pct_improved,
       n: nImproved,
       detail: "gained 5 points or more",
-      border: "border-emerald-600",
+      border: "border-emerald-800",
     },
     {
       label: "About the same",

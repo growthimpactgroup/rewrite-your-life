@@ -38,7 +38,7 @@ function AnchorCard({ metric }: { metric: Metric }) {
         {/* 2026-08-28, Jeff/Frances review call — Item 8: spell the change
             out in a full sentence, same pattern as the domain rows,
             instead of a compact "+4.2 (+114%)" badge. */}
-        <p className={`mt-2 text-lg font-bold ${declined ? "text-red-600" : "text-emerald-700"}`}>
+        <p className={`mt-2 text-lg font-bold ${declined ? "text-red-600" : "text-emerald-800"}`}>
           {formatAnchorChangeSentence(metric.delta_pct)}
         </p>
         <p className="mt-1 font-mono text-sm text-muted">
