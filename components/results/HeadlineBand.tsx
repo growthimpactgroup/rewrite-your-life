@@ -54,7 +54,8 @@ export default function HeadlineBand({
     return (
       <section data-theme="dark" className="border-b border-border bg-surface px-6 py-12 sm:px-10 sm:py-16">
         <p className="text-4xl leading-tight font-bold text-ink sm:text-5xl">
-          {distribution.pct_improved}% of finishers <span className="text-accent">improved</span>
+          {distribution.pct_improved}% of finishers <span className="text-accent">improved</span> over 10
+          weeks
         </p>
         {typical && (
           <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">

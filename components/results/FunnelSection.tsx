@@ -14,8 +14,22 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
 
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
-      <SectionHeading eyebrow="01 · The whole funnel" title="The Whole Funnel" />
-      <p className="mt-2 text-lg text-ink/90">Starting with the number most programs leave out.</p>
+      <SectionHeading eyebrow="01 · What the statistics are based on" title="What The Statistics Are Based On" />
+      {/* 2026-08-28, Jeff/Frances review call — Item 7: a plain-language walk
+          through how to read everything below, before any specific number
+          shows up — how many people were surveyed, what actually happened
+          to them, what statistics get generated from that, and what those
+          statistics mean. */}
+      <p className="mt-2 max-w-4xl text-lg leading-relaxed text-ink/90">
+        Here&apos;s how to read everything on this page.{" "}
+        <span className="font-bold text-ink">{funnel.total_submissions} people</span> have taken this
+        survey. Some are still partway through their ten weeks; some finished; some stopped attending.
+        Only the <span className="font-bold text-ink">{funnel.n_pairs}</span> people who finished all ten
+        weeks and were measured twice — once at the start, once at the end — get counted in the
+        statistics below. Those statistics are simply the group&apos;s own averages and how much they
+        moved. They show what happened for people who finished this program — not a guarantee of what
+        will happen for you.
+      </p>
 
       <div className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-5">
         {stats.map((s) => (
@@ -27,13 +41,11 @@ export default function FunnelSection({ funnel }: { funnel: PublicAggregates["fu
       </div>
 
       <p className="mt-6 max-w-4xl leading-relaxed text-ink/90">
-        <span className="font-bold text-ink">Read this before the numbers below.</span> The Day 0 →
-        Week 10 comparison covers only the <span className="font-bold text-ink">{funnel.n_pairs}</span>{" "}
-        people who finished all ten weeks and submitted both maps.{" "}
+        <span className="font-bold text-ink">One more thing worth knowing:</span>{" "}
         <span className="font-bold text-ink">{funnel.n_in_progress}</span> people are still inside their
-        ten weeks and are not counted for or against the completion rate. People who stopped attending are
-        counted above but cannot be measured at Week 10. Finishers are self-selected — weigh the
-        results accordingly.
+        ten weeks and aren&apos;t counted for or against the completion rate above. People who stopped
+        attending are counted in the total but can&apos;t be measured at Week 10. Finishers are
+        self-selected — weigh the results accordingly.
       </p>
     </section>
   );

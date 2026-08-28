@@ -1,6 +1,8 @@
 import type { PublicAggregates } from "@/lib/publicAggregates";
 import type { Anchor } from "@/lib/anchors";
 import { buildResultsJsonLd } from "@/lib/jsonLd";
+import { RESULTS_DISCLOSURE } from "@/lib/resultsCopy";
+import RedNotice from "@/components/RedNotice";
 import Header from "./Header";
 import HeadlineBand from "./HeadlineBand";
 import FunnelSection from "./FunnelSection";
@@ -56,6 +58,13 @@ export default function ResultsPageBody({
       <LimitationsSection nExcludedStraightline={aggregates.hygiene.n_excluded_straightline} />
       <VerifySection anchors={anchors} />
       <AIAgentsBlock />
+      {/* 2026-08-28, Jeff/Frances review call — Item 14: same red/boxed
+          education-only disclosure the survey's own results screen already
+          uses (components/RedNotice.tsx), applied here to this page's
+          closing section too. */}
+      <div className="border-b border-border px-6 py-10 sm:px-10">
+        <RedNotice>{RESULTS_DISCLOSURE}</RedNotice>
+      </div>
       <ResultsFooter />
     </>
   );

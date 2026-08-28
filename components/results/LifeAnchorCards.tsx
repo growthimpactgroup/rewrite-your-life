@@ -1,6 +1,6 @@
 import type { Metric } from "@/lib/publicAggregates";
 import { QUESTIONS } from "@/lib/questions";
-import { formatAnchorValue } from "./format";
+import { formatAnchorValue, formatAnchorChangeSentence } from "./format";
 
 // Change Order 01, Phase 4 — three cards, one per life-anchor question, in
 // everyday units rather than the 0-10 response scale. Two of the three
@@ -13,24 +13,18 @@ import { formatAnchorValue } from "./format";
 // unit; delta_pct is unaffected (a ratio is scale-invariant), so only
 // day0/week10/delta_pts need the conversion, done once here at display time
 // rather than duplicating it into the SQL aggregate.
-const ANCHOR_META: Record<string, { questionId: number; unit: string; scale: number; deltaSuffix: string }> = {
-  life_satisfaction: { questionId: 19, unit: "out of 10", scale: 1, deltaSuffix: "" },
-  mornings_with_priority: { questionId: 20, unit: "out of 14", scale: 1.4, deltaSuffix: "mornings" },
-  confidence_next_12mo: { questionId: 21, unit: "out of 10", scale: 1, deltaSuffix: "" },
+const ANCHOR_META: Record<string, { questionId: number; unit: string; scale: number }> = {
+  life_satisfaction: { questionId: 19, unit: "out of 10", scale: 1 },
+  mornings_with_priority: { questionId: 20, unit: "out of 14", scale: 1.4 },
+  confidence_next_12mo: { questionId: 21, unit: "out of 10", scale: 1 },
 };
-
-function formatAnchorDelta(delta: number, deltaPct: number | null, suffix: string): string {
-  const sign = delta >= 0 ? "+" : "";
-  const base = `${sign}${delta}${suffix ? ` ${suffix}` : ""}`;
-  return deltaPct === null ? base : `${base} (${deltaPct >= 0 ? "+" : ""}${deltaPct}%)`;
-}
 
 function AnchorCard({ metric }: { metric: Metric }) {
   const meta = ANCHOR_META[metric.key];
   const question = QUESTIONS.find((q) => q.id === meta.questionId);
   const day0 = (metric.day0_avg as number) * meta.scale;
   const week10 = (metric.week10_avg as number) * meta.scale;
-  const delta = Math.round((week10 - day0) * 10) / 10;
+  const declined = week10 < day0;
 
   return (
     <div className="rounded-lg border-t-4 border-accent bg-card px-6 py-6 sm:flex sm:items-center sm:justify-between sm:gap-8">
@@ -41,8 +35,11 @@ function AnchorCard({ metric }: { metric: Metric }) {
           <span className="mx-1 text-muted">→</span>
           <span className="text-accent">{formatAnchorValue(week10)}</span>
         </p>
-        <p className={`mt-2 font-mono text-base font-bold ${delta < 0 ? "text-red-600" : "text-emerald-700"}`}>
-          {formatAnchorDelta(delta, metric.delta_pct, meta.deltaSuffix)}
+        {/* 2026-08-28, Jeff/Frances review call — Item 8: spell the change
+            out in a full sentence, same pattern as the domain rows,
+            instead of a compact "+4.2 (+114%)" badge. */}
+        <p className={`mt-2 text-lg font-bold ${declined ? "text-red-600" : "text-emerald-700"}`}>
+          {formatAnchorChangeSentence(metric.delta_pct)}
         </p>
         <p className="mt-1 font-mono text-sm text-muted">
           {meta.unit} · group average · N = {metric.n}

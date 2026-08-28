@@ -31,7 +31,7 @@ export default function TermsPage() {
     <main className="mx-auto min-h-screen max-w-6xl bg-surface">
       <header className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
         <p className="font-mono text-xs font-medium tracking-widest text-muted uppercase">
-          Growth Impact Group · Public Outcome Record
+          Public Outcome Record
         </p>
         <h1 className="mt-3 text-4xl font-bold text-ink">Terms of Use</h1>
       </header>

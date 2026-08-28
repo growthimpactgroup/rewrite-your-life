@@ -38,6 +38,29 @@ export function formatPercentChange(day0: number, week10: number, deltaPct: numb
   return `${base} — ${articleFor(abs)} ${abs}% ${direction}.`;
 }
 
+// 2026-08-28, Jeff/Frances review call — Item 5: each domain's result
+// spelled out as one plain sentence naming the domain, e.g. "People went
+// from 35% to 82% in AI Orchestration — that's a 135% increase."
+export function formatDomainChangeSentence(label: string, day0: number, week10: number, deltaPct: number | null): string {
+  const base = `People went from ${day0}% to ${week10}% in ${label}`;
+  if (deltaPct === null) return `${base}.`;
+  if (deltaPct === 0) return `${base} — that's no change.`;
+  const abs = Math.abs(deltaPct);
+  const direction = deltaPct > 0 ? "increase" : "decrease";
+  return `${base} — that's ${articleFor(abs)} ${abs}% ${direction}.`;
+}
+
+// Same call, Item 8 — the life-anchor cards get the same spelled-out
+// treatment, with the timeframe stated explicitly since these three
+// numbers aren't on the shared 0-100% axis the domain rows use.
+export function formatAnchorChangeSentence(deltaPct: number | null): string {
+  if (deltaPct === null) return "";
+  if (deltaPct === 0) return "That's no change over 10 weeks.";
+  const abs = Math.abs(deltaPct);
+  const direction = deltaPct > 0 ? "increase" : "decrease";
+  return `That's ${articleFor(abs)} ${abs}% ${direction} over 10 weeks.`;
+}
+
 export function formatAnchorValue(n: number): string {
   return n.toFixed(1);
 }

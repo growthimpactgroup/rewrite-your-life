@@ -18,8 +18,13 @@
 // /terms, verbatim, as the most coherent reading that (a) inserts all six
 // blocks somewhere, (b) keeps item 2 byte-identical to Block 3 alone, and
 // (c) matches Target H exactly. Flagged for Grace in the Phase 8 report.
+// 2026-08-28, Jeff/Frances review call — Item 13: the "(Wyoming)"
+// legal-entity/location disclosure was dropped from Block 1 at Jeff's
+// explicit request ("no need to disclose it"). A deliberate, one-word
+// exception to this file's own "never reworded from Part Four" rule above
+// — every other word of the block is unchanged.
 export const BLOCK_1_ABOUT_THIS_RECORD =
-  "This page is published and maintained by Growth Impact Group, LLC (Wyoming), which owns the assessment instrument and the underlying dataset. Figures are group statistics only, recomputed nightly from participant submissions. No individual participant answer is ever published.";
+  "This page is published and maintained by Growth Impact Group, LLC, which owns the assessment instrument and the underlying dataset. Figures are group statistics only, recomputed nightly from participant submissions. No individual participant answer is ever published.";
 
 export const BLOCK_2_RESULTS_DISCLOSURE =
   "The figures on this page describe past participants who completed the program and submitted both assessments. They are not typical results, a guarantee, or a prediction of your outcome. The full distribution of results, including participants who did not improve, is published in section 03 above. Rewrite Your Life makes no income, earnings, or financial-outcome claims of any kind.";

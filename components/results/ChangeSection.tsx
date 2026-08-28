@@ -14,10 +14,10 @@ export default function ChangeSection({ metrics, nPairs }: { metrics: Metric[]; 
 
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
-      <SectionHeading eyebrow="02 · What moved in ten weeks" title="What Moved in Ten Weeks" />
+      <SectionHeading eyebrow="02 · What moved over 10 weeks" title="What Moved Over 10 Weeks" />
       <p className="mt-2 max-w-4xl text-lg text-ink/90">
-        The same people answered the same questions at Day 0 and again at Week 10. Each line runs
-        from where the group started (○ hollow) to where it finished (● solid) on a 0–100 scale.
+        The same people answered the same questions at Day 0 and again at Week 10. Each area below
+        shows the group&apos;s score at both points, and what changed.
       </p>
 
       <div className="mt-6">
