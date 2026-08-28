@@ -273,12 +273,14 @@ function TieList({ labels }: { labels: string[] }) {
   );
 }
 
+// Was a 13px muted-gray uppercase caption — read as a small label, not a
+// section header, next to 18px-bold row labels and 17px bucket banners
+// right below it. Bigger, bolder, full-strength ink color, and natural
+// title case (not all-caps, which stays "shouty" even at a bigger size)
+// so it actually reads as a header for "AI Orchestration" and "Where You
+// Stand" alike.
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mt-8 text-[13px] font-semibold tracking-wide text-muted uppercase">
-      {children}
-    </p>
-  );
+  return <h2 className="mt-9 text-[21px] font-bold text-ink">{children}</h2>;
 }
 
 // Jeff review call, 2026-08-11: "bold key phrases/headers to improve
@@ -740,6 +742,13 @@ export default function ResultsReportScreen({
             {DECLINE_RESULTS_NOTE}
           </p>
         )}
+
+        {/* 11. Same disclosure repeated at the very bottom of the page,
+            mirroring the PDF — which shows this exact statement on the
+            cover AND again in the footer, not just once at the top. */}
+        <div className="mt-6">
+          <RedNotice>{RESULTS_DISCLOSURE}</RedNotice>
+        </div>
       </div>
     </ScreenContainer>
   );
