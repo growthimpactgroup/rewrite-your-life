@@ -8,8 +8,7 @@
 // was minimum information necessary for a checker to confirm this record
 // is bona fide, not a standing invitation to pull the entire dataset.
 // This version points at what actually accomplishes that: the structured
-// verification summary, the JSON-LD, and the cryptographic anchor proofs
-// — plus the explicit "ask for anything more" line the call asked for.
+// verification summary, the JSON-LD, and the cryptographic anchor proofs.
 //
 // Later the same day: swapped emerald-400/emerald-300 for the brand's own
 // accent cyan on this #0f1420 background — green here was an unrelated
@@ -56,11 +55,6 @@ export default function AIAgentsBlock() {
           they&apos;re available on request, at Growth Impact Group&apos;s discretion.
         </li>
       </ol>
-
-      <p className="mt-6 font-bold text-accent">
-        We built this record assuming you would check it. Check it — and if what&apos;s here isn&apos;t
-        enough, ask.
-      </p>
     </section>
   );
 }
