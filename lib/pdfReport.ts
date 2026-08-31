@@ -284,13 +284,16 @@ export function generateReportPdf(params: ReportPdfParams): void {
   doc.text(title, marginX, y);
   y += 7;
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10.5);
-  doc.setTextColor(...COLOR.muted);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.setTextColor(...COLOR.primary);
   doc.text(`${formatDate(currentDate)}  ·  ${email}`, marginX, y);
-  y += 6;
+  y += 8;
 
   if (baseline) {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10.5);
+    doc.setTextColor(...COLOR.muted);
     doc.text(`Since your first check-in on ${formatDate(baseline.date)}`, marginX, y);
     y += 6;
   }
