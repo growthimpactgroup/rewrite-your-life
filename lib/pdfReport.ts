@@ -23,8 +23,6 @@ import { Phase, DECLINE_RESULTS_NOTE } from "./questions";
 import {
   OPENING_FRAME_LINES,
   UNMATCHED_RETAKE_NOTE,
-  SHAPE_TITLE_DEFAULT,
-  SHAPE_TITLE_WEEK10,
   WEEK10_SUBHEAD,
   selectHeadline,
   ANCHOR_LABELS,
@@ -314,11 +312,12 @@ export function generateReportPdf(params: ReportPdfParams): void {
   hr();
   y += 8;
 
-  // --- Your Shape — the personalized headline read, previously missing
-  // from the PDF entirely even though it's the single most personal
-  // sentence on the results screen. ---
+  // --- The personalized headline read, previously missing from the PDF
+  // entirely even though it's the single most personal sentence on the
+  // results screen. The "YOUR SHAPE" section label is gone; the
+  // last-test-taken line now carries that visual weight instead, bold and
+  // in the brand primary color so it isn't missed. ---
   const showWeek10Shape = !!baseline && phase === "week10";
-  const shapeTitleText = showWeek10Shape ? SHAPE_TITLE_WEEK10 : SHAPE_TITLE_DEFAULT;
   const elapsedTextPdf = baseline ? formatElapsed(baseline.date, currentDate) : null;
   const subheadLinePdf = !baseline
     ? null
@@ -327,9 +326,8 @@ export function generateReportPdf(params: ReportPdfParams): void {
       : `Last time you took the test was ${formatDate(baseline.date)} — that's ${elapsedTextPdf}.`;
   const headlineSentencePdf = selectHeadline(current.domains);
 
-  sectionHeader(shapeTitleText);
   if (subheadLinePdf) {
-    flowText(subheadLinePdf, { size: 9.5, color: COLOR.muted, lineH: 4.2, gap: 2 });
+    flowText(subheadLinePdf, { size: 10.5, style: "bold", color: COLOR.primary, lineH: 4.6, gap: 4 });
   }
   flowText(headlineSentencePdf, { size: 12.5, style: "bold", color: COLOR.ink, lineH: 5.4, gap: 5 });
 

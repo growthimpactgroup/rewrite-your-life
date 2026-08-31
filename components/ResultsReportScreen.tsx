@@ -6,8 +6,6 @@ import { Phase, DECLINE_RESULTS_NOTE } from "@/lib/questions";
 import { generateReportPdf, JourneyPoint } from "@/lib/pdfReport";
 import {
   OPENING_FRAME_LINES,
-  SHAPE_TITLE_DEFAULT,
-  SHAPE_TITLE_WEEK10,
   WEEK10_SUBHEAD,
   selectHeadline,
   SIGNATURE_STRENGTH_COPY,
@@ -438,7 +436,6 @@ export default function ResultsReportScreen({
       : [];
 
   const showWeek10Shape = hasBaseline && phase === "week10";
-  const shapeTitle = showWeek10Shape ? SHAPE_TITLE_WEEK10 : SHAPE_TITLE_DEFAULT;
   const elapsedText = hasBaseline ? formatElapsed(baseline.createdAt, current.createdAt) : null;
   // Jeff review call, 2026-08-11: state the last-test date and elapsed time
   // explicitly, not folded into a parenthetical.
@@ -496,12 +493,15 @@ export default function ResultsReportScreen({
           <RedNotice>{RESULTS_DISCLOSURE}</RedNotice>
         </div>
 
-        {/* 2. Headline read — "YOUR SHAPE" */}
-        <p className="mt-8 text-center text-[13px] font-semibold tracking-wide text-muted uppercase">
-          {shapeTitle}
+        {/* 2. Headline read — the "YOUR SHAPE" caption is gone; the
+            last-test-taken line now carries that visual weight instead,
+            bold and in the brand accent color so it isn't missed. */}
+        {subheadLine && (
+          <p className="mt-8 text-center text-[15px] font-bold text-accent">{subheadLine}</p>
+        )}
+        <p className={`${subheadLine ? "mt-3" : "mt-8"} text-center text-[24px] leading-relaxed text-ink`}>
+          {headlineSentence}
         </p>
-        {subheadLine && <p className="mt-1 text-center text-[15px] text-muted">{subheadLine}</p>}
-        <p className="mt-3 text-center text-[24px] leading-relaxed text-ink">{headlineSentence}</p>
         {journeySummaryText && (
           <p className="mt-3 text-center text-[15px] leading-relaxed text-ink/85">
             <FormattedText text={journeySummaryText} />
