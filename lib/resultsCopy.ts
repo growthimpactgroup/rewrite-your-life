@@ -214,8 +214,8 @@ export const CONTINUITY_CLOSING = "Six minutes. It's the only way to see what ac
 
 // Jeff review calls, 2026-08-10 & 2026-08-11 (x2).
 export const THE_NINE_TITLE = "The Nine Trainable Areas";
-export const DOES_WELL_BUCKET_TITLE = "Things You Do Well";
-export const GROWTH_BUCKET_TITLE = "Things You Could Grow";
+export const DOES_WELL_BUCKET_TITLE = "Areas You Do Well";
+export const GROWTH_BUCKET_TITLE = "Areas You Could Grow";
 // 2026-08-11: shortened to "Education only" per Jeff's exact wording,
 // styled red/boxed so it isn't missed.
 export const RESULTS_DISCLOSURE = "This is not a professional or medical assessment. Education only.";

@@ -9,7 +9,7 @@
 //
 // Full parity pass (2026-08-25): the PDF previously left out real content
 // the results screen shows — the personalized "shape" narrative, the two
-// bucketed sections ("Things You Do Well" / "Things You Could Grow"), and
+// bucketed sections ("Areas You Do Well" / "Areas You Could Grow"), and
 // the continuity/closing messaging — and it printed BOTH the strength and
 // growth copy for every single domain regardless of which bucket that
 // domain was actually in on screen. This rewrite mirrors the screen's
