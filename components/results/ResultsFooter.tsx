@@ -8,9 +8,10 @@ import {
 // Change Order 01, Phase 6 — Target H. Four columns (about this record /
 // results disclosure / not professional advice / participant consent),
 // each Copy Block 1-4 verbatim (Operating Rule 4), plus a contact line.
-// [record@domain] and [registered address] stay bracketed — Operating
-// Rule 5: never invent a placeholder value; collect it for the Final
-// Report instead. Do not treat these brackets as a bug to fix.
+// [record@domain] stays bracketed — Operating Rule 5: never invent a
+// placeholder value; collect it for the Final Report instead. Do not
+// treat this bracket as a bug to fix. The registered-address line was
+// removed at explicit request (2026-08-31) rather than left bracketed.
 //
 // 2026-08-26, at Frances's request: the whole footer was set at text-xs
 // (12px) as its base size, including the actual copy-block paragraphs —
@@ -58,8 +59,7 @@ export default function ResultsFooter() {
           Questions about this record, the methodology, or a deletion request:
         </p>
         <p className="mt-1 text-lg">
-          <span className="font-bold text-ink">[record@domain]</span> · Growth Impact Group, LLC ·{" "}
-          [registered address]
+          <span className="font-bold text-ink">[record@domain]</span> · Growth Impact Group, LLC
         </p>
         <p className="mt-3 text-lg">
           <a href="/terms" className="text-ink underline">
