@@ -14,7 +14,7 @@ import VerifySection from "./VerifySection";
 import AIAgentsBlock from "./AIAgentsBlock";
 import ResultsFooter from "./ResultsFooter";
 
-const SITE_URL = "https://rewrite-your-life.vercel.app";
+const SITE_URL = "https://ryl.proofovertime.com";
 
 // Shared between the real /results page (real data, static, zero DB queries
 // per load) and the seeded preview route (fake data, always dynamic) — one
