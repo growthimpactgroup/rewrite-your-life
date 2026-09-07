@@ -84,7 +84,10 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
           <p className="mt-2 text-base text-ink/90">
             The group data itself is not published as a download. Full data available upon request —
             disclosed at Growth Impact Group&apos;s discretion. Contact{" "}
-            <span className="font-bold text-ink">[record@domain]</span>.
+            <a href="mailto:growthimpactgroup@protonmail.com" className="font-bold text-ink underline">
+              growthimpactgroup@protonmail.com
+            </a>
+            .
           </p>
         </div>
 

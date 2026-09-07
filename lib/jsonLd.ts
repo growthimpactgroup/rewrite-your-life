@@ -46,7 +46,7 @@ export function buildResultsJsonLd(aggregates: PublicAggregates, resultsUrl: str
       : undefined,
     isAccessibleForFree: false,
     conditionsOfAccess:
-      "Full underlying data and the detailed scoring methodology are disclosed at Growth Impact Group's discretion. Contact [record@domain].",
+      "Full underlying data and the detailed scoring methodology are disclosed at Growth Impact Group's discretion. Contact growthimpactgroup@protonmail.com.",
     additionalProperty,
     isBasedOn: {
       "@type": "CreativeWork",

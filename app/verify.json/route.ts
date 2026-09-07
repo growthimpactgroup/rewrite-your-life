@@ -81,7 +81,7 @@ export async function GET() {
       full_dataset: {
         available: "on request",
         note:
-          "Full underlying data and the detailed scoring methodology are disclosed at Growth Impact Group's discretion. Contact [record@domain].",
+          "Full underlying data and the detailed scoring methodology are disclosed at Growth Impact Group's discretion. Contact growthimpactgroup@protonmail.com.",
       },
     });
   } catch (err) {

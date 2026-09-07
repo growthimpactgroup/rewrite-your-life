@@ -126,7 +126,10 @@ export default function MethodologyPage() {
           This page covers the concepts, not the exact formulas, thresholds, and edge-case rules the
           nightly build runs — that level of detail, along with the underlying dataset itself, is
           available on request, at Growth Impact Group&apos;s discretion. Contact{" "}
-          <span className="font-bold text-ink">[record@domain]</span>. For automated verification
+          <a href="mailto:growthimpactgroup@protonmail.com" className="font-bold text-ink underline">
+            growthimpactgroup@protonmail.com
+          </a>
+          . For automated verification
           without contacting us, see{" "}
           <a href="/verify.json" className="text-primary underline">
             /verify.json

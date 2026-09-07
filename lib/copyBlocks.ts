@@ -42,7 +42,7 @@ export const BLOCK_5_PRIVACY_NOTICE = [
   "Why: the email address exists solely to match a person’s Day 0 assessment to their Week 10 assessment. It is never used to contact anyone — the system has no ability to send mail of any kind, by design.",
   "Who sees it: no one outside Growth Impact Group. Individual answers are never published, sold, shared, or licensed.",
   "How long: raw records are retained indefinitely as part of a longitudinal research record.",
-  "Deletion: write to [record@domain] and the email address on your records will be permanently removed, which unlinks them from you while leaving the anonymous answers in the group figures. Removal of the answers themselves is available on request but breaks the before/after pairing.",
+  "Deletion: write to growthimpactgroup@protonmail.com and the email address on your records will be permanently removed, which unlinks them from you while leaving the anonymous answers in the group figures. Removal of the answers themselves is available on request but breaks the before/after pairing.",
 ];
 
 export const BLOCK_6_SIXTH_LIMITATION =

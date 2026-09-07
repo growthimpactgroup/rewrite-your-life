@@ -15,7 +15,7 @@ export async function GET() {
     {
       status: "retired",
       message:
-        "This endpoint no longer publishes the full dataset. See /verify.json for structured verification data, or /results for the published figures. Full underlying data is available on request, at Growth Impact Group's discretion — contact [record@domain].",
+        "This endpoint no longer publishes the full dataset. See /verify.json for structured verification data, or /results for the published figures. Full underlying data is available on request, at Growth Impact Group's discretion — contact growthimpactgroup@protonmail.com.",
     },
     { status: 410 },
   );
