@@ -1,0 +1,28 @@
+item_number,domain_tag,domain_label,label_set,reverse_scored,question_text,example_text
+1,CLEAR THINKING,Clear Thinking,frequency,FALSE,Can you clearly see your options when you have a big decision to make?,like choosing between a job with better pay or one with more flexibility
+2,CLEAR THINKING,Clear Thinking,frequency,FALSE,Does your thinking stay organized when you're under time pressure?,a deadline crunch where your to-do list still makes sense
+3,EMOTIONAL,Emotional Steadiness,frequency,FALSE,"When someone's upset with you, do you stay curious about why instead of getting defensive?",asking “what happened?” instead of “that's not fair”
+4,EMOTIONAL,Emotional Steadiness,frequency,FALSE,Do you pause before acting on a strong emotional reaction?,a breath before firing back a reply
+5,ADVERSITY,Adversity Recovery,frequency,FALSE,"When something goes badly wrong, are you back to functioning that same day?",a bad meeting doesn't take you out for the rest of the week
+6,ADVERSITY,Adversity Recovery,frequency,FALSE,"After a rejection or failure, do you recover your motivation quickly?",a “no” doesn't stop you from trying again soon after
+7,FRAME,Frame Control,frequency,FALSE,"In a tense conversation, do you set the tone instead of absorbing the other person's?",staying steady even when they're heated
+8,FRAME,Frame Control,frequency,TRUE,Do you ever leave a conversation realizing you agreed to something you didn't actually want?,saying yes just to end an uncomfortable back-and-forth
+9,LEARNING,Learning Agility,frequency,FALSE,"When new information contradicts what you believed, do you update your view quickly?",changing your plan once the data proves you wrong
+10,LEARNING,Learning Agility,frequency,FALSE,"When your usual approach stops working, do you switch tactics quickly?",trying something new instead of repeating what isn't working
+11,SITUATIONAL,Situational Awareness,frequency,FALSE,"Walking into a room, can you quickly read who's friendly, neutral, or against you?",sensing the room before anyone says a word
+12,SITUATIONAL,Situational Awareness,frequency,FALSE,Do you tend to see problems coming before they actually arrive?,spotting a risk before it becomes a crisis
+13,PRESENCE,Presence,frequency,FALSE,"In high-stress moments, do you stay calm enough that others look to you for direction?",being the steady one when everyone else is panicking
+14,PRESENCE,Presence,frequency,TRUE,"When pressure suddenly spikes, do others notice you visibly lose your composure?","your voice, face, or hands giving it away"
+15,PURPOSE,Purpose,frequency,FALSE,Do your daily actions actually line up with what you say matters most to you?,your calendar reflecting your stated priorities
+16,PURPOSE,Purpose,frequency,FALSE,Does a clear sense of purpose guide your big decisions?,"choosing a path because it fits your bigger why, not just what's easiest"
+17,EXECUTION,Execution,frequency,FALSE,"Do you finish what you start, even after the initial excitement wears off?",still showing up once the novelty fades
+18,EXECUTION,Execution,frequency,FALSE,"Do you close loops quickly, or do things linger half-done for weeks?",that email that's been “almost done” for a month
+19,LIFE ANCHORS,Life Anchors,frequency,FALSE,"Overall, how satisfied are you with your life right now?","thinking about work, relationships, and health together"
+20,LIFE ANCHORS,Life Anchors,frequency,FALSE,"Out of the last 14 mornings, how many did you wake up already knowing your top priority for the day? (10 = 14 of 14)",
+21,LIFE ANCHORS,Life Anchors,frequency,FALSE,How confident are you that the next 12 months are headed where you want them to go?,
+22,AI ORCHESTRATION INDEX,AI Orchestration Index,ai-use,FALSE,"Q-AI: Do you hand real work to AI and direct it like a team member, not just ask it questions?","assigning it a task with a goal, not a one-off question"
+23,AI ORCHESTRATION INDEX,AI Orchestration Index,ai-use,FALSE,Can you tell when to trust an AI's output and when you need to verify it yourself?,"double-checking a number before you use it, not everything"
+24,AI ORCHESTRATION INDEX,AI Orchestration Index,ai-use,FALSE,"Do you use AI weekly in your actual work, not just to experiment with it?",
+25,AI ORCHESTRATION INDEX,AI Orchestration Index,ai-use,FALSE,"Does AI genuinely save you time and effort, or does keeping up with it cost you more than it gives back?","fewer hours spent vs. more prompts, tools, and outputs to check"
+26,AI ORCHESTRATION INDEX,AI Orchestration Index,ai-use,FALSE,"Do you give AI clear roles, standards, and review — the way you'd manage a team?",defining what “good” looks like before it starts
+27,AI ORCHESTRATION INDEX,AI Orchestration Index,ai-use,FALSE,"Are you keeping pace with how fast AI is changing, or falling behind?","trying new tools or models as they come out, vs. still using what you learned a year ago"

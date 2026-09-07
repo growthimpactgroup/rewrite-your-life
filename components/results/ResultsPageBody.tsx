@@ -47,9 +47,9 @@ export default function ResultsPageBody({
         latestAnchor={latestAnchor}
       />
       <HeadlineBand aggregates={aggregates} latestAnchor={latestAnchor} />
-      <section className="border-b border-border px-6 py-4 sm:px-10">
-        <p className="text-sm text-muted">
-          <span className="font-semibold">Disclaimer:</span> This is not a professional or medical assessment. Education only.
+      <section className="border-b-2 border-red-300 bg-red-50 px-6 py-4 dark:border-red-800 dark:bg-red-950 sm:px-10">
+        <p className="text-sm font-semibold text-red-700 dark:text-red-300">
+          <span>Disclaimer:</span> This is not a professional or medical assessment. Education only.
         </p>
       </section>
       <FunnelSection funnel={aggregates.funnel} />
