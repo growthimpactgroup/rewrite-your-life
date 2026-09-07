@@ -47,8 +47,8 @@ export default function ResultsPageBody({
         latestAnchor={latestAnchor}
       />
       <HeadlineBand aggregates={aggregates} latestAnchor={latestAnchor} />
-      <section className="border-b border-blue-200 bg-blue-50 px-6 py-6 sm:px-10">
-        <p className="text-base text-blue-900">
+      <section className="border-b border-border px-6 py-4 sm:px-10">
+        <p className="text-sm text-muted">
           <span className="font-semibold">Disclaimer:</span> This is not a professional or medical assessment. Education only.
         </p>
       </section>
