@@ -47,6 +47,11 @@ export default function ResultsPageBody({
         latestAnchor={latestAnchor}
       />
       <HeadlineBand aggregates={aggregates} latestAnchor={latestAnchor} />
+      <section className="border-b border-blue-200 bg-blue-50 px-6 py-6 sm:px-10">
+        <p className="text-base text-blue-900">
+          <span className="font-semibold">Disclaimer:</span> This is not a professional or medical assessment. Education only.
+        </p>
+      </section>
       <FunnelSection funnel={aggregates.funnel} />
       <ChangeSection metrics={aggregates.metrics} nPairs={aggregates.funnel.n_pairs} />
       <DistributionRibbon
