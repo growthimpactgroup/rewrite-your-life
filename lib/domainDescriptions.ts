@@ -79,11 +79,12 @@ export const DOMAIN_DESCRIPTIONS: Record<string, DomainDescription> = {
   },
 };
 
-/** Picks the rose/fell/flat sentence for a metric's actual delta direction. */
+/** Picks the rose/fell/flat sentence based on threshold: +5 pts improved,
+ * less than ±5 flat, −5 pts declined. */
 export function interpretationFor(key: string, deltaPts: number): string | null {
   const d = DOMAIN_DESCRIPTIONS[key];
   if (!d) return null;
-  if (deltaPts > 0) return d.rose;
-  if (deltaPts < 0) return d.fell;
+  if (deltaPts >= 5) return d.rose;
+  if (deltaPts <= -5) return d.fell;
   return d.flat;
 }

@@ -44,7 +44,7 @@ export default function HeadlineBand({
 
   if (canPublish) {
     const domainMetrics = metrics.filter((m) => m.type === "domain");
-    const nRose = domainMetrics.filter((m) => m.delta_pts !== null && m.delta_pts > 0).length;
+    const nRose = domainMetrics.filter((m) => m.delta_pts !== null && m.delta_pts >= 5).length;
     const typical = typicalDomainMetric(metrics);
     const declineClause =
       distribution.n_declined === 0
