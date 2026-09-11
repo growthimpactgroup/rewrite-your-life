@@ -86,10 +86,15 @@ export default function MethodologyPage() {
       <Section title="Improved, about the same, declined">
         <p>
           For each finished pair, we take that person&apos;s own average change across the nine domain
-          scores, Week 10 minus Day 0. A person is counted as improved, declined, or about the same
-          based on the size of that change — see the distribution section of the results page for the
-          exact breakdown. Every finisher is shown, not just an average that could hide who moved
-          which way.
+          scores, Week 10 minus Day 0. The threshold for each group is:
+        </p>
+        <ul className="ml-4 space-y-2 list-disc">
+          <li><strong>Improved:</strong> +5 points or more</li>
+          <li><strong>About the same:</strong> less than ±5 points</li>
+          <li><strong>Declined:</strong> −5 points or less</li>
+        </ul>
+        <p>
+          Every finisher is shown in one of these three groups, not just an average that could hide who moved which way.
         </p>
       </Section>
 

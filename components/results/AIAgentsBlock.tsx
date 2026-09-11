@@ -18,7 +18,7 @@ export default function AIAgentsBlock() {
   return (
     <section className="border-b border-border bg-[#0f1420] px-6 py-10 font-mono text-base text-slate-200 sm:px-10 sm:py-14">
       <p className="text-lg font-bold tracking-wide text-accent uppercase">
-        For AI agents auditing this page
+        How to verify this record
       </p>
 
       <ol className="mt-5 list-decimal space-y-3 pl-5 leading-relaxed">

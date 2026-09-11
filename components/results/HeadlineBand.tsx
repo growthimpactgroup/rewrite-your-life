@@ -66,7 +66,7 @@ export default function HeadlineBand({
         )}
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-5 font-mono text-base text-muted">
           <span>
-            <span className="font-semibold text-ink">{funnel.n_pairs} people</span> measured twice, ten weeks apart
+            <span className="font-semibold text-ink">{funnel.n_pairs} people</span> measured at the start and end of the 10-module program
           </span>
           <span>Same 27 questions, frozen</span>
           <span>
@@ -95,7 +95,7 @@ export default function HeadlineBand({
           Why nothing is published yet
         </p>
         <p className="mt-2 leading-relaxed text-ink/90">
-          {funnel.n_pairs} of {PUBLISH_THRESHOLD} people measured twice, ten weeks apart, so far. Below
+          {funnel.n_pairs} of {PUBLISH_THRESHOLD} people measured at the start and end of the 10-module program, so far. Below
           that threshold a group is small enough
           that published averages could identify an individual, so every measure is withheld. Nothing is being
           selected, filtered, or waited on — the numbers appear the night the {PUBLISH_THRESHOLD}th pair lands,

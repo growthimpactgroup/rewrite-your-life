@@ -51,6 +51,9 @@ function AnchorCard({ metric }: { metric: Metric }) {
         <p className="mt-1 font-mono text-sm text-muted">
           {meta.unit} · group average · N = {metric.n}
         </p>
+        {metric.key === "mornings_with_priority" && (
+          <p className="mt-2 text-xs text-muted">Answered on 0–10; converted to mornings out of 14 (10 = all 14).</p>
+        )}
       </div>
     </div>
   );
