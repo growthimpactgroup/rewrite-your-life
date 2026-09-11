@@ -51,11 +51,20 @@ export default function HeadlineBand({
         ? "No finisher declined — that number publishes here too, the day one does."
         : `${distribution.pct_declined}% declined — that number is on this page too.`;
 
+    const completionRate = funnel.n_eligible > 0 ? Math.round((funnel.n_pairs / funnel.n_eligible) * 100) : null;
+
     return (
       <section data-theme="dark" className="border-b border-border bg-surface px-6 py-12 sm:px-10 sm:py-16">
         <p className="text-4xl leading-tight font-bold text-ink sm:text-5xl">
           {distribution.pct_improved}% of finishers <span className="text-accent">improved</span> over 10
           weeks
+        </p>
+        <p className="mt-2 text-base text-ink/75">
+          Completion rate:{" "}
+          <span className="font-semibold text-ink">
+            {funnel.n_pairs} of {funnel.n_eligible} eligible
+          </span>
+          {completionRate !== null && ` · ${completionRate}%`}
         </p>
         {typical && (
           <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
@@ -84,6 +93,9 @@ export default function HeadlineBand({
     <section data-theme="dark" className="border-b border-border bg-surface px-6 py-12 sm:px-10 sm:py-16">
       <p className="text-4xl leading-tight font-bold text-ink sm:text-5xl">
         {funnel.total_submissions} maps <span className="text-accent">on the record</span>
+      </p>
+      <p className="mt-2 text-base text-ink/75">
+        Completion rate available after the first cohort closes.
       </p>
       <p className="mt-5 max-w-4xl text-lg leading-relaxed text-ink/90">
         {measured_since ? `This record opened on ${formatDate(measured_since)} and grows` : "This record grows"} every
