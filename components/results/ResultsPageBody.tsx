@@ -16,6 +16,10 @@ import ResultsFooter from "./ResultsFooter";
 
 const SITE_URL = "https://ryl.proofovertime.com";
 
+function formatDate(date: string): string {
+  return new Date(date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
+
 // Shared between the real /results page (real data, static, zero DB queries
 // per load) and the seeded preview route (fake data, always dynamic) — one
 // rendering path so the two can never visually drift apart. See
@@ -35,6 +39,7 @@ export default function ResultsPageBody({
   includeJsonLd: boolean;
 }) {
   const jsonLd = includeJsonLd ? buildResultsJsonLd(aggregates, `${SITE_URL}/results`) : null;
+  const hasResults = aggregates.funnel.n_pairs > 0;
 
   return (
     <>
@@ -53,14 +58,34 @@ export default function ResultsPageBody({
         </p>
       </section>
       <FunnelSection funnel={aggregates.funnel} />
-      <ChangeSection metrics={aggregates.metrics} nPairs={aggregates.funnel.n_pairs} />
-      <DistributionRibbon
-        distribution={aggregates.distribution}
-        nPairs={aggregates.funnel.n_pairs}
-        personDeltas={aggregates.person_deltas}
-      />
+
+      {hasResults ? (
+        <>
+          <ChangeSection metrics={aggregates.metrics} nPairs={aggregates.funnel.n_pairs} />
+          <DistributionRibbon
+            distribution={aggregates.distribution}
+            nPairs={aggregates.funnel.n_pairs}
+            personDeltas={aggregates.person_deltas}
+          />
+          <LimitationsSection nExcludedStraightline={aggregates.hygiene.n_excluded_straightline} />
+        </>
+      ) : (
+        <section className="border-b border-border px-6 py-10 sm:px-10">
+          <div className="rounded-lg border border-border bg-card p-6">
+            <p className="text-lg leading-relaxed text-ink/90">
+              Record live since{" "}
+              <span className="font-semibold">
+                {aggregates.measured_since ? formatDate(aggregates.measured_since) : "September 21, 2026"}
+              </span>
+              . <span className="font-semibold">{aggregates.funnel.total_submissions}</span> participant
+              {aggregates.funnel.total_submissions !== 1 ? "s have" : " has"} taken their Day 0 baseline. First Week 10
+              results expected late December 2026.
+            </p>
+          </div>
+        </section>
+      )}
+
       <VerifyStrip />
-      <LimitationsSection nExcludedStraightline={aggregates.hygiene.n_excluded_straightline} />
       <VerifySection anchors={anchors} />
       <AIAgentsBlock />
       {/* 2026-08-28, Jeff/Frances review call — Item 14: same red/boxed

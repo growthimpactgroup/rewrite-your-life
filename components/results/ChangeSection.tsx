@@ -34,6 +34,10 @@ export default function ChangeSection({ metrics, nPairs }: { metrics: Metric[]; 
       {/* Change Order 01, Phase 6 — Copy Block 2, verbatim, one line beneath
           section 02 (its other appearance is the footer). */}
       <p className="mt-6 max-w-4xl text-sm leading-relaxed text-muted">{BLOCK_2_RESULTS_DISCLOSURE}</p>
+
+      <p className="mt-3 max-w-4xl text-xs text-muted">
+        <em>Percent changes are calculated from unrounded group averages, so recomputing from the displayed whole numbers may give slightly different results.</em>
+      </p>
     </section>
   );
 }
