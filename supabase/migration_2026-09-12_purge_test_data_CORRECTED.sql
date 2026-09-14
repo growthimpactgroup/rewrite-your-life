@@ -1,4 +1,4 @@
--- Migration: Purge test data and reset record (2026-09-12)
+-- Migration: Purge test data and reset record (2026-09-12) CORRECTED
 -- Requirement: Remove all test submissions, reset "measured_since" to first real row
 -- Status: BACKUP BEFORE RUNNING - this is destructive
 
@@ -68,4 +68,4 @@ select
 -- Verify blockchain proof is after data purge:
 select
   (select max(created_at) from assessment_responses) as latest_submission,
-  (select date from public_aggregates where course = 'ryl') as last_anchor_date;
+  (select last_anchor_date from public_aggregates where course = 'ryl') as last_anchor_date;
