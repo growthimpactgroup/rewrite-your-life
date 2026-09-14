@@ -72,7 +72,7 @@ export default function DotPlot({
     <div className="rounded-lg border border-border bg-card px-5 py-6 sm:px-8">
       <p className="max-w-4xl text-lg leading-relaxed text-ink/90">
         Every one of the {nPairs} finishers, sorted into three groups by how much their average score
-        across all nine domains moved from Day 0 to Week 10.
+        across all 10 measures (9 domains and the AI Orchestration Index) moved from Day 0 to Week 10.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">

@@ -27,12 +27,12 @@ export default function LimitationsSection({ nExcludedStraightline }: { nExclude
       body: "This is a longitudinal program record, not a randomized trial. Some of the change may come from time, attention, or life events rather than the program.",
     },
     {
-      lead: "Straight-line answers excluded.",
+      lead: "Low-effort answers excluded.",
       body: (
         <>
-          Rows where someone tapped the same value across ten or more consecutive items, including a
-          reverse-worded one, stay in the raw record but are excluded from these group numbers.
-          Excluded to date: <span className="font-bold text-ink">{nExcludedStraightline}</span>.
+          Submissions showing a clear pattern of low-effort, same-answer clicking are excluded from all
+          group figures. The raw submissions stay in the permanent record, just outside the aggregates.{" "}
+          <span className="font-bold text-ink">{nExcludedStraightline}</span> excluded to date.
         </>
       ),
     },
