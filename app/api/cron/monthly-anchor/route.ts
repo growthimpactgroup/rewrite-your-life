@@ -1,0 +1,100 @@
+import { NextResponse } from "next/server";
+import { createHash } from "crypto";
+import { getSupabaseServerClient } from "@/lib/supabaseServer";
+
+// Runs on the 1st of each month at 3 AM UTC (configured in vercel.json)
+// Creates a snapshot of the full raw dataset, hashes it, and timestamps it on Bitcoin
+// via OpenTimestamps. The .ots proof is stored in supabase storage at /proofs
+
+export const maxDuration = 300; // 5 min timeout
+
+export async function GET(req: Request) {
+  // Verify this is a real cron request from Vercel
+  const authHeader = req.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const supabase = getSupabaseServerClient();
+
+    // 1. Export full raw dataset as CSV
+    const { data: rows, error } = await supabase
+      .from("assessment_responses")
+      .select("*")
+      .order("created_at", { ascending: true });
+
+    if (error || !rows) {
+      console.error("Failed to fetch raw data:", error);
+      return NextResponse.json({ error: "Data export failed" }, { status: 500 });
+    }
+
+    // 2. Convert to CSV (all columns, all rows)
+    const headers = Object.keys(rows[0] || {});
+    const csvLines = [headers.join(",")];
+    for (const row of rows) {
+      const values = headers.map((h) => {
+        const v = (row as Record<string, unknown>)[h];
+        if (v === null) return "";
+        if (typeof v === "string") return `"${v.replace(/"/g, '""')}"`;
+        return String(v);
+      });
+      csvLines.push(values.join(","));
+    }
+    const csvContent = csvLines.join("\n");
+
+    // 3. Compute SHA-256 hash
+    const dataHash = createHash("sha256").update(csvContent).digest("hex");
+    const anchorDate = new Date().toISOString();
+
+    // 4. Submit to OpenTimestamps for Bitcoin anchoring
+    // (Using OTS calendar at https://calendar.opentimestamps.org)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+    const otsResponse = await fetch("https://a.opentimestamps.org", {
+      method: "POST",
+      body: Buffer.from(dataHash, "hex"),
+      headers: { "Content-Type": "application/octet-stream" },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!otsResponse.ok) {
+      console.error("OpenTimestamps submission failed:", otsResponse.status);
+      return NextResponse.json({ error: "OTS submission failed" }, { status: 500 });
+    }
+
+    const proofBuffer = await otsResponse.arrayBuffer();
+    const proofFilename = `ryl_${anchorDate.split("T")[0]}.ots`;
+
+    // 5. Upload proof to supabase storage
+    const { error: uploadError } = await supabase.storage
+      .from("proofs")
+      .upload(proofFilename, proofBuffer, { upsert: true });
+
+    if (uploadError) {
+      console.error("Proof upload failed:", uploadError);
+      return NextResponse.json({ error: "Proof upload failed" }, { status: 500 });
+    }
+
+    // 6. Record anchor in public_aggregates (handled by next nightly refresh)
+    // For now, just log success
+    console.log(`Monthly anchor created: ${proofFilename}, hash=${dataHash}, rows=${rows.length}`);
+
+    return NextResponse.json({
+      success: true,
+      anchor: {
+        date: anchorDate,
+        hash: dataHash,
+        rows_anchored: rows.length,
+        proof_file: proofFilename,
+        network: "Bitcoin (via OpenTimestamps)",
+      },
+    });
+  } catch (err) {
+    console.error("Monthly anchor error:", err);
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+  }
+}
