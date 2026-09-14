@@ -35,7 +35,7 @@ export async function GET() {
       );
     }
 
-    const { course, computed_at, measured_since, funnel } = aggregates;
+    const { course, computed_at, measured_since, funnel, hygiene } = aggregates;
 
     // Recomputable by anyone from just the fields in `participants` and
     // `verified_at`/`measured_since` above them — proves this file matches
@@ -51,11 +51,17 @@ export async function GET() {
 
     return NextResponse.json({
       record: "Rewrite Your Life — Public Outcome Record",
+      course,
       verified_at: computed_at,
       measured_since,
       participants: {
         total_submissions: funnel.total_submissions,
+        baselines: funnel.n_started,
+        in_progress: funnel.n_in_progress,
+        eligible: funnel.n_eligible,
         matched_pairs: funnel.n_pairs,
+        completion_rate: funnel.completion_rate,
+        excluded_low_effort: hygiene.n_excluded_straightline,
       },
       instrument: {
         question_count: FROZEN_QUESTIONS.length,
@@ -67,6 +73,7 @@ export async function GET() {
             date: latestAnchor.date,
             sha256: latestAnchor.sha256,
             row_count: latestAnchor.row_count,
+            rows_total_now: funnel.total_submissions,
             proof_url: `/proofs/${latestAnchor.file}`,
             network: "OpenTimestamps (Bitcoin)",
           }
