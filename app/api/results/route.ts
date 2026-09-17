@@ -62,6 +62,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ submissions });
   } catch (err) {
     console.error("Results route error", err);
-    return NextResponse.json({ error: "Server is not configured yet." }, { status: 500 });
+    const errorMsg = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json(
+      {
+        error: "Server error loading results. " + errorMsg,
+        hint: "If this mentions missing environment variables, see FIX_RESULTS_API.md"
+      },
+      { status: 500 }
+    );
   }
 }

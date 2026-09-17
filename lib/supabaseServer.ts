@@ -13,8 +13,12 @@ export function getSupabaseServerClient(): SupabaseClient {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !serviceRoleKey) {
+    const missing = [];
+    if (!supabaseUrl) missing.push("SUPABASE_URL");
+    if (!serviceRoleKey) missing.push("SUPABASE_SERVICE_ROLE_KEY");
     throw new Error(
-      "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables.",
+      `Missing environment variable(s): ${missing.join(", ")}. ` +
+      "See FIX_RESULTS_API.md for instructions.",
     );
   }
 
