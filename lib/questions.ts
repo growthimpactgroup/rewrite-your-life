@@ -5,14 +5,31 @@
 // is exactly the one-time GIG-lead gate the brief describes. Wording is
 // frozen from the first real submission onward — do not edit after that.
 
-export type ScaleType = "frequency" | "ai-use";
+export type ScaleType =
+  | "frequency"
+  | "ai-use"
+  | "satisfaction"
+  | "morning-count"
+  | "confidence"
+  | "net-benefit"
+  | "pace";
 
 export interface AnswerOption {
   value: number;
   label: string;
 }
 
-// Items 1–21
+// Answer-option revision 2 — 2026-09-22, post-launch participant feedback
+// (Sept 21 Zoom demo: several either/or or rating-style questions were
+// shown with the frequency/AI-use button sets, which don't semantically
+// match them — e.g. Q21 asking about confidence was answered with
+// "Occasionally"/"Consistently"). Fixes ONLY the button labels for items
+// 19, 20, 21, 25, 27 below; every value stays 0/3/5/8/10, so scoring math
+// and comparability with existing submissions are unaffected. This does
+// NOT touch INSTRUMENT_SHA256 (lib/instrument.ts) — that hash is computed
+// from question id/text/example only, never from scale, by design.
+
+// Items 1–18
 export const FREQUENCY_OPTIONS: AnswerOption[] = [
   { value: 0, label: "Not me at all" },
   { value: 3, label: "Occasionally" },
@@ -21,13 +38,62 @@ export const FREQUENCY_OPTIONS: AnswerOption[] = [
   { value: 10, label: "Consistently — it's how I operate" },
 ];
 
-// Items 22–27
+// Items 22, 24, 26
 export const AI_USE_OPTIONS: AnswerOption[] = [
   { value: 0, label: "Never" },
   { value: 3, label: "Tried it" },
   { value: 5, label: "Sometimes" },
   { value: 8, label: "Regularly — part of how I work" },
   { value: 10, label: "It's simply how I work" },
+];
+
+// Item 19 — life satisfaction is a rating, not a frequency.
+export const SATISFACTION_OPTIONS: AnswerOption[] = [
+  { value: 0, label: "Not at all satisfied" },
+  { value: 3, label: "Slightly satisfied" },
+  { value: 5, label: "Moderately satisfied" },
+  { value: 8, label: "Very satisfied" },
+  { value: 10, label: "Completely satisfied" },
+];
+
+// Item 20 — the question already anchors 10 to "14 of 14 mornings"; the
+// buttons need to say roughly how many mornings, not how often something
+// is "like you."
+export const MORNING_COUNT_OPTIONS: AnswerOption[] = [
+  { value: 0, label: "None of them" },
+  { value: 3, label: "A few of them" },
+  { value: 5, label: "About half (7 of 14)" },
+  { value: 8, label: "Most of them" },
+  { value: 10, label: "All 14" },
+];
+
+// Item 21 — confidence level, explicitly requested by a participant
+// ("should be high confidence, medium or low").
+export const CONFIDENCE_OPTIONS: AnswerOption[] = [
+  { value: 0, label: "Not confident at all" },
+  { value: 3, label: "Slightly confident" },
+  { value: 5, label: "Somewhat confident" },
+  { value: 8, label: "Fairly confident" },
+  { value: 10, label: "Extremely confident" },
+];
+
+// Item 25 — an either/or cost-vs-benefit judgment, not a frequency.
+export const NET_BENEFIT_OPTIONS: AnswerOption[] = [
+  { value: 0, label: "Costs me more than it gives back" },
+  { value: 3, label: "Costs slightly more than it gives back" },
+  { value: 5, label: "About even" },
+  { value: 8, label: "Saves me more than it costs" },
+  { value: 10, label: "Genuinely saves me time and effort" },
+];
+
+// Item 27 — ahead-vs-behind judgment. "Always behind" was the exact
+// missing option a participant asked for.
+export const PACE_OPTIONS: AnswerOption[] = [
+  { value: 0, label: "Always behind" },
+  { value: 3, label: "Usually behind" },
+  { value: 5, label: "About even" },
+  { value: 8, label: "Usually ahead" },
+  { value: 10, label: "Always ahead of the curve" },
 ];
 
 export interface Question {
@@ -72,22 +138,32 @@ export const QUESTIONS: Question[] = [
   { id: 17, domain: "EXECUTION", text: "Do you finish what you start, even after the initial excitement wears off?", example: "still showing up once the novelty fades", reverse: false, scale: "frequency" },
   { id: 18, domain: "EXECUTION", text: "Do you close loops quickly, or do things linger half-done for weeks?", example: "that email that's been “almost done” for a month", reverse: false, scale: "frequency" },
 
-  { id: 19, domain: "LIFE ANCHORS", text: "Overall, how satisfied are you with your life right now?", example: "thinking about work, relationships, and health together", reverse: false, scale: "frequency" },
-  { id: 20, domain: "LIFE ANCHORS", text: "Out of the last 14 mornings, how many did you wake up already knowing your top priority for the day? (10 = 14 of 14)", reverse: false, scale: "frequency" },
-  { id: 21, domain: "LIFE ANCHORS", text: "How confident are you that the next 12 months are headed where you want them to go?", reverse: false, scale: "frequency" },
+  { id: 19, domain: "LIFE ANCHORS", text: "Overall, how satisfied are you with your life right now?", example: "thinking about work, relationships, and health together", reverse: false, scale: "satisfaction" },
+  { id: 20, domain: "LIFE ANCHORS", text: "Out of the last 14 mornings, how many did you wake up already knowing your top priority for the day? (10 = 14 of 14)", reverse: false, scale: "morning-count" },
+  { id: 21, domain: "LIFE ANCHORS", text: "How confident are you that the next 12 months are headed where you want them to go?", reverse: false, scale: "confidence" },
 
   { id: 22, domain: "AI ORCHESTRATION INDEX", text: "Q-AI: Do you hand real work to AI and direct it like a team member, not just ask it questions?", example: "assigning it a task with a goal, not a one-off question", reverse: false, scale: "ai-use" },
   { id: 23, domain: "AI ORCHESTRATION INDEX", text: "Can you tell when to trust an AI's output and when you need to verify it yourself?", example: "double-checking a number before you use it, not everything", reverse: false, scale: "ai-use" },
   { id: 24, domain: "AI ORCHESTRATION INDEX", text: "Do you use AI weekly in your actual work, not just to experiment with it?", reverse: false, scale: "ai-use" },
-  { id: 25, domain: "AI ORCHESTRATION INDEX", text: "Does AI genuinely save you time and effort, or does keeping up with it cost you more than it gives back?", example: "fewer hours spent vs. more prompts, tools, and outputs to check", reverse: false, scale: "ai-use" },
+  { id: 25, domain: "AI ORCHESTRATION INDEX", text: "Does AI genuinely save you time and effort, or does keeping up with it cost you more than it gives back?", example: "fewer hours spent vs. more prompts, tools, and outputs to check", reverse: false, scale: "net-benefit" },
   { id: 26, domain: "AI ORCHESTRATION INDEX", text: "Do you give AI clear roles, standards, and review — the way you'd manage a team?", example: "defining what “good” looks like before it starts", reverse: false, scale: "ai-use" },
-  { id: 27, domain: "AI ORCHESTRATION INDEX", text: "Are you keeping pace with how fast AI is changing, or falling behind?", example: "trying new tools or models as they come out, vs. still using what you learned a year ago", reverse: false, scale: "ai-use" },
+  { id: 27, domain: "AI ORCHESTRATION INDEX", text: "Are you keeping pace with how fast AI is changing, or falling behind?", example: "trying new tools or models as they come out, vs. still using what you learned a year ago", reverse: false, scale: "pace" },
 ];
 
 export const TOTAL_QUESTIONS = QUESTIONS.length; // 27
 
+const OPTIONS_BY_SCALE: Record<ScaleType, AnswerOption[]> = {
+  frequency: FREQUENCY_OPTIONS,
+  "ai-use": AI_USE_OPTIONS,
+  satisfaction: SATISFACTION_OPTIONS,
+  "morning-count": MORNING_COUNT_OPTIONS,
+  confidence: CONFIDENCE_OPTIONS,
+  "net-benefit": NET_BENEFIT_OPTIONS,
+  pace: PACE_OPTIONS,
+};
+
 export function optionsFor(scale: ScaleType): AnswerOption[] {
-  return scale === "frequency" ? FREQUENCY_OPTIONS : AI_USE_OPTIONS;
+  return OPTIONS_BY_SCALE[scale];
 }
 
 // --- Phase (entry screen) ---
