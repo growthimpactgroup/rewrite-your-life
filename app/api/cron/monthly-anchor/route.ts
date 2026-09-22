@@ -47,22 +47,42 @@ export async function GET(req: Request) {
     const dataHash = createHash("sha256").update(csvContent).digest("hex");
     const anchorDate = new Date().toISOString();
 
-    // 4. Submit to OpenTimestamps for Bitcoin anchoring
-    // (Using OTS calendar at https://calendar.opentimestamps.org)
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000);
+    // 4. Submit to OpenTimestamps for Bitcoin anchoring. "a.opentimestamps.org"
+    // was never a real host (getaddrinfo ENOTFOUND, discovered 2026-09-22) —
+    // the actual public calendar servers are alice/bob.opentimestamps.org.
+    // Alice first, Bob as a fallback if Alice is unreachable, so a single
+    // calendar server having a bad day doesn't block the monthly anchor.
+    const OTS_CALENDARS = [
+      "https://alice.opentimestamps.org",
+      "https://bob.opentimestamps.org",
+    ];
 
-    const otsResponse = await fetch("https://a.opentimestamps.org", {
-      method: "POST",
-      body: Buffer.from(dataHash, "hex"),
-      headers: { "Content-Type": "application/octet-stream" },
-      signal: controller.signal,
-    });
+    let otsResponse: Response | null = null;
+    let lastStatus: number | string = "no calendar reachable";
+    for (const calendarUrl of OTS_CALENDARS) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000);
+      try {
+        const res = await fetch(calendarUrl, {
+          method: "POST",
+          body: Buffer.from(dataHash, "hex"),
+          headers: { "Content-Type": "application/octet-stream" },
+          signal: controller.signal,
+        });
+        if (res.ok) {
+          otsResponse = res;
+          break;
+        }
+        lastStatus = res.status;
+      } catch (err) {
+        lastStatus = err instanceof Error ? err.message : String(err);
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
 
-    clearTimeout(timeoutId);
-
-    if (!otsResponse.ok) {
-      console.error("OpenTimestamps submission failed:", otsResponse.status);
+    if (!otsResponse) {
+      console.error("OpenTimestamps submission failed:", lastStatus);
       return NextResponse.json({ error: "OTS submission failed" }, { status: 500 });
     }
 
