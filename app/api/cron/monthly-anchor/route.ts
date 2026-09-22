@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { createHash } from "crypto";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 
@@ -121,6 +122,14 @@ export async function GET(req: Request) {
     }
 
     console.log(`Monthly anchor created: ${proofFilename}, hash=${dataHash}, rows=${rows.length}`);
+
+    // /proofs, /results, and /verify.json all render from getAnchors(), and
+    // all three are statically generated (revalidate = false) — without
+    // this, a new anchor sits in Storage but stays invisible until the next
+    // unrelated deploy happens to rebuild them.
+    revalidatePath("/proofs");
+    revalidatePath("/results");
+    revalidatePath("/verify.json");
 
     return NextResponse.json({
       success: true,
