@@ -14,10 +14,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function PreviewResultsWithheldPage() {
+export default async function PreviewResultsWithheldPage() {
   const aggregates = PREVIEW_WITHHELD_AGGREGATES;
-  const anchors = getAnchors();
-  const latestAnchor = getLatestAnchor();
+  const anchors = await getAnchors();
+  const latestAnchor = await getLatestAnchor();
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl bg-surface">

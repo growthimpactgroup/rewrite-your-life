@@ -7,18 +7,19 @@ import ResultsPageBody from "@/components/results/ResultsPageBody";
 // Change Order 01, Phase 1 — the internal render target for
 // /results?preview=published (see proxy.ts for the rewrite). Not linked
 // from anywhere in the public build; always noindex regardless of launch
-// state, since it never shows real data. Always dynamic (no revalidate
-// export) — this route doesn't touch the database at all, so "dynamic"
-// costs nothing here, unlike the real /results page.
+// state, since the aggregate numbers shown here are always fake. The
+// anchors are the real ones, though (getAnchors() reads the real "proofs"
+// Storage bucket) — always dynamic (no revalidate export) since this page
+// was never eligible for static generation anyway.
 export const metadata: Metadata = {
   title: "PREVIEW — Rewrite Your Life Measured Results",
   robots: { index: false, follow: false },
 };
 
-export default function PreviewResultsPublishedPage() {
+export default async function PreviewResultsPublishedPage() {
   const aggregates = PREVIEW_PUBLISHED_AGGREGATES;
-  const anchors = getAnchors();
-  const latestAnchor = getLatestAnchor();
+  const anchors = await getAnchors();
+  const latestAnchor = await getLatestAnchor();
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl bg-surface">

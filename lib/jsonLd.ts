@@ -1,5 +1,5 @@
 import type { PublicAggregates } from "./publicAggregates";
-import { getLatestAnchor } from "./anchors";
+import type { Anchor } from "./anchors";
 import { INSTRUMENT_SHA256 } from "./instrument";
 
 // schema.org Dataset JSON-LD (Exhibit G: "this page embeds schema.org
@@ -16,8 +16,11 @@ import { INSTRUMENT_SHA256 } from "./instrument";
 // authenticity metadata (the anchor hash, the instrument hash, a pointer
 // to /verify.json) — not the outcome figures themselves. A reader still
 // gets those from the page's own prose, same as any human visitor.
-export function buildResultsJsonLd(aggregates: PublicAggregates, resultsUrl: string) {
-  const latestAnchor = getLatestAnchor();
+export function buildResultsJsonLd(
+  aggregates: PublicAggregates,
+  resultsUrl: string,
+  latestAnchor: Anchor | null,
+) {
   const origin = new URL(resultsUrl).origin;
 
   const additionalProperty = [

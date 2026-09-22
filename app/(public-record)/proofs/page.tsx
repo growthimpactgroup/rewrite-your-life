@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAnchors } from "@/lib/anchors";
+import { getAnchors, anchorProofUrl } from "@/lib/anchors";
 import { formatDate } from "@/components/results/format";
 import { getPublicAggregates, isLaunched } from "@/lib/publicAggregates";
 
@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function ProofsPage() {
-  const anchors = getAnchors();
+export default async function ProofsPage() {
+  const anchors = await getAnchors();
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl bg-surface">
@@ -46,7 +46,7 @@ export default function ProofsPage() {
                   Anchored {formatDate(a.date)} · {a.row_count} rows
                 </p>
                 <p className="mt-2 font-mono text-xs break-all text-muted">SHA-256 {a.sha256}</p>
-                <a href={`/proofs/${a.file}`} className="mt-2 inline-block font-mono text-xs text-primary underline">
+                <a href={anchorProofUrl(a.file)} className="mt-2 inline-block font-mono text-xs text-primary underline">
                   Download proof file (.ots)
                 </a>
               </li>

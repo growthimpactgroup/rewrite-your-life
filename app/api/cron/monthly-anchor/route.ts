@@ -99,8 +99,27 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Proof upload failed" }, { status: 500 });
     }
 
-    // 6. Record anchor in public_aggregates (handled by next nightly refresh)
-    // For now, just log success
+    // 6. Write the JSON sidecar lib/anchors.ts reads to list anchors — see
+    // that file's header comment for why this lives in Storage rather than
+    // public/proofs/anchors.json (a cron function can't write into public/).
+    const sidecarFilename = `ryl_${anchorDate.split("T")[0]}.json`;
+    const sidecar = {
+      date: anchorDate.split("T")[0],
+      row_count: rows.length,
+      sha256: dataHash,
+      file: proofFilename,
+    };
+    const { error: sidecarError } = await supabase.storage
+      .from("proofs")
+      .upload(sidecarFilename, JSON.stringify(sidecar), {
+        upsert: true,
+        contentType: "application/json",
+      });
+    if (sidecarError) {
+      console.error("Anchor sidecar upload failed:", sidecarError);
+      return NextResponse.json({ error: "Anchor sidecar upload failed" }, { status: 500 });
+    }
+
     console.log(`Monthly anchor created: ${proofFilename}, hash=${dataHash}, rows=${rows.length}`);
 
     return NextResponse.json({

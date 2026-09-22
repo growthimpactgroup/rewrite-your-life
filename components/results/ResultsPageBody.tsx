@@ -38,7 +38,9 @@ export default function ResultsPageBody({
    * seeded preview data. */
   includeJsonLd: boolean;
 }) {
-  const jsonLd = includeJsonLd ? buildResultsJsonLd(aggregates, `${SITE_URL}/results`) : null;
+  const jsonLd = includeJsonLd
+    ? buildResultsJsonLd(aggregates, `${SITE_URL}/results`, latestAnchor)
+    : null;
   const hasResults = aggregates.funnel.n_pairs > 0;
 
   return (

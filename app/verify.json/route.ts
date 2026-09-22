@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
 import { getPublicAggregates } from "@/lib/publicAggregates";
-import { getLatestAnchor } from "@/lib/anchors";
+import { getLatestAnchor, anchorProofUrl } from "@/lib/anchors";
 import { FROZEN_QUESTIONS, INSTRUMENT_SHA256 } from "@/lib/instrument";
 
 // 2026-08-28, Jeff/Frances review call — Item 2: replaces /aggregates.json
@@ -26,7 +26,7 @@ export const revalidate = false;
 export async function GET() {
   try {
     const aggregates = await getPublicAggregates("ryl");
-    const latestAnchor = getLatestAnchor();
+    const latestAnchor = await getLatestAnchor();
 
     if (!aggregates) {
       return NextResponse.json(
@@ -74,7 +74,7 @@ export async function GET() {
             sha256: latestAnchor.sha256,
             row_count: latestAnchor.row_count,
             rows_total_now: funnel.total_submissions,
-            proof_url: `/proofs/${latestAnchor.file}`,
+            proof_url: anchorProofUrl(latestAnchor.file),
             network: "OpenTimestamps (Bitcoin)",
           }
         : null,

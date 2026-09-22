@@ -32,8 +32,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ResultsPage() {
   const aggregates = await getPublicAggregates("ryl");
-  const anchors = getAnchors();
-  const latestAnchor = getLatestAnchor();
+  const anchors = await getAnchors();
+  const latestAnchor = await getLatestAnchor();
 
   if (!aggregates) {
     return (
