@@ -1,0 +1,1914 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 2765
+>>
+stream
+0.200025 w
+0 G
+0.15 0.39 0.92 rg
+56.5 678. m
+87.5 678. l
+88.8807118745769884 678. 90. 676.8807118745769458 90. 675.5 c
+90. 675.5 l
+90. 674.1192881254230542 88.6192881254230116 673. 87.5 673. c
+56.5 673. l
+55.1192881254230187 673. 54. 674.3807118745769458 54. 675.5 c
+54. 675.5 l
+54. 676.8807118745769458 55.3807118745769813 678. 56.5 678. c
+h
+f
+BT
+/F2 22 Tf
+25.2999999999999972 TL
+0.118 0.161 0.231 rg
+54. 642. Td
+(Rewrite Your Life — Instrument) Tj
+ET
+BT
+/F2 13 Tf
+14.9499999999999993 TL
+0.145 0.388 0.922 rg
+54. 618. Td
+(Version v2 — 2026-09-22) Tj
+ET
+BT
+/F1 9.7 Tf
+11.1549999999999976 TL
+0.392 0.455 0.545 rg
+54. 588. Td
+(Prepared by Frances Mendoza — Growth Impact Group) Tj
+ET
+BT
+/F1 9.7 Tf
+11.1549999999999976 TL
+0.392 0.455 0.545 rg
+54. 574. Td
+(Companion file: RYL_instrument_v2_2026-09-22.csv) Tj
+ET
+BT
+/F1 9.7 Tf
+11.1549999999999976 TL
+0.392 0.455 0.545 rg
+54. 560. Td
+(Supersedes: RYL_instrument_v1_2026-09-07 \(kept intact alongside this one\)) Tj
+ET
+0.89 0.91 0.94 RG
+0.75 w
+54. 536. m
+558. 536. l
+S
+BT
+/F1 10 Tf
+11.5 TL
+0.118 0.161 0.231 rg
+54. 520. Td
+(The human-readable master record of the Rewrite Your Life assessment, version 2. Every question is worded) Tj
+T* (identically to version 1 — nothing about what's asked or how it's scored has changed. What changed: the) Tj
+T* (answer-button wording on 5 questions \(19, 20, 21, 25, 27\), corrected after Sept 21 participant feedback that those) Tj
+T* (buttons didn't match their questions.) Tj
+ET
+1. 0.98 0.76 rg
+0.99 0.88 0.28 RG
+1. w
+59. 458. m
+553. 458. l
+555.7614237491540052 458. 558. 455.7614237491539484 558. 453. c
+558. 353.5 l
+558. 350.7385762508460516 555.2385762508459948 348.5 553. 348.5 c
+59. 348.5 l
+56.2385762508460303 348.5 54. 351.2614237491539484 54. 353.5 c
+54. 453. l
+54. 455.7614237491539484 56.7614237491539697 458. 59. 458. c
+h
+B
+BT
+/F2 10 Tf
+11.5 TL
+0.631 0.384 0.027 rg
+67. 441. Td
+(What actually changed, and what didn't) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.161 0.231 rg
+67. 423.5 Td
+(Changed: the on-screen answer labels for items 19, 20, 21, 25, and 27 — marked [CHANGED] below.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.161 0.231 rg
+67. 408.5 Td
+(Unchanged: every question's wording, every scoring formula, and all 0/3/5/8/10 values. Results from before and after) Tj
+T* (this revision stay fully comparable.) Tj
+ET
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.118 0.161 0.231 rg
+67. 381.5 Td
+(The instrument's public integrity hash \(INSTRUMENT_SHA256\) is untouched — it's computed from question wording) Tj
+T* (only, never from answer labels.) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(1) Tj
+ET
+endstream
+endobj
+5 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 6 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 3369
+>>
+stream
+1. w
+0.99 0.88 0.28 RG
+BT
+/F2 17 Tf
+19.5499999999999972 TL
+0.118 0.161 0.231 rg
+54. 738. Td
+(1. Answer Scales) Tj
+ET
+0.15 0.39 0.92 RG
+2. w
+54. 727. m
+94. 727. l
+S
+BT
+/F1 9.7 Tf
+11.1549999999999976 TL
+0.118 0.161 0.231 rg
+54. 709. Td
+(Seven scale sets now, up from two in v1 — five new ones were added specifically to fix items 19, 20, 21, 25, and 27.) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 685.4199999999999591 Td
+(Frequency scale — items 1–18) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 670.4199999999999591 Td
+(0   Not me at all) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 654.3799999999999955 Td
+(3   Occasionally) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 638.3400000000000318 Td
+(5   About half the time) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 622.2999999999999545 Td
+(8   Most of the time) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 606.2599999999999909 Td
+(10   Consistently — it's how I operate) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 584.2200000000000273 Td
+(AI-use scale — items 22, 24, 26) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 569.2200000000000273 Td
+(0   Never) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 553.1800000000000637 Td
+(3   Tried it) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 537.1400000000001 Td
+(5   Sometimes) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 521.1000000000000227 Td
+(8   Regularly — part of how I work) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 505.0600000000000023 Td
+(10   It's simply how I work) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 483.0199999999999818 Td
+(Satisfaction scale — item 19  [NEW in v2]) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 468.0199999999999818 Td
+(0   Not at all satisfied) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 451.9799999999999613 Td
+(3   Slightly satisfied) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 435.9399999999999409 Td
+(5   Moderately satisfied) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 419.8999999999999204 Td
+(8   Very satisfied) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 403.8599999999999 Td
+(10   Completely satisfied) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 381.8199999999998795 Td
+(Morning-count scale — item 20  [NEW in v2]) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 366.8199999999998795 Td
+(0   None of them) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 350.779999999999859 Td
+(3   A few of them) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 334.7399999999998386 Td
+(5   About half \(7 of 14\)) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 318.6999999999998181 Td
+(8   Most of them) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 302.6599999999997976 Td
+(10   All 14) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(2) Tj
+ET
+endstream
+endobj
+7 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 8 0 R
+>>
+endobj
+8 0 obj
+<<
+/Length 2527
+>>
+stream
+2. w
+0.15 0.39 0.92 RG
+BT
+/F2 17 Tf
+19.5499999999999972 TL
+0.118 0.161 0.231 rg
+54. 738. Td
+(1. Answer Scales  \(continued\)) Tj
+ET
+0.15 0.39 0.92 RG
+2. w
+54. 727. m
+94. 727. l
+S
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 709. Td
+(Confidence scale — item 21  [NEW in v2]) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 694. Td
+(0   Not confident at all) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 677.9600000000000364 Td
+(3   Slightly confident) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 661.9200000000000728 Td
+(5   Somewhat confident) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 645.8799999999999955 Td
+(8   Fairly confident) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 629.8400000000000318 Td
+(10   Extremely confident) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 607.8000000000000682 Td
+(Net-benefit scale — item 25  [NEW in v2]) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 592.8000000000000682 Td
+(0   Costs me more than it gives back) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 576.7599999999999909 Td
+(3   Costs slightly more than it gives back) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 560.7200000000000273 Td
+(5   About even) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 544.6800000000000637 Td
+(8   Saves me more than it costs) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 528.6400000000001 Td
+(10   Genuinely saves me time and effort) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 506.6000000000000227 Td
+(Pace scale — item 27  [NEW in v2]) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 491.6000000000000227 Td
+(0   Always behind) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 475.5600000000000023 Td
+(3   Usually behind) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 459.5199999999999818 Td
+(5   About even) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 443.4799999999999613 Td
+(8   Usually ahead) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 427.4399999999999409 Td
+(10   Always ahead of the curve) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(3) Tj
+ET
+endstream
+endobj
+9 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 10 0 R
+>>
+endobj
+10 0 obj
+<<
+/Length 7606
+>>
+stream
+2. w
+0.15 0.39 0.92 RG
+BT
+/F2 17 Tf
+19.5499999999999972 TL
+0.118 0.161 0.231 rg
+54. 738. Td
+(2. All 27 Questions) Tj
+ET
+0.15 0.39 0.92 RG
+2. w
+54. 727. m
+94. 727. l
+S
+BT
+/F1 9.7 Tf
+11.1549999999999976 TL
+0.118 0.161 0.231 rg
+54. 709. Td
+(Grouped by domain, in on-screen order. "R" marks a reverse-scored item \(10 - answer at scoring time\). "[CHANGED]") Tj
+T* (marks a v2 answer-label correction — the question text itself is identical to v1.) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 669.8400000000000318 Td
+(Clear Thinking) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 654.8400000000000318 Td
+(1.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 654.8400000000000318 Td
+(Can you clearly see your options when you have a big decision to make?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 639.8400000000000318 Td
+(like choosing between a job with better pay or one with more flexibility) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 626.3400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 612.3400000000000318 Td
+(2.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 612.3400000000000318 Td
+(Does your thinking stay organized when you're under time pressure?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 597.3400000000000318 Td
+(a deadline crunch where your to-do list still makes sense) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 583.8400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 567.8400000000000318 Td
+(Emotional Steadiness) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 552.8400000000000318 Td
+(3.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 552.8400000000000318 Td
+(When someone's upset with you, do you stay curious about why instead of getting defensive?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 537.8400000000000318 Td
+(asking “what happened?” instead of “that's not fair”) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 524.3400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 510.3400000000000318 Td
+(4.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 510.3400000000000318 Td
+(Do you pause before acting on a strong emotional reaction?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 495.3400000000000318 Td
+(a breath before firing back a reply) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 481.8400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 465.8400000000000318 Td
+(Adversity Recovery) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 450.8400000000000318 Td
+(5.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 450.8400000000000318 Td
+(When something goes badly wrong, are you back to functioning that same day?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 435.8400000000000318 Td
+(a bad meeting doesn't take you out for the rest of the week) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 422.3400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 408.3400000000000318 Td
+(6.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 408.3400000000000318 Td
+(After a rejection or failure, do you recover your motivation quickly?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 393.3400000000000318 Td
+(a “no” doesn't stop you from trying again soon after) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 379.8400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 363.8400000000000318 Td
+(Frame Control) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 348.8400000000000318 Td
+(7.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 348.8400000000000318 Td
+(In a tense conversation, do you set the tone instead of absorbing the other person's?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 333.8400000000000318 Td
+(staying steady even when they're heated) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 320.3400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 306.3400000000000318 Td
+(8. [R]) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 306.3400000000000318 Td
+(Do you ever leave a conversation realizing you agreed to something you didn't actually want?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 291.3400000000000318 Td
+(saying yes just to end an uncomfortable back-and-forth) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 277.8400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 261.8400000000000318 Td
+(Learning Agility) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 246.8400000000000318 Td
+(9.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 246.8400000000000318 Td
+(When new information contradicts what you believed, do you update your view quickly?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 231.8400000000000318 Td
+(changing your plan once the data proves you wrong) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 218.3400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 204.3400000000000318 Td
+(10.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 204.3400000000000318 Td
+(When your usual approach stops working, do you switch tactics quickly?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 189.3400000000000318 Td
+(trying something new instead of repeating what isn't working) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 175.8400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 159.8400000000000318 Td
+(Situational Awareness) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 144.8400000000000318 Td
+(11.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 144.8400000000000318 Td
+(Walking into a room, can you quickly read who's friendly, neutral, or against you?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 129.8400000000000318 Td
+(sensing the room before anyone says a word) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 116.3400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 102.3400000000000318 Td
+(12.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 102.3400000000000318 Td
+(Do you tend to see problems coming before they actually arrive?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 87.3400000000000318 Td
+(spotting a risk before it becomes a crisis) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 73.8400000000000318 Td
+(scale: frequency) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(4) Tj
+ET
+endstream
+endobj
+11 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 12 0 R
+>>
+endobj
+12 0 obj
+<<
+/Length 6936
+>>
+stream
+2. w
+0.15 0.39 0.92 RG
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 738. Td
+(Presence) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 723. Td
+(13.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 723. Td
+(In high-stress moments, do you stay calm enough that others look to you for direction?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 708. Td
+(being the steady one when everyone else is panicking) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 694.5 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 680.5 Td
+(14. [R]) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 680.5 Td
+(When pressure suddenly spikes, do others notice you visibly lose your composure?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 665.5 Td
+(your voice, face, or hands giving it away) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 652. Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 636. Td
+(Purpose) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 621. Td
+(15.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 621. Td
+(Do your daily actions actually line up with what you say matters most to you?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 606. Td
+(your calendar reflecting your stated priorities) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 592.5 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 578.5 Td
+(16.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 578.5 Td
+(Does a clear sense of purpose guide your big decisions?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 563.5 Td
+(choosing a path because it fits your bigger why, not just what's easiest) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 550. Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 534. Td
+(Execution) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 519. Td
+(17.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 519. Td
+(Do you finish what you start, even after the initial excitement wears off?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 504. Td
+(still showing up once the novelty fades) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 490.5 Td
+(scale: frequency) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 476.5 Td
+(18.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 476.5 Td
+(Do you close loops quickly, or do things linger half-done for weeks?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 461.5 Td
+(that email that's been “almost done” for a month) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 448. Td
+(scale: frequency) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 432. Td
+(Life Anchors) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 417. Td
+(19.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 417. Td
+(Overall, how satisfied are you with your life right now?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 402. Td
+(thinking about work, relationships, and health together) Tj
+ET
+BT
+/F2 8.2 Tf
+9.4299999999999979 TL
+0.631 0.384 0.027 rg
+94. 388.5 Td
+(scale: satisfaction  [CHANGED in v2]) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 374.5 Td
+(20.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 374.5 Td
+(Out of the last 14 mornings, how many did you wake up already knowing your top priority for the) Tj
+T* (day? \(10 = 14 of 14\)) Tj
+ET
+BT
+/F2 8.2 Tf
+9.4299999999999979 TL
+0.631 0.384 0.027 rg
+94. 346.5 Td
+(scale: morning-count  [CHANGED in v2]) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 332.5 Td
+(21.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 332.5 Td
+(How confident are you that the next 12 months are headed where you want them to go?) Tj
+ET
+BT
+/F2 8.2 Tf
+9.4299999999999979 TL
+0.631 0.384 0.027 rg
+94. 317.5 Td
+(scale: confidence  [CHANGED in v2]) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 301.5 Td
+(AI Orchestration Index) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 286.5 Td
+(22.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 286.5 Td
+(Q-AI: Do you hand real work to AI and direct it like a team member, not just ask it questions?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 271.5 Td
+(assigning it a task with a goal, not a one-off question) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 258. Td
+(scale: ai-use) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 244. Td
+(23.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 244. Td
+(Can you tell when to trust an AI's output and when you need to verify it yourself?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 229. Td
+(double-checking a number before you use it, not everything) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 215.5 Td
+(scale: ai-use) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 201.5 Td
+(24.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 201.5 Td
+(Do you use AI weekly in your actual work, not just to experiment with it?) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 186.5 Td
+(scale: ai-use) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 172.5 Td
+(25.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 172.5 Td
+(Does AI genuinely save you time and effort, or does keeping up with it cost you more than it gives) Tj
+T* (back?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 144.5 Td
+(fewer hours spent vs. more prompts, tools, and outputs to check) Tj
+ET
+BT
+/F2 8.2 Tf
+9.4299999999999979 TL
+0.631 0.384 0.027 rg
+94. 131. Td
+(scale: net-benefit  [CHANGED in v2]) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 117. Td
+(26.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 117. Td
+(Do you give AI clear roles, standards, and review — the way you'd manage a team?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 102. Td
+(defining what “good” looks like before it starts) Tj
+ET
+BT
+/F1 8.2 Tf
+9.4299999999999979 TL
+0.392 0.455 0.545 rg
+94. 88.5 Td
+(scale: ai-use) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(5) Tj
+ET
+endstream
+endobj
+13 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 14 0 R
+>>
+endobj
+14 0 obj
+<<
+/Length 729
+>>
+stream
+2. w
+0.15 0.39 0.92 RG
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 738. Td
+(27.) Tj
+ET
+BT
+/F1 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+94. 738. Td
+(Are you keeping pace with how fast AI is changing, or falling behind?) Tj
+ET
+BT
+/F3 8.6 Tf
+9.8899999999999988 TL
+0.392 0.455 0.545 rg
+94. 723. Td
+(trying new tools or models as they come out, vs. still using what you learned a year ago) Tj
+ET
+BT
+/F2 8.2 Tf
+9.4299999999999979 TL
+0.631 0.384 0.027 rg
+94. 709.5 Td
+(scale: pace  [CHANGED in v2]) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(6) Tj
+ET
+endstream
+endobj
+15 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 16 0 R
+>>
+endobj
+16 0 obj
+<<
+/Length 4215
+>>
+stream
+2. w
+0.15 0.39 0.92 RG
+BT
+/F2 17 Tf
+19.5499999999999972 TL
+0.118 0.161 0.231 rg
+54. 738. Td
+(3. How Each Domain Is Calculated) Tj
+ET
+0.15 0.39 0.92 RG
+2. w
+54. 727. m
+94. 727. l
+S
+BT
+/F1 9.7 Tf
+11.1549999999999976 TL
+0.118 0.161 0.231 rg
+54. 709. Td
+(Identical to v1 — POMP scoring \(sum of raw answers / maximum possible sum x 100, rounded\). Reverse-scored) Tj
+T* (items convert to \(10 - answer\) before summing. None of this changed in v2.) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 671.8400000000000318 Td
+(Clear Thinking) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 659.8400000000000318 Td
+(\(item 1 + item 2\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 639.7999999999999545 Td
+(Emotional Steadiness) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 627.7999999999999545 Td
+(\(item 3 + item 4\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 607.7599999999999909 Td
+(Adversity Recovery) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 595.7599999999999909 Td
+(\(item 5 + item 6\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 575.7200000000000273 Td
+(Frame Control) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 563.7200000000000273 Td
+(\(item 7 + \(10 - item 8\)\) / 20 x 100   - item 8 reversed) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 543.6800000000000637 Td
+(Learning Agility) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 531.6800000000000637 Td
+(\(item 9 + item 10\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 511.6400000000000432 Td
+(Situational Awareness) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 499.6400000000000432 Td
+(\(item 11 + item 12\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 479.6000000000000227 Td
+(Presence) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 467.6000000000000227 Td
+(\(item 13 + \(10 - item 14\)\) / 20 x 100   - item 14 reversed) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 447.5600000000000023 Td
+(Purpose) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 435.5600000000000023 Td
+(\(item 15 + item 16\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 415.5199999999999818 Td
+(Execution) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 403.5199999999999818 Td
+(\(item 17 + item 18\) / 20 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 383.4799999999999613 Td
+(AI Orchestration Index) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 371.4799999999999613 Td
+(\(item 22 + item 23 + item 24 + item 25 + item 26 + item 27\) / 60 x 100) Tj
+ET
+BT
+/F2 9.6 Tf
+11.0399999999999991 TL
+0.118 0.161 0.231 rg
+54. 351.4399999999999409 Td
+(Q-AI \(its own row\)) Tj
+ET
+BT
+/F5 8.6 Tf
+9.8899999999999988 TL
+0.118 0.161 0.231 rg
+62. 339.4399999999999409 Td
+(item 22 / 10 x 100   - item 22 alone, not part of a domain) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 315.3999999999999204 Td
+(Life Anchors \(items 19, 20, 21\)) Tj
+ET
+BT
+/F1 9.3 Tf
+10.6950000000000003 TL
+0.392 0.455 0.545 rg
+54. 300.3999999999999204 Td
+(Not combined into a domain percentage. Each is shown individually on its original 0-10 raw scale. The v2 answer-label fix) Tj
+T* (changed how these are ASKED, not how they're scored.) Tj
+ET
+BT
+/F2 11.5 Tf
+13.2249999999999996 TL
+0.145 0.388 0.922 rg
+54. 264.3599999999999 Td
+(Straight-line / careless-response flag) Tj
+ET
+BT
+/F1 9.3 Tf
+10.6950000000000003 TL
+0.392 0.455 0.545 rg
+54. 249.3599999999999 Td
+(Unchanged from v1: flagged when 10+ consecutive identical answers span at least one reverse item \(8 or 14\).) Tj
+T* (Informational only — excluded from cross-participant aggregates, never from a person's own results.) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+54. 28. Td
+(RYL Instrument — v2 — 2026-09-22) Tj
+ET
+BT
+/F1 8.3 Tf
+9.5449999999999999 TL
+0.392 0.455 0.545 rg
+553.4349999999999454 28. Td
+(7) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R ]
+/Count 7
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+19 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+20 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+21 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+22 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+23 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+24 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+25 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+26 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+27 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+28 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+29 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+30 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 17 0 R
+/F2 18 0 R
+/F3 19 0 R
+/F4 20 0 R
+/F5 21 0 R
+/F6 22 0 R
+/F7 23 0 R
+/F8 24 0 R
+/F9 25 0 R
+/F10 26 0 R
+/F11 27 0 R
+/F12 28 0 R
+/F13 29 0 R
+/F14 30 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+31 0 obj
+<<
+/Producer (jsPDF 4.2.1)
+/CreationDate (D:20260922235716+08'00')
+>>
+endobj
+32 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 33
+0000000000 65535 f 
+0000029271 00000 n 
+0000031132 00000 n 
+0000000015 00000 n 
+0000000120 00000 n 
+0000002937 00000 n 
+0000003042 00000 n 
+0000006463 00000 n 
+0000006568 00000 n 
+0000009147 00000 n 
+0000009253 00000 n 
+0000016912 00000 n 
+0000017019 00000 n 
+0000024008 00000 n 
+0000024115 00000 n 
+0000024896 00000 n 
+0000025003 00000 n 
+0000029367 00000 n 
+0000029493 00000 n 
+0000029624 00000 n 
+0000029758 00000 n 
+0000029896 00000 n 
+0000030020 00000 n 
+0000030149 00000 n 
+0000030281 00000 n 
+0000030417 00000 n 
+0000030545 00000 n 
+0000030672 00000 n 
+0000030801 00000 n 
+0000030934 00000 n 
+0000031036 00000 n 
+0000031385 00000 n 
+0000031471 00000 n 
+trailer
+<<
+/Size 33
+/Root 32 0 R
+/Info 31 0 R
+/ID [ <B253AEADDDF20E594DCE2E5E0EE1381C> <B253AEADDDF20E594DCE2E5E0EE1381C> ]
+>>
+startxref
+31575
+%%EOF
