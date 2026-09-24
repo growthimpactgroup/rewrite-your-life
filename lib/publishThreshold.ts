@@ -3,13 +3,14 @@
 // bare 20; import this instead. The SQL side has its own equivalent,
 // publish_threshold(), in supabase/schema.sql — same value, same reason.
 //
-// Set to 0 on 2026-08-26 at Frances's explicit request, to show the real
-// current numbers to a client immediately rather than waiting for 20 real
-// finishers. This turns every `count >= PUBLISH_THRESHOLD` check into an
-// unconditional true (a count is never negative), so nothing is withheld
-// regardless of how few people have finished. The privacy protection this
-// number existed for — a very small group's average can expose an
-// individual — no longer applies while this is 0. Reversible: restoring
-// this to 20 (and re-running the matching SQL migration) brings the
-// original protection back everywhere at once.
-export const PUBLISH_THRESHOLD = 0;
+// Was set to 0 on 2026-08-26 at Frances's explicit request, to show the
+// real current numbers to a client immediately rather than waiting for 20
+// real finishers. Restored to 20 on 2026-09-24, alongside a fresh-start
+// reset of record_starts_at to 2026-09-28 (see supabase/schema.sql's
+// "Launch cutoff date" block) — small-group averages can expose an
+// individual below this size, and that protection should be back in place
+// for the real relaunch. The SQL side (publish_threshold() in
+// supabase/schema.sql) must independently match this value — the schema
+// file already said 20, but the live database was still running an older
+// migration that returned 0 until this same pass fixed it directly.
+export const PUBLISH_THRESHOLD = 20;

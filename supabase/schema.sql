@@ -1458,21 +1458,21 @@ cross join lateral (
 revoke all on scored from anon, authenticated;
 
 -- ---------------------------------------------------------------------------
--- 2026-08-26 — disable the publish threshold at Frances's explicit request,
+-- 2026-08-26 — disabled the publish threshold at Frances's explicit request,
 -- to show the real current numbers to a client immediately instead of
--- waiting for 20 real finishers. Every `count >= publish_threshold()` check
--- in refresh_public_aggregates() becomes unconditionally true (a count is
--- never negative), so nothing is withheld regardless of how few people have
--- finished. The privacy protection this number existed for — a very small
--- group's average can expose an individual — no longer applies while this
--- is 0. Reversible: change the 0 back to 20 and re-run this block to
--- restore the original protection everywhere at once, then trigger a
--- nightly refresh (or call refresh_public_aggregates('ryl') directly) so
--- the stored row picks it up.
+-- waiting for 20 real finishers. (Superseded below — restored 2026-09-24.)
+--
+-- 2026-09-24 — restored to 20, alongside a fresh-start reset of
+-- record_starts_at to 2026-09-28 for the real relaunch. The privacy
+-- protection this number exists for — a very small group's average can
+-- expose an individual — should be back in place going forward. Reversible
+-- the same way: change the 20 back to 0 and re-run this block, then
+-- trigger a nightly refresh (or call refresh_public_aggregates('ryl')
+-- directly) so the stored row picks it up.
 create or replace function publish_threshold()
 returns int
 language sql
 immutable
 as $$
-  select 0;
+  select 20;
 $$;
