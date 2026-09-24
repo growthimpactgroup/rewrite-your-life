@@ -131,6 +131,19 @@ export async function GET(req: Request) {
     revalidatePath("/results");
     revalidatePath("/verify.json");
 
+    // revalidatePath only marks these stale — actual regeneration happens
+    // on the next real visit, which can be days away under light traffic.
+    // Self-fetch all three now so they're already fresh before anyone gets
+    // there (same fix applied to app/api/cron/nightly/route.ts).
+    const origin = new URL(req.url).origin;
+    await Promise.all(
+      ["/proofs", "/results", "/verify.json"].map((path) =>
+        fetch(`${origin}${path}`, { cache: "no-store" }).catch((err) =>
+          console.error(`Warm-up fetch failed for ${path}:`, err),
+        ),
+      ),
+    );
+
     return NextResponse.json({
       success: true,
       anchor: {

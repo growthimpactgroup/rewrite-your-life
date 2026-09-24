@@ -57,7 +57,22 @@ export async function GET(request: Request) {
     }
 
     revalidatePath("/verify.json");
-    revalidatePath("/results"); // no-op today — /results doesn't exist until Phase C
+    revalidatePath("/results");
+
+    // A Route Handler's revalidatePath only marks the path stale — actual
+    // regeneration happens on the next real visit (see revalidatePath's own
+    // docs). With light traffic, "the next visit" can be days away, so
+    // /results and /verify.json would keep serving old data until some
+    // visitor happened to hit them. Self-fetch both right now so the fresh
+    // version is already baked into the cache before anyone arrives.
+    const origin = new URL(request.url).origin;
+    await Promise.all(
+      ["/results", "/verify.json"].map((path) =>
+        fetch(`${origin}${path}`, { cache: "no-store" }).catch((err) =>
+          console.error(`Warm-up fetch failed for ${path}:`, err),
+        ),
+      ),
+    );
 
     return NextResponse.json({ ok: true, course: COURSE, ...row });
   } catch (err) {
