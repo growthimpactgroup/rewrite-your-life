@@ -75,6 +75,9 @@ export default function ConsentScreen({
       <BackArrow onClick={onBack} />
       <div className="w-full">
         <h1 className="text-[26px] font-semibold tracking-tight text-ink">Last step</h1>
+        <p className="mt-1.5 text-[13px] font-medium text-muted">
+          Tap the box below to agree, then continue.
+        </p>
 
         <button
           type="button"
