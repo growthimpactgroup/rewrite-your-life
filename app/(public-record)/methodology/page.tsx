@@ -118,6 +118,16 @@ export default function MethodologyPage() {
         </p>
       </Section>
 
+      <Section title="Test submissions">
+        <p>
+          Our own system tests submit real entries through the live form, using email addresses on
+          the domains reserved for testing (example.com, example.net, example.org) — addresses no
+          participant can own. Those entries are left out of every figure on this site. Like every
+          other submission they are never altered or deleted, and they remain part of the
+          fingerprinted raw dataset.
+        </p>
+      </Section>
+
       <Section title="What is never published">
         <p>
           Individual answers, ever. Email addresses exist solely to match a person&apos;s Day 0

@@ -6,14 +6,19 @@ import Header from "@/components/results/Header";
 import ResultsFooter from "@/components/results/ResultsFooter";
 import ResultsPageBody from "@/components/results/ResultsPageBody";
 
-// Statically generated, revalidated on-demand by the nightly job
-// (app/api/cron/nightly/route.ts calls revalidatePath('/results')) — zero
-// database queries on page load once built, per Section 5. Deliberately
+// Statically generated, refreshed by the nightly job
+// (app/api/cron/nightly/route.ts calls revalidatePath('/results')) and
+// expired every 10 minutes as a backstop — at most one cheap query per
+// 10 minutes, not one per visitor. Deliberately
 // does NOT read searchParams (that would force this whole route dynamic,
 // reintroducing a per-request DB query for every real visitor) — preview
 // mode lives on a separate internal route instead, reached via a proxy
 // rewrite. See proxy.ts and app/_preview/results-published/page.tsx.
-export const revalidate = false;
+// Time-based safety net: the nightly job also refreshes these on demand, but
+// revalidatePath alone left /results serving 6-day-old numbers once, so the
+// page now expires on its own every 10 minutes regardless (a literal, since
+// Next requires revalidate to be statically analyzable).
+export const revalidate = 600;
 
 // Section 10: "do not publish until 20+ matched pairs exist; until then the
 // page runs privately on an unlisted URL." A known-but-unlinked URL isn't

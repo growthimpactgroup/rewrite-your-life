@@ -3,7 +3,11 @@ import { getAnchors, anchorProofUrl } from "@/lib/anchors";
 import { formatDate } from "@/components/results/format";
 import { getPublicAggregates, isLaunched } from "@/lib/publicAggregates";
 
-export const revalidate = false;
+// Time-based safety net: the nightly job also refreshes these on demand, but
+// revalidatePath alone left /results serving 6-day-old numbers once, so the
+// page now expires on its own every 10 minutes regardless (a literal, since
+// Next requires revalidate to be statically analyzable).
+export const revalidate = 600;
 
 // Same noindex-until-launch gate as /results — see that page's comment.
 export async function generateMetadata(): Promise<Metadata> {

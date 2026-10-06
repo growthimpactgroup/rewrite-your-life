@@ -124,7 +124,7 @@ export async function GET(req: Request) {
     console.log(`Monthly anchor created: ${proofFilename}, hash=${dataHash}, rows=${rows.length}`);
 
     // /proofs, /results, and /verify.json all render from getAnchors(), and
-    // all three are statically generated (revalidate = false) — without
+    // all three are statically generated (revalidate = 600) — without
     // this, a new anchor sits in Storage but stays invisible until the next
     // unrelated deploy happens to rebuild them.
     revalidatePath("/proofs");
@@ -135,7 +135,12 @@ export async function GET(req: Request) {
     // on the next real visit, which can be days away under light traffic.
     // Self-fetch all three now so they're already fresh before anyone gets
     // there (same fix applied to app/api/cron/nightly/route.ts).
-    const origin = new URL(req.url).origin;
+    // Prefer the production domain over req.url's origin: when Vercel
+    // invokes the cron, req.url can resolve to a deployment-specific URL,
+    // so warming that URL never refreshes the pages visitors actually load.
+    const origin = process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : new URL(req.url).origin;
     await Promise.all(
       ["/proofs", "/results", "/verify.json"].map((path) =>
         fetch(`${origin}${path}`, { cache: "no-store" }).catch((err) =>

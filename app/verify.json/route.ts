@@ -21,7 +21,11 @@ import { FROZEN_QUESTIONS, INSTRUMENT_SHA256 } from "@/lib/instrument";
 // dataset's monthly blockchain hash, the frozen instrument's hash), and a
 // self-consistency checksum over those counts. Full data and methodology
 // are available on request — see full_dataset below.
-export const revalidate = false;
+// Time-based safety net: the nightly job also refreshes these on demand, but
+// revalidatePath alone left /results serving 6-day-old numbers once, so the
+// page now expires on its own every 10 minutes regardless (a literal, since
+// Next requires revalidate to be statically analyzable).
+export const revalidate = 600;
 
 export async function GET() {
   try {

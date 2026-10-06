@@ -65,7 +65,12 @@ export async function GET(request: Request) {
     // /results and /verify.json would keep serving old data until some
     // visitor happened to hit them. Self-fetch both right now so the fresh
     // version is already baked into the cache before anyone arrives.
-    const origin = new URL(request.url).origin;
+    // Prefer the production domain over request.url's origin: when Vercel
+    // invokes the cron, request.url can resolve to a deployment-specific URL,
+    // so warming that URL never refreshes the pages visitors actually load.
+    const origin = process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : new URL(request.url).origin;
     await Promise.all(
       ["/results", "/verify.json"].map((path) =>
         fetch(`${origin}${path}`, { cache: "no-store" }).catch((err) =>
