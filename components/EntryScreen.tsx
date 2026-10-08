@@ -8,11 +8,9 @@ import {
   ENTRY_SUBTEXT,
   ENTRY_FRAMING_LINE,
   ENTRY_DISCLAIMER,
-  ENTRY_EMAIL_NOTICE_RED,
   CONFIRM_DELAY_MS,
 } from "@/lib/questions";
 import ScreenContainer from "./ScreenContainer";
-import RedNotice from "./RedNotice";
 import FormattedText from "./FormattedText";
 
 // Screen A build spec: one tap sets the phase and advances, on the same
@@ -66,9 +64,16 @@ export default function EntryScreen({ onSelect }: { onSelect: (phase: Phase) => 
         <FormattedText text={ENTRY_DISCLAIMER} />
       </p>
 
-      <div className="mt-3 w-full">
-        <RedNotice>{ENTRY_EMAIL_NOTICE_RED}</RedNotice>
-      </div>
+      <p className="mt-4 text-[13px] text-muted">
+        <a href="/privacy" className="underline underline-offset-2">
+          Privacy
+        </a>{" "}
+        ·{" "}
+        <a href="/methodology" className="underline underline-offset-2">
+          How we measure
+        </a>
+      </p>
+
     </ScreenContainer>
   );
 }

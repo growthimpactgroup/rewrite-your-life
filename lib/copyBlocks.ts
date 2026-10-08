@@ -33,17 +33,7 @@ export const BLOCK_3_NOT_PROFESSIONAL_ADVICE =
   "Rewrite Your Life is an educational and coaching program. Nothing on this page or in the program is medical, psychological, legal, or financial advice, and nothing here is intended to diagnose, treat, cure, or prevent any condition. If you are experiencing distress, contact a licensed professional.";
 
 export const BLOCK_4_CONSENT_AND_PRIVACY =
-  "Every participant sees and accepts this line before submitting: “My responses may be used in anonymous, aggregated form to improve and validate the program.” Consent is stored with every row. See the privacy notice for what is collected, how long it is kept, and how to request deletion.";
-
-// Split at its own natural sub-headers for readability on /privacy —
-// whitespace/paragraphing only, every word identical to Part Four.
-export const BLOCK_5_PRIVACY_NOTICE = [
-  "What is collected: an email address, typed by the participant, and 27 answers on a 0–10 scale.",
-  "Why: the email address exists solely to match a person’s Day 0 assessment to their Week 10 assessment. It is never used to contact anyone — the system has no ability to send mail of any kind, by design.",
-  "Who sees it: no one outside Growth Impact Group. Individual answers are never published, sold, shared, or licensed.",
-  "How long: raw records are retained indefinitely as part of a longitudinal research record.",
-  "Deletion: write to growthimpactgroup@protonmail.com and the email address on your records will be permanently removed, which unlinks them from you while leaving the anonymous answers in the group figures. Removal of the answers themselves is available on request but breaks the before/after pairing.",
-];
+  "Every participant sees and accepts this line before starting: “I agree my ratings and private code can be stored to show my results, match my maps over time, and create anonymous group averages.” Consent is stored with every row. See the privacy notice for what is collected, how long it is kept, and how to request deletion.";
 
 export const BLOCK_6_SIXTH_LIMITATION =
   "Not therapy, treatment, or medical advice. Rewrite Your Life is an educational and coaching program. Nothing here is a diagnosis, a clinical outcome, or a substitute for care from a licensed professional.";

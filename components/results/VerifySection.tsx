@@ -94,8 +94,8 @@ export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
         <div className="rounded-lg border border-border bg-card p-5">
           <p className="text-lg font-bold text-ink">What Is Never Published</p>
           <p className="mt-2 text-base text-ink/90">
-            Individual answers. Ever. Email addresses are stored solely to match a person&apos;s Day 0
-            map to their Week 10 map — the system has no ability to send mail of any kind.
+            Individual answers. Ever. A private code is stored solely to match a person&apos;s Day 0
+            map to their Week 10 map — there is no name or email, and nothing to contact anyone with.
           </p>
         </div>
       </div>

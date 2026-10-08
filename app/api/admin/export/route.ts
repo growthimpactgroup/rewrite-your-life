@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 const COURSE = "ryl";
 const ITEM_COLUMNS = Array.from({ length: 27 }, (_, i) => `item_${i + 1}`);
-const COLUMNS = ["id", "created_at", "course", "phase", "email", ...ITEM_COLUMNS, "consent", "unmatched_retake"];
+const COLUMNS = ["id", "created_at", "course", "phase", "email", "participant_code", ...ITEM_COLUMNS, "consent", "unmatched_retake"];
 
 function csvField(value: unknown): string {
   const s = value === null || value === undefined ? "" : String(value);

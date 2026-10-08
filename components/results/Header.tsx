@@ -23,6 +23,9 @@ export default function Header({
         questions never change. This page shows what moved — including the people who
         didn&apos;t improve — and gives you everything you need to check the record yourself.
       </p>
+      <p className="mt-3 max-w-4xl text-lg leading-relaxed text-ink/90">
+        Group averages only. Nothing shown for groups under 20.
+      </p>
 
       <div className="mt-8 border-t border-border pt-6 font-mono">
         <div className="flex items-center gap-2.5">

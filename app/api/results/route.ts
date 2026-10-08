@@ -2,12 +2,14 @@ import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import { TOTAL_QUESTIONS } from "@/lib/questions";
 import { isValidEmailFormat, normalizeEmail } from "@/lib/email";
+import { isValidCode, normalizeCode } from "@/lib/participantCode";
 
 // Read-only lookup for a person's own prior submissions, used to build the
 // retake/week-10 before-after comparison, and (EmailScreen) an early check
-// for whether a typo'd or duplicate email is about to break continuity.
-// POST only, on purpose — email is personal data and must never travel in a
-// URL or query string. This route never writes anything; the insert-only
+// for whether a mistyped or duplicate private code is about to break
+// continuity. Looked up by private code, or by the legacy email of someone
+// who started before the code existed. POST only, on purpose — an identifier
+// must never travel in a URL or query string. This route never writes anything; the insert-only
 // guarantee on assessment_responses (see app/api/submit/route.ts) is
 // unaffected by adding a read path here.
 export const dynamic = "force-dynamic";
@@ -25,11 +27,21 @@ export async function POST(request: Request) {
   if (b.course !== "ryl") {
     return NextResponse.json({ error: "Invalid course." }, { status: 400 });
   }
-  if (typeof b.email !== "string" || !isValidEmailFormat(b.email.trim())) {
-    return NextResponse.json({ error: "Invalid email." }, { status: 400 });
-  }
 
-  const email = normalizeEmail(b.email);
+  let column: "participant_code" | "email";
+  let value: string;
+  if (typeof b.code === "string") {
+    if (!isValidCode(b.code)) {
+      return NextResponse.json({ error: "Invalid private code." }, { status: 400 });
+    }
+    column = "participant_code";
+    value = normalizeCode(b.code);
+  } else if (typeof b.email === "string" && isValidEmailFormat(b.email.trim())) {
+    column = "email";
+    value = normalizeEmail(b.email);
+  } else {
+    return NextResponse.json({ error: "Invalid private code." }, { status: 400 });
+  }
 
   try {
     const supabase = getSupabaseServerClient();
@@ -37,7 +49,7 @@ export async function POST(request: Request) {
       .from("assessment_responses")
       .select("*")
       .eq("course", "ryl")
-      .eq("email", email)
+      .eq(column, value)
       .order("created_at", { ascending: true });
 
     if (error) {

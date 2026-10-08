@@ -19,7 +19,7 @@
 
 import jsPDF from "jspdf";
 import { ScoreSummary } from "./scoring";
-import { Phase, DECLINE_RESULTS_NOTE } from "./questions";
+import { Phase } from "./questions";
 import {
   OPENING_FRAME_LINES,
   UNMATCHED_RETAKE_NOTE,
@@ -37,7 +37,7 @@ import {
   GROWTH_BUCKET_TITLE,
   SCORE_SCALE_EXPLANATION,
   CONTINUITY_HEADLINE,
-  CONTINUITY_BODY,
+  continuityBody,
   CONTINUITY_WEEK10_PREFIX,
   CONTINUITY_CLOSING,
   CLOSING_LINE,
@@ -45,7 +45,6 @@ import {
   RESULTS_DISCLOSURE,
   SIGNATURE_STRENGTH_COPY,
   TRAINING_FOCUS_COPY,
-  PDF_NO_EMAIL_WARNING_DECLINED,
   PDF_NO_EMAIL_WARNING_SAVED,
   PDF_EDUCATION_LABEL,
   PDF_INTRO_FRAMING,
@@ -92,13 +91,10 @@ export interface JourneyPoint {
 }
 
 export interface ReportPdfParams {
-  email: string;
+  // The participant's private code, or null for someone matched by a legacy
+  // email (whose address is never printed).
+  code: string | null;
   phase: Phase;
-  // Which warning is true depends on this: a decline writes zero rows
-  // anywhere, but a normal (consented) submission's answers ARE saved —
-  // that's what makes retakes work. Picking the wrong one here would be a
-  // false claim about what actually happens on the backend.
-  declined: boolean;
   currentDate: string;
   current: ScoreSummary;
   baseline?: { summary: ScoreSummary; date: string };
@@ -115,9 +111,8 @@ export interface ReportPdfParams {
 
 export function generateReportPdf(params: ReportPdfParams): void {
   const {
-    email,
+    code,
     phase,
-    declined,
     currentDate,
     current,
     baseline,
@@ -287,7 +282,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(13);
   doc.setTextColor(...COLOR.primary);
-  doc.text(`${formatDate(currentDate)}  ·  ${email}`, marginX, y);
+  doc.text(code ? `${formatDate(currentDate)}  ·  Private code ${code}` : formatDate(currentDate), marginX, y);
   y += 8;
 
   if (baseline) {
@@ -310,7 +305,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
   y += 2;
 
   redBox(RESULTS_DISCLOSURE);
-  redBox(declined ? PDF_NO_EMAIL_WARNING_DECLINED : PDF_NO_EMAIL_WARNING_SAVED);
+  redBox(PDF_NO_EMAIL_WARNING_SAVED);
 
   hr();
   y += 8;
@@ -595,37 +590,31 @@ export function generateReportPdf(params: ReportPdfParams): void {
   }
 
   // --- Continuity — the same "your map is saved, come back any time"
-  // messaging as the screen's blue box. Skipped for declined sessions,
-  // same as on screen — there's nothing to come back to. ---
-  if (!declined) {
-    ensureSpace(12);
-    hr();
-    y += 7;
-    flowText(CONTINUITY_HEADLINE, { size: 12, style: "bold", color: COLOR.primary, lineH: 5, gap: 3 });
-    flowText(CONTINUITY_BODY, { size: 10, color: COLOR.ink, lineH: 4.4, gap: 2 });
-    const showWeekTenLine = phase !== "week10" || !baseline;
-    if (showWeekTenLine) {
-      const dayZeroIso = baseline ? baseline.date : currentDate;
-      const weekTenDateText = formatDate(
-        new Date(new Date(dayZeroIso).getTime() + 70 * 24 * 60 * 60 * 1000).toISOString(),
-      );
-      flowText(`${CONTINUITY_WEEK10_PREFIX}${weekTenDateText}`, {
-        size: 10,
-        color: COLOR.ink,
-        lineH: 4.4,
-        gap: 2,
-      });
-    }
-    flowText(CONTINUITY_CLOSING, { size: 10, color: COLOR.ink, lineH: 4.4, gap: 6 });
+  // messaging as the screen's blue box. ---
+  ensureSpace(12);
+  hr();
+  y += 7;
+  flowText(CONTINUITY_HEADLINE, { size: 12, style: "bold", color: COLOR.primary, lineH: 5, gap: 3 });
+  flowText(continuityBody(code), { size: 10, color: COLOR.ink, lineH: 4.4, gap: 2 });
+  const showWeekTenLine = phase !== "week10" || !baseline;
+  if (showWeekTenLine) {
+    const dayZeroIso = baseline ? baseline.date : currentDate;
+    const weekTenDateText = formatDate(
+      new Date(new Date(dayZeroIso).getTime() + 70 * 24 * 60 * 60 * 1000).toISOString(),
+    );
+    flowText(`${CONTINUITY_WEEK10_PREFIX}${weekTenDateText}`, {
+      size: 10,
+      color: COLOR.ink,
+      lineH: 4.4,
+      gap: 2,
+    });
   }
+  flowText(CONTINUITY_CLOSING, { size: 10, color: COLOR.ink, lineH: 4.4, gap: 6 });
 
   flowText(CLOSING_LINE, { size: 10.5, style: "italic", color: COLOR.muted, lineH: 4.6, gap: 4 });
 
   if (unmatchedRetake) {
     flowText(UNMATCHED_RETAKE_NOTE, { size: 9.5, color: COLOR.muted, lineH: 4.2, gap: 4 });
-  }
-  if (declined) {
-    flowText(DECLINE_RESULTS_NOTE, { size: 9.5, color: COLOR.muted, lineH: 4.2, gap: 4 });
   }
 
   // --- Footer disclosures ---
@@ -635,9 +624,7 @@ export function generateReportPdf(params: ReportPdfParams): void {
 
   redBox(RESULTS_DISCLOSURE);
   flowText(
-    declined
-      ? "This report reflects your answers as of the date above. Nothing from this session was stored — this formatted document itself isn't stored anywhere either; save this copy now if you want to keep it."
-      : "This report reflects your answers as of the date above. Your responses are stored securely so future comparisons keep working — this formatted document itself isn't stored anywhere; save this copy for your own records.",
+    "This report reflects your answers as of the date above. Your responses are stored securely so future comparisons keep working — this formatted document itself isn't stored anywhere; save this copy for your own records.",
     { size: 8.5, style: "italic", color: COLOR.muted, lineH: 3.9, gap: 3 },
   );
 

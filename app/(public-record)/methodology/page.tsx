@@ -52,7 +52,8 @@ export default function MethodologyPage() {
       <Section title="A matched pair">
         <p>
           A matched pair is one person&apos;s Day 0 submission and Week 10 submission, joined by the
-          email address used to identify them. Only complete pairs are used to compute the Day 0 →
+          private code they created (their birthday and their parents&apos; initials — nothing that
+          identifies them). Only complete pairs are used to compute the Day 0 →
           Week 10 change figures — a person who submitted only Day 0 contributes to the funnel above
           but not to any change measure.
         </p>
@@ -120,9 +121,10 @@ export default function MethodologyPage() {
 
       <Section title="Test submissions">
         <p>
-          Our own system tests submit real entries through the live form, using email addresses on
-          the domains reserved for testing (example.com, example.net, example.org) — addresses no
-          participant can own. Those entries are left out of every figure on this site. Like every
+          Our own system tests submit real entries through the live form, using identifiers that no
+          participant can have — email addresses on the domains reserved for testing (example.com,
+          example.net, example.org) or a fixed test code. Those entries are left out of every figure
+          on this site. Like every
           other submission they are never altered or deleted, and they remain part of the
           fingerprinted raw dataset.
         </p>
@@ -130,9 +132,9 @@ export default function MethodologyPage() {
 
       <Section title="What is never published">
         <p>
-          Individual answers, ever. Email addresses exist solely to match a person&apos;s Day 0
-          submission to their Week 10 submission and are never shown, exported, or used to contact
-          anyone.
+          Individual answers, ever. Private codes exist solely to match a person&apos;s Day 0
+          submission to their Week 10 submission and are never shown or used to contact anyone —
+          there is no name, email, or contact detail to use.
         </p>
       </Section>
 

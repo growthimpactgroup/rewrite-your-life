@@ -4,7 +4,6 @@ import {
   QUESTIONS_INTRO_HEADLINE,
   QUESTIONS_INTRO_BODY_LINES,
   QUESTIONS_INTRO_PHASE_CONFIRMATION,
-  QUESTIONS_INTRO_CONSENT_LINE,
   QUESTIONS_INTRO_NOTICE_LINE,
   QUESTIONS_INTRO_CLINICAL_DISCLOSURE,
   Phase,
@@ -52,14 +51,9 @@ export default function QuestionsIntroScreen({
           <RedNotice>{QUESTIONS_INTRO_CLINICAL_DISCLOSURE}</RedNotice>
         </div>
 
-        <div className="mt-4 flex flex-col gap-2">
-          <p className="text-[16px] leading-relaxed text-muted">
-            <FormattedText text={QUESTIONS_INTRO_CONSENT_LINE} />
-          </p>
-          <p className="text-[16px] leading-relaxed text-muted">
-            <FormattedText text={QUESTIONS_INTRO_NOTICE_LINE} />
-          </p>
-        </div>
+        <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <FormattedText text={QUESTIONS_INTRO_NOTICE_LINE} />
+        </p>
 
         <button
           type="button"

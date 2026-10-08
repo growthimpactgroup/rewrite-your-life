@@ -1478,29 +1478,52 @@ as $$
 $$;
 
 -- ---------------------------------------------------------------------------
--- 2026-10-06 — keep test submissions out of the public numbers.
+-- 2026-10-08 — private participant code replaces email (privacy update).
 --
--- A live smoke test of the real submit endpoint necessarily writes a real,
--- permanent row (assessment_responses is insert-only), and redacting its
--- email only unlinks it from a person — the anonymous row still counted
--- toward the public totals. Test traffic uses addresses on the domains
--- reserved for documentation/testing (RFC 2606: example.com/.net/.org),
--- which no real participant can own, so those rows are excluded from every
--- public figure here. The raw rows are NOT altered or deleted and still
--- appear in the monthly anchored hash and the admin export — only the
--- group calculations skip them. Disclosed on /methodology.
-create or replace function is_test_email(addr text)
+-- New participants are identified only by a private code built from four
+-- taps (birthday month + day, mother's and father's first initial, e.g.
+-- 0314-MD) stored in participant_code; no new email is collected. Existing
+-- rows keep their email, untouched, so people who started before this change
+-- can still be matched at Week 10. The matching key is the code when there
+-- is one, else the legacy email — see `scored.match_key`.
+--
+-- Additive and safe to run before the matching app deploy: the current app
+-- keeps working (it still writes email), the new app needs these columns.
+-- assessment_responses stays insert-only; no row is changed or deleted.
+alter table assessment_responses add column if not exists participant_code text;
+alter table assessment_responses alter column email drop not null;
+
+alter table assessment_responses drop constraint if exists assessment_responses_identity_chk;
+alter table assessment_responses add constraint assessment_responses_identity_chk
+  check (email is not null or participant_code is not null);
+
+alter table assessment_responses drop constraint if exists assessment_responses_code_format_chk;
+alter table assessment_responses add constraint assessment_responses_code_format_chk
+  check (participant_code is null
+         or participant_code ~ '^(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-[A-Z]{2}$');
+
+create index if not exists assessment_responses_participant_code_idx
+  on assessment_responses (course, participant_code);
+
+-- Test traffic stays out of every public figure. Rows from the reserved
+-- documentation domains (RFC 2606: example.com/.net/.org) or the weekly
+-- test code 0101-TT are skipped by the group calculations; the raw rows are
+-- never altered or deleted and still appear in the monthly anchored hash.
+create or replace function is_test_row(addr text, code text)
 returns boolean
 language sql
 immutable
 as $$
-  select lower(trim(coalesce(addr, ''))) ~ '@example\.(com|net|org)$';
+  select lower(trim(coalesce(addr, ''))) ~ '@example\.(com|net|org)$'
+      or upper(trim(coalesce(code, ''))) = '0101-TT';
 $$;
 
-revoke execute on function is_test_email(text) from public;
-grant execute on function is_test_email(text) to service_role;
+revoke execute on function is_test_row(text, text) from public;
+grant execute on function is_test_row(text, text) to service_role;
 
--- Rebuild `scored` — identical to the previous version plus the test-row filter.
+-- Rebuild `scored` — previous version plus: redactions now match on
+-- code-or-email, test rows are skipped, and match_key / is_code_key are
+-- appended (new columns can only go at the end).
 create or replace view scored
   with (security_invoker = true)
 as
@@ -1532,10 +1555,16 @@ select
   round((ar.item_22 + ar.item_23 + ar.item_24 + ar.item_25 + ar.item_26 + ar.item_27) / 60.0 * 100) as ai_index_pct,
   round(ar.item_22 / 10.0 * 100) as qai_pct,
 
-  coalesce(sl.straight_lined, false) as straight_lined
+  coalesce(sl.straight_lined, false) as straight_lined,
+
+  case
+    when r.id is null then lower(trim(coalesce(ar.participant_code, ar.email)))
+    else null
+  end as match_key,
+  (ar.participant_code is not null) as is_code_key
 from assessment_responses ar
 left join redactions r
-  on r.target_email_hash = encode(digest(lower(trim(ar.email)), 'sha256'), 'hex')
+  on r.target_email_hash = encode(digest(lower(trim(coalesce(ar.participant_code, ar.email))), 'sha256'), 'hex')
 cross join lateral (
   select bool_or(run.len >= 10 and run.has_reverse) as straight_lined
   from (
@@ -1558,13 +1587,64 @@ cross join lateral (
     group by grp
   ) run
 ) sl
-where not is_test_email(ar.email);
+where not is_test_row(ar.email, ar.participant_code);
 
 revoke all on scored from anon, authenticated;
 
+-- Rebuild matched_pairs on match_key instead of email_normalized.
+drop view if exists matched_pairs;
+create view matched_pairs
+  with (security_invoker = true)
+as
+select
+  d0.course,
+  d0.match_key,
+  d0.id as day0_id,
+  d0.created_at as day0_at,
+  w10.id as week10_id,
+  w10.created_at as week10_at,
+
+  d0.clear_thinking_pct as day0_clear_thinking_pct, w10.clear_thinking_pct as week10_clear_thinking_pct,
+  d0.emotional_pct as day0_emotional_pct,           w10.emotional_pct as week10_emotional_pct,
+  d0.adversity_pct as day0_adversity_pct,           w10.adversity_pct as week10_adversity_pct,
+  d0.frame_pct as day0_frame_pct,                   w10.frame_pct as week10_frame_pct,
+  d0.learning_pct as day0_learning_pct,             w10.learning_pct as week10_learning_pct,
+  d0.situational_pct as day0_situational_pct,       w10.situational_pct as week10_situational_pct,
+  d0.presence_pct as day0_presence_pct,             w10.presence_pct as week10_presence_pct,
+  d0.purpose_pct as day0_purpose_pct,               w10.purpose_pct as week10_purpose_pct,
+  d0.execution_pct as day0_execution_pct,           w10.execution_pct as week10_execution_pct,
+
+  d0.life_satisfaction_raw as day0_life_satisfaction_raw,           w10.life_satisfaction_raw as week10_life_satisfaction_raw,
+  d0.mornings_with_priority_raw as day0_mornings_with_priority_raw, w10.mornings_with_priority_raw as week10_mornings_with_priority_raw,
+  d0.confidence_next_12mo_raw as day0_confidence_next_12mo_raw,     w10.confidence_next_12mo_raw as week10_confidence_next_12mo_raw,
+
+  d0.ai_index_pct as day0_ai_index_pct, w10.ai_index_pct as week10_ai_index_pct
+from (
+  select distinct on (s.course, s.match_key) s.*
+  from scored s
+  where s.phase = 'first' and not s.straight_lined
+    -- two different people sharing one private code can't be told apart,
+    -- so a code with more than one Day 0 is left out of the pairs entirely
+    -- rather than risking pairing one person's Day 0 with another's Week 10.
+    and not (s.is_code_key and exists (
+      select 1 from scored c
+      where c.course = s.course and c.match_key = s.match_key
+        and c.phase = 'first' and c.id <> s.id
+    ))
+  order by s.course, s.match_key, s.created_at asc
+) d0
+join (
+  select distinct on (course, match_key) *
+  from scored
+  where phase = 'week10' and not straight_lined
+  order by course, match_key, created_at desc
+) w10
+  on d0.course = w10.course and d0.match_key = w10.match_key;
+
+revoke all on matched_pairs from anon, authenticated;
+
 -- Rebuild refresh_public_aggregates — identical to the previous version
--- except the three direct counts over assessment_responses skip test rows
--- (matched pairs and every per-domain figure already read through `scored`).
+-- except the three direct counts over assessment_responses skip test rows.
 create or replace function refresh_public_aggregates(target_course text)
 returns void
 language plpgsql
@@ -1593,19 +1673,19 @@ begin
 
   select count(*), min(created_at) into v_total_submissions, v_measured_since
   from assessment_responses
-  where not is_test_email(email)
+  where not is_test_row(email, participant_code)
     and course = target_course
     and (v_record_starts_at is null or created_at >= v_record_starts_at);
 
   select count(*) into v_n_started
   from assessment_responses
-  where not is_test_email(email)
+  where not is_test_row(email, participant_code)
     and course = target_course and phase = 'first'
     and (v_record_starts_at is null or created_at >= v_record_starts_at);
 
   select count(*) into v_n_eligible
   from assessment_responses
-  where not is_test_email(email)
+  where not is_test_row(email, participant_code)
     and course = target_course and phase = 'first'
     and created_at <= now() - interval '10 weeks'
     and (v_record_starts_at is null or created_at >= v_record_starts_at);

@@ -203,12 +203,18 @@ export const QAI_INTERPRETATION =
 export const CLOSING_LINE = "Most people never measure this. You just did.";
 
 export const UNMATCHED_RETAKE_NOTE =
-  "We don't have an earlier map for this address, so this one is your starting point.";
+  "We don't have an earlier map for you, so this one is your starting point.";
 
 // Continuity box (replaces the old "Save this now" box).
 export const CONTINUITY_HEADLINE = "Your map is saved.";
-export const CONTINUITY_BODY =
-  "Come back to this link with **the same email** any time — your map will be here, along with everything that's moved since.";
+// Private-code participants get their code back here; only people who
+// started before the privacy update (matched by email) see the legacy text.
+export function continuityBody(code: string | null): string {
+  return code
+    ? `Your private code is **${code}**. No need to save it — just answer the same four taps next time.`
+    : "Come back to this link with **the same email** any time — your map will be here, along with everything that's moved since.";
+}
+export const RESULTS_PRIVATE_NOTE = "This map is shown to you only.";
 export const CONTINUITY_WEEK10_PREFIX = "Your week-10 finish map: ";
 export const CONTINUITY_CLOSING = "Six minutes. It's the only way to see what actually changed.";
 
@@ -224,12 +230,6 @@ export const RESULTS_DISCLOSURE = "This is not a professional or medical assessm
 // person to save if they want one.
 export const SAVE_YOUR_COPY_NOTE =
   "Save this copy for your records — we don't keep a copy of this report for you. (Your underlying answers do stay on file, so future comparisons will still work.)";
-// Declined path's equivalent caution — its own red box directly above the
-// PDF button, same treatment as SAVE_YOUR_COPY_NOTE above, since nothing
-// from a declined session is stored anywhere at all.
-export const DECLINED_SAVE_NOW_WARNING =
-  "Save this now — this result isn't stored anywhere. Download or print it before you leave this page, because it can't be recovered afterward.";
-
 // Explains the SCALE, not any individual score's implications — deliberately
 // stays inside what's defensible without the Section-5 citation sheet (no
 // claim about what a score means or predicts, just what the number itself
@@ -245,10 +245,8 @@ export const SCORE_SCALE_EXPLANATION =
 // answers ARE saved (that's what makes retakes work) — only a decline
 // writes zero rows. So this is two different, both-true statements, not
 // one blanket claim:
-export const PDF_NO_EMAIL_WARNING_DECLINED =
-  "We will not email this to you. This is the only time you can download it. We do not save your data — nothing from this session was stored, anywhere. This is for your use only, one time. Click download to save.";
 export const PDF_NO_EMAIL_WARNING_SAVED =
-  "We will not email this to you. This is the only time you can download this exact report. We don't keep a copy of this PDF — your underlying answers do stay on file, so future comparisons will still work. This is for your use only, one time. Click download to save.";
+  "We can't send this to you. This is the only time you can download this exact report. We don't keep a copy of this PDF — your underlying answers do stay on file, so future comparisons will still work. This is for your use only, one time. Click download to save.";
 export const PDF_EDUCATION_LABEL = "EDUCATION ONLY";
 // Purely procedural — how to read the report, not a claim about what any
 // score means, so it doesn't need the Section 5 citation sheet.

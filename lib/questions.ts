@@ -190,34 +190,41 @@ export const ENTRY_HEADLINE = "Your Journey. Six Minutes.";
 export const ENTRY_SUBTEXT = "No wrong answers — just an honest read on where you are.";
 export const ENTRY_FRAMING_LINE = "Six minutes. 27 questions, one tap each.";
 
-// PLACEHOLDER — Screen A build spec §2 Block E marks this as unapproved:
-// "Do not ship the placeholder without Grace's sign-off." Swap this string
-// for the Growth Impact Group–approved text before treating it as final.
+// Privacy update, 2026-10-08: no email, no name — people are matched over
+// time by a private code. Exact wording per the privacy-update brief.
 export const ENTRY_DISCLAIMER =
-  "Your answers are stored anonymously and reported only as group averages. Your email is used for **one purpose — matching your results to you over time.**";
-// Jeff review call, 2026-08-11: split out and styled red/boxed so it isn't
-// missed, per his explicit note on this exact sentence.
-export const ENTRY_EMAIL_NOTICE_RED =
-  "We never send you anything — the system has no email-sending capability at all. Individual answers are never published.";
+  "**Private by design.** No name, no email. Only group averages are shared, for groups of 20 or more.";
 
-export const EMAIL_COPY = "So your results can find you next time.";
-// Screen B build spec: only one reassurance statement on this screen, said
-// once, directly beneath the button.
-export const EMAIL_REASSURANCE =
-  "Used only to match your results to you over time. **We never send you anything** — the system has no email-sending capability at all.";
-export const EMAIL_ERROR = "That doesn't look like an email address — mind checking it?";
+// Private-code screen (replaces the email screen).
+export const CODE_HEADLINE = "Create your private code";
+export const CODE_INTRO =
+  "Four quick taps. We'll ask the same ones next time so your results can find you — without knowing who you are.";
+export const CODE_BIRTHDAY_LABEL = "Your birthday";
+export const CODE_MUM_LABEL = "First letter of your mum's first name";
+export const CODE_DAD_LABEL = "First letter of your dad's first name";
+export const CODE_RAISED_NOTE = "Or whoever raised you. Not sure? Choose X.";
+export const CODE_REASSURANCE = "No name. No email. Nothing that identifies you.";
+export const CODE_CONSENT_TEXT =
+  "I agree my ratings and private code can be stored to show my results, match my maps over time, and create anonymous group averages.";
 
-// Early continuity check on the email screen — catches two real ways
-// someone's own journey silently breaks: a typo'd email on a retake/week10
-// (nothing matches, and they'd only find out after 6 minutes of questions),
-// or picking "Start My Journey" again on an email that already has results.
-// Soft warning only, never a hard block — "Continue anyway" always works.
-export const EMAIL_CHECK_NONE_FOUND =
-  "We don't have any prior results saved under this email. If you're retaking the test, **double-check you typed the exact same email as last time** — or continue if this is intentional.";
-export const EMAIL_CHECK_DUPLICATE_FIRST =
-  "You already have results saved under this email. If that's you, **go back and choose \"Continue My Journey\" instead** — or continue if you meant to start fresh.";
-export const EMAIL_CHECK_GO_BACK_LABEL = "Go back";
-export const EMAIL_CHECK_CONTINUE_LABEL = "Continue anyway";
+// Early continuity check — catches the two ways someone's own journey
+// silently breaks before six minutes of questions are spent: a retake or
+// finish under a code with no earlier results (mistyped taps), or "Start My
+// Journey" on a code that already has results. Soft warning, never a block.
+export const CODE_CHECK_NONE_FOUND =
+  "We don't have any earlier results under this code. If you've done this before, **double-check your four taps match last time** — or continue if this is intentional.";
+export const CODE_CHECK_DUPLICATE_FIRST =
+  "There are already results under this code. If that's you, **go back and choose \"Continue My Journey\" instead.** If it's someone else with the same birthday and initials, continue — but your two maps can't be matched over time.";
+export const CODE_CHECK_GO_BACK_LABEL = "Go back";
+export const CODE_CHECK_CONTINUE_LABEL = "Continue anyway";
+
+// People who took the quiz before 2026-10-08 used an email. No new email is
+// ever collected, but those people can still finish their journey with it.
+export const LEGACY_EMAIL_LINK = "I took this before, using my email";
+export const LEGACY_EMAIL_LABEL = "The email you used before";
+export const LEGACY_EMAIL_NOT_FOUND =
+  "We can't find that email. Check the spelling, or create a private code instead.";
+export const LEGACY_EMAIL_BACK_LINK = "Use a private code instead";
 
 // "Before you begin" (Screen B2) build spec: never say "Clarity" here — it's a
 // scored domain name on the results screen and collides with it.
@@ -242,11 +249,6 @@ export const QUESTIONS_INTRO_PHASE_CONFIRMATION: Record<Phase, string> = {
     "This is your week-ten finish map. **At the end you'll see everything that moved** in ten weeks.",
 };
 
-// Screen B2 consent-framing line, directly above the Begin button. Display
-// only — tapping Begin is not a consent action. Formal consent (the actual
-// data-writing gate) stays on the end-of-flow ConsentScreen.
-export const QUESTIONS_INTRO_CONSENT_LINE =
-  "By tapping Begin, you agree that your responses may be used in anonymous, aggregated form to improve and validate the program. Your individual answers are **never published.**";
 // Jeff review call, 2026-08-10: clinical-disclaimer requirement for Screen
 // B2. 2026-08-11: "Education only" appended, styled red/boxed.
 export const QUESTIONS_INTRO_CLINICAL_DISCLOSURE =
@@ -254,19 +256,4 @@ export const QUESTIONS_INTRO_CLINICAL_DISCLOSURE =
 // Data-handling notice (Section 6 of the build spec) — a notice, not a
 // second consent gate. No checkbox, no tap required, no blocking.
 export const QUESTIONS_INTRO_NOTICE_LINE =
-  "Your answers are stored anonymously and reported only as **group averages.** You'll confirm this at the end.";
-
-export const CONSENT_TEXT =
-  "My responses may be used in anonymous, aggregated form to improve and validate the program.";
-export const CONSENT_DISCLOSURE =
-  "Your answers are stored securely and only ever reviewed in anonymized, aggregated form — **never linked back to you individually** — to help us improve and validate this assessment over time.";
-// Screen D decline path (Section 6 of the build spec) — declining still
-// shows full results; only a bare tally is logged, no answers or email.
-export const DECLINE_OPTION_LABEL = "I'd rather not — discard my answers";
-export const DECLINE_CONFIRM_HEADLINE = "Discard your answers?";
-export const DECLINE_CONFIRM_BODY =
-  "You'll still see your results. **Nothing will be stored**, and this session won't be part of the program's record.";
-export const DECLINE_CONFIRM_ACTION = "Discard and show my results";
-export const DECLINE_CONFIRM_CANCEL = "Go back";
-export const DECLINE_RESULTS_NOTE =
-  "These results are yours alone — nothing from this session was stored.";
+  "Your answers are stored anonymously and reported only as **group averages.** Individual answers are **never published.**";

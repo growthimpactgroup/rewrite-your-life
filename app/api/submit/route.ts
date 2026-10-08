@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabaseServer";
 import { TOTAL_QUESTIONS } from "@/lib/questions";
 import { isValidEmailFormat, normalizeEmail } from "@/lib/email";
+import { isValidCode, normalizeCode } from "@/lib/participantCode";
 
 // Insert-only, on purpose: this file exports POST and nothing else. There is
 // no PATCH/PUT/DELETE handler here or anywhere else in the app — rows in
@@ -12,10 +13,15 @@ const VALID_PHASES = new Set(["first", "retake", "week10"]);
 // The five-button scale only ever produces one of these values.
 const VALID_ITEM_VALUES = new Set([0, 3, 5, 8, 10]);
 
+// A submission is identified by a private code (everyone from 2026-10-08)
+// or — only for people who took the quiz with an email before then — that
+// same legacy email. Exactly one is present.
+type Identity = { code: string; email?: undefined } | { email: string; code?: undefined };
+
 interface SubmitPayload {
   course: string;
   phase: string;
-  email: string;
+  identity: Identity;
   items: number[];
   consent: true;
 }
@@ -34,13 +40,32 @@ function validate(
   if (typeof b.phase !== "string" || !VALID_PHASES.has(b.phase)) {
     return { ok: false, error: "Invalid phase." };
   }
-  if (
-    typeof b.email !== "string" ||
-    b.email.trim().length === 0 ||
-    b.email.length > 320 ||
-    !isValidEmailFormat(b.email.trim())
-  ) {
-    return { ok: false, error: "Invalid email." };
+
+  let identity: Identity;
+  if (typeof b.code === "string") {
+    if (b.email !== undefined) {
+      return { ok: false, error: "Invalid request body." };
+    }
+    if (!isValidCode(b.code)) {
+      return { ok: false, error: "Invalid private code." };
+    }
+    identity = { code: normalizeCode(b.code) };
+  } else if (typeof b.email === "string") {
+    // Legacy only: never a way to start storing a new email address — the
+    // route below also requires that this email already has a row.
+    if (b.phase === "first") {
+      return { ok: false, error: "A private code is required to start." };
+    }
+    if (
+      b.email.trim().length === 0 ||
+      b.email.length > 320 ||
+      !isValidEmailFormat(b.email.trim())
+    ) {
+      return { ok: false, error: "Invalid email." };
+    }
+    identity = { email: normalizeEmail(b.email) };
+  } else {
+    return { ok: false, error: "A private code is required." };
   }
   if (
     !Array.isArray(b.items) ||
@@ -58,7 +83,7 @@ function validate(
     data: {
       course: b.course,
       phase: b.phase,
-      email: normalizeEmail(b.email),
+      identity,
       items: b.items as number[],
       consent: true,
     },
@@ -78,9 +103,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  const { course, phase, email, items, consent } = result.data;
+  const { course, phase, identity, items, consent } = result.data;
 
-  const row: Record<string, unknown> = { course, phase, email, consent };
+  const row: Record<string, unknown> = {
+    course,
+    phase,
+    consent,
+    ...(identity.code ? { participant_code: identity.code } : { email: identity.email }),
+  };
   items.forEach((value, i) => {
     row[`item_${i + 1}`] = value;
   });
@@ -88,16 +118,28 @@ export async function POST(request: Request) {
   try {
     const supabase = getSupabaseServerClient();
 
+    // Count earlier rows under the same identity.
+    const { count } = await supabase
+      .from("assessment_responses")
+      .select("id", { count: "exact", head: true })
+      .eq("course", course)
+      .eq(identity.code ? "participant_code" : "email", identity.code ?? identity.email);
+    const hasEarlierRows = !!count && count > 0;
+
+    // Legacy email path: only for someone who is already in the record. If
+    // the address isn't known, refuse rather than store a new email.
+    if (identity.email && !hasEarlierRows) {
+      return NextResponse.json(
+        { error: "We can't find that email. Use a private code instead." },
+        { status: 400 },
+      );
+    }
+
     // Unmatched retake: accept and store the row regardless — never block or
     // ask the person to prove they were here before. Just flag it for the
     // weekly hygiene pass so it doesn't silently look like a paired retake.
     if (phase !== "first") {
-      const { count } = await supabase
-        .from("assessment_responses")
-        .select("id", { count: "exact", head: true })
-        .eq("course", course)
-        .eq("email", email);
-      row.unmatched_retake = !count || count === 0;
+      row.unmatched_retake = !hasEarlierRows;
     }
 
     const { data, error } = await supabase

@@ -72,7 +72,7 @@ export default function ResultsFooter() {
           </a>{" "}
           ·{" "}
           <a href="/methodology" className="text-ink underline">
-            Methodology
+            How we measure
           </a>
         </p>
       </div>

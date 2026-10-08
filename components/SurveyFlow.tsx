@@ -4,41 +4,38 @@ import { useEffect, useRef, useState } from "react";
 import { QUESTIONS, TOTAL_QUESTIONS, Phase } from "@/lib/questions";
 import ProgressBar from "./ProgressBar";
 import EntryScreen from "./EntryScreen";
-import EmailScreen from "./EmailScreen";
+import CodeScreen, { CodeFormState, EMPTY_CODE_FORM, Identity } from "./CodeScreen";
 import QuestionsIntroScreen from "./QuestionsIntroScreen";
 import QuestionScreen from "./QuestionScreen";
-import ConsentScreen from "./ConsentScreen";
 import ResultsReportScreen from "./ResultsReportScreen";
+import ScreenContainer from "./ScreenContainer";
 
 type Screen =
   | { name: "entry" }
-  | { name: "email" }
+  | { name: "code" }
   | { name: "questions-intro" }
   | { name: "question"; index: number }
-  | { name: "consent" }
+  | { name: "saving" }
   | { name: "done" };
 
 // The browser-history shape pushed while inside the protected flow (question
-// 1 through consent). Kept minimal on purpose — just enough to reconstruct
-// position. See the back-navigation bug fix: in-app back/forward and
-// browser/OS back/forward must be the exact same code path, or they drift.
-type HistoryState = { screen: "question"; index: number } | { screen: "consent" };
+// 1 through question 27). Kept minimal on purpose — just enough to
+// reconstruct position. See the back-navigation bug fix: in-app back/forward
+// and browser/OS back/forward must be the exact same code path, or they drift.
+type HistoryState = { screen: "question"; index: number };
 
-// email + questions-intro + 27 questions + consent
-const PROGRESS_TOTAL_STEPS = 1 + 1 + TOTAL_QUESTIONS + 1;
+// code + questions-intro + 27 questions
+const PROGRESS_TOTAL_STEPS = 1 + 1 + TOTAL_QUESTIONS;
 
 export default function SurveyFlow() {
   const [screen, setScreen] = useState<Screen>({ name: "entry" });
   const [phase, setPhase] = useState<Phase | null>(null);
-  const [email, setEmail] = useState("");
+  const [codeForm, setCodeForm] = useState<CodeFormState>(EMPTY_CODE_FORM);
+  const [identity, setIdentity] = useState<Identity | null>(null);
   const [answers, setAnswers] = useState<(number | null)[]>(
     Array(TOTAL_QUESTIONS).fill(null),
   );
-  const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [declining, setDeclining] = useState(false);
-  const [declineError, setDeclineError] = useState<string | null>(null);
-  const [declined, setDeclined] = useState(false);
 
   const screenRef = useRef(screen);
   useEffect(() => {
@@ -58,12 +55,7 @@ export default function SurveyFlow() {
       const state = e.state as HistoryState | null;
       if (state?.screen === "question") {
         setScreen({ name: "question", index: state.index });
-      } else if (state?.screen === "consent") {
-        setScreen({ name: "consent" });
-      } else if (
-        screenRef.current.name === "question" ||
-        screenRef.current.name === "consent"
-      ) {
+      } else if (screenRef.current.name === "question") {
         // Fell off the tracked stack while still logically inside the
         // protected flow (e.g. a swipe-back at question 1, which has no
         // back path). Trap it at question 1 instead of silently exiting.
@@ -78,7 +70,7 @@ export default function SurveyFlow() {
   // Warn before an accidental tab close / reload loses in-progress answers.
   useEffect(() => {
     function handleBeforeUnload(e: BeforeUnloadEvent) {
-      if (screen.name === "question" || screen.name === "consent") {
+      if (screen.name === "question" || screen.name === "saving") {
         e.preventDefault();
         e.returnValue = "";
       }
@@ -97,22 +89,22 @@ export default function SurveyFlow() {
   );
 
   function progressForScreen(): number | null {
-    if (screen.name === "email") return (1 / PROGRESS_TOTAL_STEPS) * 100;
+    if (screen.name === "code") return (1 / PROGRESS_TOTAL_STEPS) * 100;
     if (screen.name === "questions-intro") return (2 / PROGRESS_TOTAL_STEPS) * 100;
     if (screen.name === "question") {
       return ((3 + screen.index) / PROGRESS_TOTAL_STEPS) * 100;
     }
-    if (screen.name === "consent") return 100;
+    if (screen.name === "saving") return 100;
     return null;
   }
 
   function handlePhaseSelect(p: Phase) {
     setPhase(p);
-    setScreen({ name: "email" });
+    setScreen({ name: "code" });
   }
 
-  function handleEmailSubmit(value: string) {
-    setEmail(value);
+  function handleCodeSubmit(value: Identity) {
+    setIdentity(value);
     setScreen({ name: "questions-intro" });
   }
 
@@ -122,17 +114,14 @@ export default function SurveyFlow() {
   }
 
   function handleAnswer(index: number, value: number) {
-    setAnswers((prev) => {
-      const next = [...prev];
-      next[index] = value;
-      return next;
-    });
+    const next = [...answers];
+    next[index] = value;
+    setAnswers(next);
     if (index + 1 < TOTAL_QUESTIONS) {
       pushHistory({ screen: "question", index: index + 1 });
       setScreen({ name: "question", index: index + 1 });
     } else {
-      pushHistory({ screen: "consent" });
-      setScreen({ name: "consent" });
+      void handleFinalSubmit(next);
     }
   }
 
@@ -143,15 +132,17 @@ export default function SurveyFlow() {
       pushHistory({ screen: "question", index: nextIndex });
       setScreen({ name: "question", index: nextIndex });
     } else {
-      pushHistory({ screen: "consent" });
-      setScreen({ name: "consent" });
+      void handleFinalSubmit(answers);
     }
   }
 
-  async function handleFinalSubmit() {
-    if (!phase) return;
-    setSubmitting(true);
+  // The consent box on the code screen is the consent gate, so finishing the
+  // last question saves straight away. A failure stays on this screen with a
+  // retry — the answers are still in memory and nothing has been lost.
+  async function handleFinalSubmit(finalAnswers: (number | null)[]) {
+    if (!phase || !identity) return;
     setErrorMessage(null);
+    setScreen({ name: "saving" });
     try {
       const res = await fetch("/api/submit", {
         method: "POST",
@@ -159,8 +150,8 @@ export default function SurveyFlow() {
         body: JSON.stringify({
           course: "ryl",
           phase,
-          email,
-          items: answers,
+          ...(identity.kind === "code" ? { code: identity.code } : { email: identity.email }),
+          items: finalAnswers,
           consent: true,
         }),
       });
@@ -173,38 +164,6 @@ export default function SurveyFlow() {
       setErrorMessage(
         err instanceof Error ? err.message : "Something went wrong. Please try again.",
       );
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  async function handleDecline() {
-    if (!phase) return;
-    setDeclining(true);
-    setDeclineError(null);
-    try {
-      const res = await fetch("/api/decline", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ course: "ryl", phase }),
-      });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body?.error ?? "Something went wrong. Please try again.");
-      }
-      // Formal decline (Section 6): no row written to assessment_responses,
-      // only a bare tally to decline_log. Email cleared from session state —
-      // the results screen below renders straight from the in-memory
-      // answers already on hand, no server lookup involved.
-      setEmail("");
-      setDeclined(true);
-      setScreen({ name: "done" });
-    } catch (err) {
-      setDeclineError(
-        err instanceof Error ? err.message : "Something went wrong. Please try again.",
-      );
-    } finally {
-      setDeclining(false);
     }
   }
 
@@ -216,20 +175,20 @@ export default function SurveyFlow() {
 
       {screen.name === "entry" && <EntryScreen onSelect={handlePhaseSelect} />}
 
-      {screen.name === "email" && phase && (
-        <EmailScreen
-          email={email}
+      {screen.name === "code" && phase && (
+        <CodeScreen
+          form={codeForm}
           phase={phase}
-          onEmailChange={setEmail}
+          onChange={setCodeForm}
           onBack={() => setScreen({ name: "entry" })}
-          onSubmit={handleEmailSubmit}
+          onSubmit={handleCodeSubmit}
         />
       )}
 
       {screen.name === "questions-intro" && phase && (
         <QuestionsIntroScreen
           phase={phase}
-          onBack={() => setScreen({ name: "email" })}
+          onBack={() => setScreen({ name: "code" })}
           onContinue={handleBeginQuestions}
         />
       )}
@@ -249,25 +208,45 @@ export default function SurveyFlow() {
         />
       )}
 
-      {screen.name === "consent" && (
-        <ConsentScreen
-          submitting={submitting}
-          errorMessage={errorMessage}
-          declining={declining}
-          declineErrorMessage={declineError}
-          onBack={() => window.history.back()}
-          onSubmit={handleFinalSubmit}
-          onDecline={handleDecline}
-        />
+      {screen.name === "saving" && (
+        <ScreenContainer>
+          <div className="w-full text-center">
+            {errorMessage ? (
+              <>
+                <h1 className="text-[26px] font-semibold tracking-tight text-ink">
+                  We couldn&apos;t save your answers
+                </h1>
+                <p className="mt-3 text-[16px] leading-relaxed text-muted">
+                  {errorMessage} Your answers are still here — nothing has been lost.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => void handleFinalSubmit(answers)}
+                  className="tap mt-6 w-full rounded-full bg-primary px-6 py-4 text-[17px] font-medium text-white shadow-[0_1px_2px_rgb(0_0_0/0.1),0_8px_20px_rgb(0_0_0/0.15)]"
+                >
+                  Try again
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setErrorMessage(null);
+                    pushHistory({ screen: "question", index: TOTAL_QUESTIONS - 1 });
+                    setScreen({ name: "question", index: TOTAL_QUESTIONS - 1 });
+                  }}
+                  className="tap mt-3 w-full text-[14px] font-medium text-muted underline-offset-2 hover:underline"
+                >
+                  Back to my answers
+                </button>
+              </>
+            ) : (
+              <h1 className="text-[26px] font-semibold tracking-tight text-ink">Saving your answers…</h1>
+            )}
+          </div>
+        </ScreenContainer>
       )}
 
-      {screen.name === "done" && phase && (
-        <ResultsReportScreen
-          phase={phase}
-          email={email}
-          declined={declined}
-          answers={answers}
-        />
+      {screen.name === "done" && phase && identity && (
+        <ResultsReportScreen phase={phase} identity={identity} />
       )}
     </div>
   );

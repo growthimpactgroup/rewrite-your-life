@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { buildDeltas, computeDelta, summarizeScore } from "@/lib/scoring";
-import { Phase, DECLINE_RESULTS_NOTE } from "@/lib/questions";
+import { Phase } from "@/lib/questions";
+import type { Identity } from "./CodeScreen";
 import { generateReportPdf, JourneyPoint } from "@/lib/pdfReport";
 import {
   OPENING_FRAME_LINES,
@@ -18,7 +19,8 @@ import {
   CLOSING_LINE,
   UNMATCHED_RETAKE_NOTE,
   CONTINUITY_HEADLINE,
-  CONTINUITY_BODY,
+  continuityBody,
+  RESULTS_PRIVATE_NOTE,
   CONTINUITY_WEEK10_PREFIX,
   CONTINUITY_CLOSING,
   THE_NINE_TITLE,
@@ -31,7 +33,6 @@ import {
   QAI_SUBLABEL,
   RESULTS_DISCLOSURE,
   SAVE_YOUR_COPY_NOTE,
-  DECLINED_SAVE_NOW_WARNING,
   rankDomains,
   formatElapsed,
   changeLabel,
@@ -309,46 +310,29 @@ function BucketTitle({
 
 export default function ResultsReportScreen({
   phase,
-  email,
-  declined = false,
-  answers,
+  identity,
 }: {
   phase: Phase;
-  email: string;
-  declined?: boolean;
-  answers?: (number | null)[];
+  identity: Identity;
 }) {
-  const [status, setStatus] = useState<"loading" | "error" | "ready">(
-    declined ? "ready" : "loading",
-  );
+  const [status, setStatus] = useState<"loading" | "error" | "ready">("loading");
   const [fetchedSubmissions, setFetchedSubmissions] = useState<Submission[]>([]);
 
-  // Declined (Section 6): no row was ever written, so there is nothing to
-  // look up. Score directly from the in-memory answers already on hand —
-  // this always renders as a single, baseline-only submission, which
-  // naturally suppresses comparison/journey below (same code path a genuine
-  // first-timer takes). Derived with useMemo, not effect+setState, since
-  // it's a pure function of props already in hand.
-  const declinedSubmissions = useMemo<Submission[]>(
-    () => [
-      {
-        createdAt: new Date().toISOString(),
-        phase,
-        items: (answers ?? []).filter((v): v is number => v !== null),
-      },
-    ],
-    [phase, answers],
-  );
+  const code = identity.kind === "code" ? identity.code : null;
+  const lookupKey = identity.kind === "code" ? identity.code : identity.email;
 
   useEffect(() => {
-    if (declined) return;
     let cancelled = false;
     (async () => {
       try {
         const res = await fetch("/api/results", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ course: "ryl", email }),
+          body: JSON.stringify(
+            identity.kind === "code"
+              ? { course: "ryl", code: identity.code }
+              : { course: "ryl", email: identity.email },
+          ),
         });
         if (!res.ok) throw new Error("lookup failed");
         const body = await res.json();
@@ -363,9 +347,12 @@ export default function ResultsReportScreen({
     return () => {
       cancelled = true;
     };
-  }, [email, declined]);
+    // identity is derived from lookupKey; depending on the string keeps the
+    // effect from re-firing on a new-but-equal object.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lookupKey]);
 
-  const submissions = declined ? declinedSubmissions : fetchedSubmissions;
+  const submissions = fetchedSubmissions;
 
   if (status === "loading") {
     return (
@@ -675,30 +662,26 @@ export default function ResultsReportScreen({
         </div>
         <p className="mt-2 text-[13px] leading-relaxed text-muted">{ANCHOR_CAPTION}</p>
 
-        {/* 8. Continuity box — the "come back any time" messaging, declined
-            sessions skip this entirely since there's nothing to come back
-            to. */}
-        {!declined && (
-          <div className="mt-8 rounded-2xl border border-primary/30 bg-primary/5 px-4 py-3.5">
-            <p className="text-[15px] font-semibold text-primary">{CONTINUITY_HEADLINE}</p>
+        {/* 8. Continuity box — the "come back any time" messaging. */}
+        <div className="mt-8 rounded-2xl border border-primary/30 bg-primary/5 px-4 py-3.5">
+          <p className="text-[15px] font-semibold text-primary">{CONTINUITY_HEADLINE}</p>
+          <p className="mt-1 text-[14px] leading-relaxed text-ink/80">
+            <FormattedText text={continuityBody(code)} />
+          </p>
+          {showWeekTenLine && (
             <p className="mt-1 text-[14px] leading-relaxed text-ink/80">
-              <FormattedText text={CONTINUITY_BODY} />
+              {CONTINUITY_WEEK10_PREFIX}
+              {weekTenDateText}
             </p>
-            {showWeekTenLine && (
-              <p className="mt-1 text-[14px] leading-relaxed text-ink/80">
-                {CONTINUITY_WEEK10_PREFIX}
-                {weekTenDateText}
-              </p>
-            )}
-            <p className="mt-1 text-[14px] leading-relaxed text-ink/80">{CONTINUITY_CLOSING}</p>
-          </div>
-        )}
+          )}
+          <p className="mt-1 text-[14px] leading-relaxed text-ink/80">{CONTINUITY_CLOSING}</p>
+        </div>
 
         {/* 8b. Download-now caution — own red box directly above the PDF
             button, same red treatment the PDF itself uses for this warning,
             so it isn't missed the way a small line inside the blue box was. */}
-        <div className={declined ? "mt-8" : "mt-4"}>
-          <RedNotice>{declined ? DECLINED_SAVE_NOW_WARNING : SAVE_YOUR_COPY_NOTE}</RedNotice>
+        <div className="mt-4">
+          <RedNotice>{SAVE_YOUR_COPY_NOTE}</RedNotice>
         </div>
 
         {/* 9. PDF button */}
@@ -706,9 +689,8 @@ export default function ResultsReportScreen({
           type="button"
           onClick={() =>
             generateReportPdf({
-              email,
+              code,
               phase,
-              declined,
               current: currentSummary,
               currentDate: current.createdAt,
               baseline: baselineSummary
@@ -737,11 +719,9 @@ export default function ResultsReportScreen({
             {UNMATCHED_RETAKE_NOTE}
           </p>
         )}
-        {declined && (
-          <p className="mt-3 text-center text-[14px] leading-relaxed text-muted">
-            {DECLINE_RESULTS_NOTE}
-          </p>
-        )}
+        <p className="mt-3 text-center text-[14px] leading-relaxed text-muted">
+          {RESULTS_PRIVATE_NOTE}
+        </p>
 
         {/* 11. Same disclosure repeated at the very bottom of the page,
             mirroring the PDF — which shows this exact statement on the
