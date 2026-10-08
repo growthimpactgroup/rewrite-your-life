@@ -63,8 +63,9 @@ export default function PrivacyPage() {
           anything.
         </Item>
         <Item lead="Where it's kept:">
-          with our hosting and database providers. Like every website, our host keeps standard
-          security logs; these aren&apos;t stored with your answers.
+          with our hosting and database providers. Your answers are stored in a database on servers
+          in Japan (Tokyo). Like every website, our host keeps standard security logs; these
+          aren&apos;t stored with your answers.
         </Item>
         <Item lead="Your choices:">
           taking part is voluntary and you can stop at any time. To have your private code
