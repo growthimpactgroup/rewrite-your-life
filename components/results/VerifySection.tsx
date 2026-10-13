@@ -1,4 +1,4 @@
-import type { Anchor } from "@/lib/anchors";
+import { anchorProofUrl, type Anchor } from "@/lib/anchors";
 import { INSTRUMENT_SHA256, truncateHash } from "@/lib/instrument";
 import { formatDate } from "./format";
 import SectionHeading from "./SectionHeading";
@@ -23,7 +23,7 @@ function AnchorChain({ anchors }: { anchors: Anchor[] }) {
             Anchored {formatDate(a.date)} · {a.row_count} rows
           </p>
           <p className="mt-2 font-mono text-sm break-all text-muted">SHA-256 {a.sha256}</p>
-          <a href={`/proofs/${a.file}`} className="mt-2 inline-block font-mono text-sm text-primary underline">
+          <a href={anchorProofUrl(a.file)} className="mt-2 inline-block font-mono text-sm text-primary underline">
             Download proof file (.ots)
           </a>{" "}
           <span className="font-mono text-sm text-muted">— verify against the public OpenTimestamps calendars</span>
