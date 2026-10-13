@@ -203,7 +203,7 @@ export const CODE_BIRTHDAY_LABEL = "Your birthday";
 export const CODE_MUM_LABEL = "First letter of your mum's first name";
 export const CODE_DAD_LABEL = "First letter of your dad's first name";
 export const CODE_RAISED_NOTE = "Or whoever raised you. Not sure? Choose X.";
-export const CODE_REASSURANCE = "No name. No email. Nothing that identifies you.";
+export const CODE_REASSURANCE = "No name. No email. Anonymous.";
 export const CODE_CONSENT_TEXT =
   "I agree my ratings and private code can be stored to show my results, match my maps over time, and create anonymous group averages.";
 
