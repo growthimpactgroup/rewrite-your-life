@@ -268,7 +268,7 @@ export default function CodeScreen({
         )}
 
         {!form.legacy && !form.agreed && (
-          <div className="mt-4 flex flex-col items-center gap-1.5">
+          <div className="mt-4 flex flex-col items-start gap-1.5 pl-[15px]">
             <span className="text-[15px] font-medium text-ink">Click on the box</span>
             <span
               aria-hidden
