@@ -287,7 +287,7 @@ export default function CodeScreen({
           </div>
         )}
 
-        <div className="glass mt-6 flex w-full items-start gap-3.5 rounded-2xl px-5 py-4 text-left shadow-[0_0_0_4px_rgb(255_255_255/0.35),0_0_36px_10px_rgb(147_197_253/0.4)]">
+        <div className="glass mt-6 flex w-full items-start gap-3.5 rounded-2xl px-5 py-4 text-left">
           <button
             type="button"
             role="checkbox"
@@ -298,7 +298,7 @@ export default function CodeScreen({
           >
             <span
               aria-hidden
-              className={`flex h-6 w-6 items-center justify-center rounded-[7px] border-2 transition-colors duration-200 ${
+              className={`flex h-6 w-6 items-center justify-center rounded-[7px] border-2 shadow-[0_0_0_4px_rgb(255_255_255/0.35),0_0_18px_6px_rgb(147_197_253/0.5)] transition-colors duration-200 ${
                 form.agreed ? "border-accent bg-accent" : "border-border bg-card"
               }`}
             >
