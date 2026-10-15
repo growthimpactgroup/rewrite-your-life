@@ -268,23 +268,7 @@ export default function CodeScreen({
         )}
 
         {!form.legacy && !form.agreed && (
-          <div className="mt-4 flex flex-col items-start gap-1.5 pl-[15px]">
-            <span className="text-[15px] font-medium text-ink">Click on the box</span>
-            <span
-              aria-hidden
-              className="motion-safe:animate-bounce flex h-9 w-9 items-center justify-center rounded-full bg-primary shadow-[0_2px_8px_rgb(37_99_235/0.4)]"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 4v14M6 12l6 6 6-6"
-                  stroke="white"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
+          <p className="mt-4 text-center text-[15px] font-medium text-ink">Check the box to confirm</p>
         )}
 
         <div className="glass mt-6 flex w-full items-start gap-3.5 rounded-2xl px-5 py-4 text-left">
