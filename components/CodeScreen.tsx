@@ -267,7 +267,27 @@ export default function CodeScreen({
           </>
         )}
 
-        <div className="glass mt-6 flex w-full items-start gap-3.5 rounded-2xl px-5 py-4 text-left">
+        {!form.legacy && !form.agreed && (
+          <div className="mt-4 flex flex-col items-center gap-1.5">
+            <span className="text-[15px] font-medium text-ink">Click on the box</span>
+            <span
+              aria-hidden
+              className="motion-safe:animate-bounce flex h-9 w-9 items-center justify-center rounded-full bg-primary shadow-[0_2px_8px_rgb(37_99_235/0.4)]"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 4v14M6 12l6 6 6-6"
+                  stroke="white"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+        )}
+
+        <div className="glass mt-6 flex w-full items-start gap-3.5 rounded-2xl px-5 py-4 text-left shadow-[0_0_0_4px_rgb(255_255_255/0.35),0_0_36px_10px_rgb(147_197_253/0.4)]">
           <button
             type="button"
             role="checkbox"
