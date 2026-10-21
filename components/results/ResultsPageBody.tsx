@@ -27,12 +27,12 @@ function formatDate(date: string): string {
 // for how each one calls this.
 export default function ResultsPageBody({
   aggregates,
-  anchors,
+  sinceAnchor,
   latestAnchor,
   includeJsonLd,
 }: {
   aggregates: PublicAggregates;
-  anchors: Anchor[];
+  sinceAnchor: Anchor | null;
   latestAnchor: Anchor | null;
   /** JSON-LD claims to describe the real dataset — never emit it against
    * seeded preview data. */
@@ -88,7 +88,7 @@ export default function ResultsPageBody({
       )}
 
       <VerifyStrip />
-      <VerifySection anchors={anchors} />
+      <VerifySection sinceAnchor={sinceAnchor} />
       <AIAgentsBlock />
       {/* 2026-08-28, Jeff/Frances review call — Item 14: same red/boxed
           education-only disclosure the survey's own results screen already

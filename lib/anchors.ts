@@ -17,6 +17,8 @@ export interface Anchor {
   row_count: number;
   sha256: string;
   file: string; // filename inside the "proofs" Storage bucket, e.g. "ryl_2026-09-22.ots"
+  scope?: "since"; // set only on the fingerprint of responses from `cutoff` onward
+  cutoff?: string;
 }
 
 const BUCKET = "proofs";
@@ -27,7 +29,7 @@ export function anchorProofUrl(filename: string): string {
   return `${supabaseUrl}/storage/v1/object/public/${BUCKET}/${filename}`;
 }
 
-export async function getAnchors(): Promise<Anchor[]> {
+async function readSidecars(): Promise<Anchor[]> {
   try {
     const supabase = getSupabaseServerClient();
     const { data: files, error } = await supabase.storage.from(BUCKET).list("");
@@ -49,11 +51,20 @@ export async function getAnchors(): Promise<Anchor[]> {
       }
     }
 
-    return anchors.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+    return anchors;
   } catch (err) {
-    console.error("getAnchors: failed to read from storage", err);
+    console.error("readSidecars: failed to read from storage", err);
     return [];
   }
+}
+
+export async function getAnchors(): Promise<Anchor[]> {
+  const anchors = (await readSidecars()).filter((a) => !a.scope);
+  return anchors.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+}
+
+export async function getSinceAnchor(): Promise<Anchor | null> {
+  return (await readSidecars()).find((a) => a.scope === "since") ?? null;
 }
 
 export async function getLatestAnchor(): Promise<Anchor | null> {

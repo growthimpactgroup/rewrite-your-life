@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PREVIEW_WITHHELD_AGGREGATES } from "@/lib/previewData";
-import { getAnchors, getLatestAnchor } from "@/lib/anchors";
+import { getSinceAnchor, getLatestAnchor } from "@/lib/anchors";
 import PreviewBanner from "@/components/results/PreviewBanner";
 import ResultsPageBody from "@/components/results/ResultsPageBody";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function PreviewResultsWithheldPage() {
   const aggregates = PREVIEW_WITHHELD_AGGREGATES;
-  const anchors = await getAnchors();
+  const sinceAnchor = await getSinceAnchor();
   const latestAnchor = await getLatestAnchor();
 
   return (
@@ -24,7 +24,7 @@ export default async function PreviewResultsWithheldPage() {
       <PreviewBanner />
       <ResultsPageBody
         aggregates={aggregates}
-        anchors={anchors}
+        sinceAnchor={sinceAnchor}
         latestAnchor={latestAnchor}
         includeJsonLd={false}
       />

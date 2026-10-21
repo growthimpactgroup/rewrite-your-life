@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getPublicAggregates, isLaunched } from "@/lib/publicAggregates";
-import { getAnchors, getLatestAnchor } from "@/lib/anchors";
+import { getSinceAnchor, getLatestAnchor } from "@/lib/anchors";
 import SampleBanner from "@/components/results/SampleBanner";
 import Header from "@/components/results/Header";
 import ResultsFooter from "@/components/results/ResultsFooter";
@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ResultsPage() {
   const aggregates = await getPublicAggregates("ryl");
-  const anchors = await getAnchors();
+  const sinceAnchor = await getSinceAnchor();
   const latestAnchor = await getLatestAnchor();
 
   if (!aggregates) {
@@ -58,7 +58,7 @@ export default async function ResultsPage() {
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl bg-surface">
-      <ResultsPageBody aggregates={aggregates} anchors={anchors} latestAnchor={latestAnchor} includeJsonLd />
+      <ResultsPageBody aggregates={aggregates} sinceAnchor={sinceAnchor} latestAnchor={latestAnchor} includeJsonLd />
     </main>
   );
 }

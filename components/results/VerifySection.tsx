@@ -3,50 +3,42 @@ import { INSTRUMENT_SHA256, truncateHash } from "@/lib/instrument";
 import { formatDate } from "./format";
 import SectionHeading from "./SectionHeading";
 
-function AnchorChain({ anchors }: { anchors: Anchor[] }) {
-  if (anchors.length === 0) {
+function SinceAnchorCard({ anchor }: { anchor: Anchor | null }) {
+  if (!anchor) {
     return (
       <div className="rounded-lg border border-dashed border-border px-5 py-6 text-sm text-muted">
-        No anchors filed yet. The first monthly anchor (Section 9 of the build process) will appear
-        here as soon as it&apos;s filed — nothing is shown until it&apos;s real.
+        The fingerprint of responses since October 19, 2026 has not been filed yet.
       </div>
     );
   }
 
   return (
-    <div className="relative space-y-4 pl-8">
-      <div className="absolute top-2 bottom-2 left-[7px] w-px bg-border" aria-hidden />
-      {anchors.map((a) => (
-        <div key={a.date} className="relative rounded-lg border border-border bg-card p-5">
-          <span className="absolute top-6 -left-8 h-3.5 w-3.5 rounded-full border-2 border-ink bg-card" aria-hidden />
-          <p className="font-mono text-sm font-bold tracking-widest text-ink uppercase">
-            Anchored {formatDate(a.date)} · {a.row_count} rows
-          </p>
-          <p className="mt-2 font-mono text-sm break-all text-muted">SHA-256 {a.sha256}</p>
-          <a href={anchorProofUrl(a.file)} className="mt-2 inline-block font-mono text-sm text-primary underline">
-            Download proof file (.ots)
-          </a>{" "}
-          <span className="font-mono text-sm text-muted">— verify against the public OpenTimestamps calendars</span>
-        </div>
-      ))}
+    <div className="rounded-lg border border-border bg-card p-5">
+      <p className="font-mono text-sm font-bold tracking-widest text-ink uppercase">
+        Responses since Oct 19, 2026 · {anchor.row_count} rows · Anchored {formatDate(anchor.date)}
+      </p>
+      <p className="mt-2 font-mono text-sm break-all text-muted">SHA-256 {anchor.sha256}</p>
+      <a href={anchorProofUrl(anchor.file)} className="mt-2 inline-block font-mono text-sm text-primary underline">
+        Download proof file (.ots)
+      </a>{" "}
+      <span className="font-mono text-sm text-muted">— verify against the public OpenTimestamps calendars</span>
     </div>
   );
 }
 
-export default function VerifySection({ anchors }: { anchors: Anchor[] }) {
+export default function VerifySection({ sinceAnchor }: { sinceAnchor: Anchor | null }) {
   return (
     <section className="border-b border-border px-6 py-10 sm:px-10 sm:py-14">
       <SectionHeading eyebrow="05 · Verify this record" title="Verify This Record" />
       <p className="mt-2 max-w-4xl text-lg leading-relaxed text-ink/90">
-        This is built to be checked by someone, and can be verified. Each month, a fingerprint of the
-        entire dataset {anchors.length > 0 ? "is stamped" : "will be stamped"} to a public
-        blockchain. Editing or backdating a single answer afterward breaks the chain — visibly,
-        permanently, and to anyone who looks.
-        {anchors.length === 0 && " No month has closed yet, so there's nothing to anchor until there is."}
+        This is built to be checked by someone, and can be verified. The figures on this page use only
+        responses recorded from October 19, 2026 (12:00 AM Pacific) onward. A fingerprint of exactly
+        those responses is stamped to a public blockchain. Editing or backdating a single answer
+        afterward breaks the chain — visibly, permanently, and to anyone who looks.
       </p>
 
       <div className="mt-6">
-        <AnchorChain anchors={anchors} />
+        <SinceAnchorCard anchor={sinceAnchor} />
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
