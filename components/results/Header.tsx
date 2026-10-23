@@ -46,7 +46,7 @@ export default function Header({
             <div className="mt-1 text-lg font-bold text-ink">{formatDateTime(computedAt)}</div>
           </div>
           <div className="rounded-xl border border-border bg-card px-5 py-4 sm:flex-1">
-            <div className="text-sm font-bold text-muted">Last blockchain anchor</div>
+            <div className="text-sm font-bold text-muted">Last monthly anchor</div>
             <div className="mt-1 text-lg font-bold text-ink">
               {latestAnchor ? formatDate(latestAnchor.date) : "not yet anchored"}
             </div>

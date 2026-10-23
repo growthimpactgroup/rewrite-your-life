@@ -42,7 +42,7 @@ export default function HeadlineBand({
     console.error("BLOCKED: cannot render headline without decline figure.");
   }
 
-  if (canPublish) {
+  if (canPublish && funnel.n_pairs > 0) {
     const domainMetrics = metrics.filter((m) => m.type === "domain");
     const nRose = domainMetrics.filter((m) => m.delta_pts !== null && m.delta_pts >= 5).length;
     const typical = typicalDomainMetric(metrics);
@@ -79,7 +79,7 @@ export default function HeadlineBand({
           </span>
           <span>Same 27 questions, frozen</span>
           <span>
-            Fingerprinted to a public blockchain{" "}
+            Monthly fingerprint on a public blockchain{" "}
             <span className="font-semibold text-ink">
               {latestAnchor ? formatDate(latestAnchor.date) : "not yet anchored"}
             </span>
@@ -92,7 +92,11 @@ export default function HeadlineBand({
   return (
     <section data-theme="dark" className="border-b border-border bg-surface px-6 py-12 sm:px-10 sm:py-16">
       <p className="text-4xl leading-tight font-bold text-ink sm:text-5xl">
-        {funnel.total_submissions} maps <span className="text-accent">on the record</span>
+        {funnel.n_pairs === 0 ? (
+          <>Collecting <span className="text-accent">data</span></>
+        ) : (
+          <>{funnel.total_submissions} maps <span className="text-accent">on the record</span></>
+        )}
       </p>
       <p className="mt-2 text-base text-ink/75">
         Completion rate available after the first cohort closes.
